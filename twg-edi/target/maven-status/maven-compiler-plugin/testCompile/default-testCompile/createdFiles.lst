@@ -1,0 +1,16 @@
+jp\or\twg\twg_edi\common\service\PartyPlaceServiceTest.class
+jp\or\twg\springmybatis\controller\TeacherControllerTest.class
+jp\or\twg\twg_edi\common\utility\StringUtilityTest.class
+jp\or\twg\twg_edi\common\utility\CommonDataUtilTest$CompareValueTestObjectClass.class
+jp\or\twg\twg_edi\common\utility\SplitUtilityTest.class
+jp\or\twg\Config\DataSourceConifg.class
+jp\or\twg\twg_edi\common\utility\CommonDataUtilTest.class
+jp\or\twg\twg_edi\common\utility\DateUtilityTest.class
+jp\or\twg\twg_edi\common\service\NumberingServiceTest.class
+jp\or\twg\base\AbstractDbunitTest.class
+jp\or\twg\twg_edi\common\service\NumberingServiceTest$ThreadTest.class
+jp\or\twg\twg_edi\common\service\LoginInfoServiceTest.class
+jp\or\twg\twg_edi\common\utility\ReplaceUtilTest.class
+jp\or\twg\twg_edi\common\utility\NumberUtilTest.class
+jp\or\twg\springmybatis\mapper\TeacherMapperDbunitTest.class
+jp\or\twg\loader\XlsDataSetLoader.class

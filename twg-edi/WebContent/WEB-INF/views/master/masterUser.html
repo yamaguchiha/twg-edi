@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+<!-- <header th:replace="fragments/header::common_header"></header> -->
+<!-- コンテンツの表示 -->
+<div layout:fragment="content"class="container-fluid">
+
+<script>
+function clearUserSearchForm() {
+    //document.UserSearchForm.reset();
+    document.getElementById("srhUserId").value="";
+    document.getElementById("srhUserIdType00").checked=true;
+    document.getElementById("srhName").value="";
+    document.getElementById("srhNameType00").checked=true;
+    document.getElementById("srhInMaintenance00").checked=true;
+    document.UserSearchForm.submit();
+}
+</script>
+
+<div class="subtitle category_MA">
+  <div class="subtitle_text">検索条件</div>
+  <div class="subtitle_right">
+    <input type="button" id="srhCondToggleBtn" class="btn" value="" >
+  </div>
+</div>
+<form name="UserSearchForm" th:action="@{/masterUser/list?page=0}" th:object="${condition}" method ="POST" novalidate>
+<table class="caption" id="srhCondTable">
+  <tbody>
+    <tr>
+      <th>ユーザーID</th>
+      <td>
+        <input type="text" th:field="*{srhUserId}" id="srhUserId">
+        <input type="radio" th:field="*{srhUserIdType}" id="srhUserIdType00" value="0">
+        <label for="srhUserIdType00">前方</label>
+        <input type="radio" th:field="*{srhUserIdType}" id="srhUserIdType01" value="1">
+        <label for="srhUserIdType01">部分</label>
+      </td>
+      <th>ユーザー名</th>
+      <td>
+        <input type="text" th:field="*{srhName}" id="srhName" value="" >
+        <input type="radio" th:field="*{srhNameType}" id="srhNameType00" value="0">
+        <label for="srhNameType00">前方</label>
+        <input type="radio" th:field="*{srhNameType}" id="srhNameType01" value="1">
+        <label for="srhNameType01">部分</label>
+      </td>
+      <td align="center" rowspan="2">
+        <input type="submit" class="btn" value="検索" >
+        <input type="button" class="btn" value="リセット" onClick="clearUserSearchForm();">
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <input type="radio" th:field="*{srhInMaintenance}" id="srhInMaintenance00" value="N">
+        <label for="srhInMaintenance00">利用者のみ</label>
+        <input type="radio" th:field="*{srhInMaintenance}" id="srhInMaintenance01" value="Y">
+        <label for="srhInMaintenance01">保守ユーザーを含める</label>
+      </td>
+    <tr>
+  </tbody>
+</table>
+<br>
+<DIV class="subtitle category_MA">
+  <DIV class="subtitle_text">ユーザー一覧</DIV>
+  <DIV class="subtitle_right">
+    <input class="btn_size4" type="button" value="新規登録" th:attr="onClick='location.href=\'' + @{/masterUser/add} + '\''">
+  </DIV>
+</DIV>
+<th:block th:with="pagerInfo=${pageList}">
+  <div th:if="${pagerInfo.content.size() == 0}">
+  <table class="list">
+    <tbody>
+      <tr>
+        <td>検索条件に該当するユーザーはありません</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div th:if="${pagerInfo.content.size() != 0}">
+  <table class="list">
+    <colgroup align="center"/>
+    <colgroup />
+    <colgroup />
+    <colgroup />
+    <colgroup align="center"/>
+    <thead>
+      <tr>
+        <th class="edit_link_cell">編<br>集</th>
+        <th class="40byte_cell">ユーザーID</th>
+        <th class="50byte_cell">ユーザー名</th>
+        <th>利用可能事業所（太字はデフォルト事業所）</th>
+        <th class="16byte_cell">削除</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="user : ${pagerInfo.content}" th:object="${user}" >
+        <td align="center"><a th:href="@{/masterUser/edit/{oid}(oid=*{oid})}" class="img_edit"></a></td>
+        <td th:text="*{userId}"></td>
+        <td th:text="*{name}"></td>
+        <td th:utext="*{enabledPlaceOidValues}"></td>
+        <td align="center"><input type="button" name="SUBMIT" th:attr="onClick='location.href=\'' + @{/masterUser/delete/{oid}(oid=*{oid})} + '\''" value="削除"></td>
+      </tr>
+    </tbody>
+  </table>
+  <table class="pager">
+    <tr>
+      <td><div id="pager" th:replace="fragments/pager">pager</div></td>
+    </tr>
+  </table>
+  </div>
+</th:block>
+</form>
+</div>
+</BODY>
+</HTML>

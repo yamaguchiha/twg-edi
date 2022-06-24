@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+  <!-- <header th:replace="fragments/header::common_header"></header> -->
+  <!-- コンテンツの表示 -->
+  <div layout:fragment="content"class="container-fluid">
+
+<script type="text/javascript">
+  // 企業事業所選択Ajax使用時に画面に合わせて入力項目IDを指定する ここから
+  function setPartyPlaceCode(partyCode, placeCode) {
+    $("#srhPartyAbbrCode").val(partyCode);
+    $("#srhPlaceCode").val(placeCode);
+    $("#placeSelectList").dialog("close");
+  }
+
+  $(function(){
+    setupDialog("placeSelectList", "placeDialog", "出荷元選択");
+    $("#srhSelectPartyAbbrCode").val("");
+    $("#srhSelectPartyName").val("");
+    $("#srhSelectPartyKanaName").val("");
+    $("#partyPlaceInputBtn").click(function(){
+        getSearchPlaceList();
+        $("#placeSelectList").dialog("open");
+        $(".placeDialog").css("top", $(this).offset().top + 20);
+        $(".placeDialog").css("left", $(this).offset().left - 130);
+    });
+  });
+  // 企業事業所選択Ajax使用時に画面に合わせて入力項目IDを指定する ここまで
+
+  // 品番選択Ajax（document.formの名前は変更すること） ここから
+  /**
+   * 部品検索の結果を設定
+   */
+  function setitem(itemCode, itemE18) {
+    $("#itemSelectList").dialog("close");
+
+    $("#iptItemIdIn").val(itemCode);
+    $("#iptItemE18").val(itemE18);
+    // 品番を設定した後で検索を実行する場合などはここで必要な処理を記述
+    //execSubmitWithOption('executeChange', {iptItemPartOid: itemId, addSrh: '$FALSE'});
+  }
+
+  /**
+   * 部品検索の実行（ポップアップのような画面を表示）
+   */
+  function execSearchitemList() {
+      //$("#srhSelectitemAbbrName").val($("#srhAbbrName").val());
+      //$("#srhSelectitemCode").val($("#srhItemCode").val());
+      getSearchitemList();
+      $("#itemSelectList").dialog("open");
+  }
+
+  /**
+   * 初期設定
+   */
+  $(function(){
+    setupDialog("itemSelectList", "itemDialog", "部品選択");
+
+    $("#srhSelectitemAbbrName").val("");
+    $("#srhSelectitemCode").val("");
+    $("#srhSelectitemStoreAddress").val("");
+    $("#srhSelectPartyCodeSf").val("");
+    $("#srhSelectPlaceCodeSf").val("");
+    $("#srhSelectitemE18").val("");
+    $("#itemInputBtn").click(function(){
+      execSearchitemList();
+    });
+  });
+
+  // 品番選択Ajax ここまで
+
+</script>
+
+<div class="subtitle category_MA">
+  <div class="subtitle_text">サンプル</div>
+</div>
+<form name="SampleForm" th:object="${condition}" th:action="@{/sample/list}" method ="POST" novalidate>
+<table class="caption" id="srhCondTable">
+  <tbody>
+    <tr>
+      <th colspan="4" style="text-align:left"><b>企業事業所選択</b></th>
+      <td align="center" rowspan="9">
+        <input type="submit" class="btn" value="検索" >
+      </td>
+    </tr>
+    <tr>
+      <th width="10%">出荷元</th>
+      <td width="37%">
+        <input type="text" th:field="*{srhPartyAbbrCode}" class="field_mainPartyAbbrCode_css">
+        -
+        <input type="text" th:field="*{srhPlaceCode}" class="field_mainPlaceCode_css">
+        <!-- 企業事業所選択のidは固定で -->
+        <input id="partyPlaceInputBtn" type="button" value="  " class="img_search" >
+      </td>
+      <td>
+        <p>企業工区を選択するウィンドウ表示のサンプル（Ajax）</p>
+        <p>画面HTMLにscriptと企業事業所選択HTMLの読み込み部分を追記（この画面のHTMLを参照）</p>
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" style="text-align:left"><b>カレンダー</b></th>
+    </tr>
+    <tr>
+      <th>納入指示日</th>
+      <td>
+        <input type="text" th:field="*{srhDateFrom}" class="field_ymd_css" >
+        <input name="calendar1" type="button" value="  " class="calendarbtn" onClick="wrtCalendarLay(this.form.srhDateFrom, event)" >
+        ～
+        <input type="text" th:field="*{srhDateTo}" class="field_ymd_css" >
+        <input name="calendar2" type="button" value="  " class="calendarbtn" onClick="wrtCalendarLay(this.form.srhDateTo, event)" >
+      </td>
+      <td>カレンダーのサンプル（JavaScript）</td>
+    </tr>
+    <tr>
+      <th colspan="4" style="text-align:left"><b>品番選択</b></th>
+    </tr>
+    <tr>
+      <th>品番</th>
+      <td>
+        <input type="text" th:field="*{iptItemIdIn}" class="field_itemCode_css" onChange="ListChange(this.form)">
+        <input id="itemInputBtn" type="button" value="  " class="img_search" >
+      </td>
+      <td rowspan="2">
+        <p>品番選択のサンプル（Ajax）</p>
+      </td>
+    </tr>
+    <tr>
+      <th>部品取扱識別</th>
+      <td align="left">
+        <input type="text" th:field="*{iptItemE18}"class="field_itemIdentifier_css" onChange="ListChange(this.form)">
+      </td>
+    </tr>
+    <tr>
+      <th colspan="4" style="text-align:left"><b>チェックボックス複数選択</b></th>
+    </tr>
+    <tr>
+      <th>チェックボックス</th>
+      <td align="left" colspan="2">
+		<div th:each="item : ${checkItems}" style="display:inline-flex">
+		  <input type="checkbox" th:value="${item.value}" th:field="*{multiChecks}" />
+		  <label th:for="${#ids.prev('multiChecks')}" th:text="${item.key}" style="margin: 3px 0;"></label>
+		</div>
+      </td>
+    </tr>
+   </tbody>
+</table>
+<br>
+<div class="subtitle category_MA">
+  <div class="subtitle_text">検索結果</div>
+</div>
+<th:block th:with="pagerInfo=${pageList}">
+  <div th:if="${pagerInfo.content.size() == 0}">
+  <table class="list">
+    <tbody>
+      <tr>
+        <td>検索条件のチェックボックスには何も入力されていません</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div th:if="${pagerInfo.content.size() != 0}">
+  <table class="list">
+    <tbody>
+      <tr th:each="str : ${pagerInfo.content}" >
+        <td>[[${str}]]</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</th:block>
+</form>
+
+<!-- 企業事業所選択のHTMLを読み込む -->
+<div id="selectPlace" th:replace="fragments/ajaxSelectPlaceList"></div>
+<!-- 品番選択のHTMLを読み込む -->
+<div id="selectItem" th:replace="fragments/ajaxSelectItemList"></div>
+
+  </div>
+</BODY>
+</HTML>

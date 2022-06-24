@@ -1,0 +1,41 @@
+<th:block th:if="${errors.hasError()}">
+<div id="errorMessage" class="messageTable table_fixed_width">
+<table>
+  <tr>
+    <td class="error"><span class="img-error"></span></td>
+    <td class="error">
+    <th:block  th:each="property : ${errors.properties}">
+    <th:block  th:each="msg : ${errors.get(property)}">
+    [[${msg}]]<br>
+    </th:block>
+    </th:block>
+    </td>
+  </tr>
+</table>
+</div>
+<div id="dialog-confirm" title="エラー発生" style="display : none;">
+  <table>
+    <tr>
+      <td><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span></td>
+      <td class="error">エラーが発生しています。<br>詳細は画面上部のメッセージをご確認ください。</td>
+    </tr>
+  </table>
+</div>
+<!-- ダイアログに使用されるスタイルシート -->
+<style type="text/css">
+<!--
+.ui-dialog { position: absolute; padding: .2em; width: 300px; overflow: hidden; }
+.ui-dialog .ui-dialog-titlebar { padding: .4em 1em; position: relative; }
+.ui-dialog .ui-dialog-title { float: left; margin: .1em 16px .1em 0; }
+.ui-dialog .ui-dialog-titlebar-close { position: absolute; right: .3em; top: 50%; width: 19px; margin: -10px 0 0 0; padding: 1px; height: 18px; }
+.ui-dialog .ui-dialog-titlebar-close span { display: block; margin: 1px; }
+.ui-dialog .ui-dialog-titlebar-close:hover, .ui-dialog .ui-dialog-titlebar-close:focus { padding: 0; }
+.ui-dialog .ui-dialog-content { position: relative; border: 0; padding: .5em 1em; background: none; overflow: auto; zoom: 1; }
+.ui-dialog .ui-dialog-buttonpane { text-align: left; border-width: 1px 0 0 0; background-image: none; margin: .5em 0 0 0; padding: .3em 1em .5em .4em; }
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset { float: right; }
+.ui-dialog .ui-dialog-buttonpane button { margin: .5em .4em .5em 0; cursor: pointer; }
+.ui-dialog .ui-resizable-se { width: 14px; height: 14px; right: 3px; bottom: 3px; }
+.ui-draggable .ui-dialog-titlebar { cursor: move; }
+-->
+</style>
+</th:block>

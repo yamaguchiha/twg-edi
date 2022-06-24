@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+  <!-- <header th:replace="fragments/header::common_header"></header> -->
+  <!-- コンテンツの表示 -->
+  <div layout:fragment="content"class="container-fluid">
+
+<form id="userForm" name="userForm" th:method="POST" th:action="@{/masterUser/formPost}" th:object="${userForm}" class="needs-validation" novalidate>
+<table class="caption" width="100%">
+  <colgroup width="100">
+  <colgroup valign="top">
+  <tbody>
+    <tr>
+      <th width="25%">ユーザーID<span class="must_input">*</span></th>
+      <th:block th:if="${userForm.mode!='CONFIRM' && userForm.mode!='DELETE'}">
+        <td><input type="text" th:field="*{iptUserId}"></td>
+      </th:block>
+      <th:block th:if="${userForm.mode=='CONFIRM' || userForm.mode=='DELETE'}">
+        <td th:text="*{iptUserId}"></td>
+      </th:block>
+    </tr>
+    <th:block th:if="${userForm.mode!='CONFIRM' && userForm.mode!='DELETE'}">
+    <tr>
+      <th>パスワード<span class="must_input">*</span></th>
+      <td><input type="password" id="iptPassword" name="iptPassword" th:value="*{iptPassword}"></td>
+    </tr>
+    <tr>
+      <th>パスワード(確認)<span class="must_input">*</span></th>
+      <td><input type="password" id="iptPasswordReconfirm" name="iptPasswordReconfirm" th:value="*{iptPasswordReconfirm}"></td>
+    </tr>
+    </th:block>
+    <tr>
+      <th>ユーザー名<span class="must_input">*</span></th>
+      <th:block th:if="${userForm.mode!='CONFIRM' && userForm.mode!='DELETE'}">
+        <td><input type="text" th:field="*{iptName}"></td>
+      </th:block>
+      <th:block th:if="${userForm.mode=='CONFIRM' || userForm.mode=='DELETE'}">
+        <td th:text="*{iptName}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>権限</th>
+      <th:block th:if="${userForm.mode!='CONFIRM' && userForm.mode!='DELETE'}">
+      <td>
+        <select th:field="*{roleTypeId}">
+          <option th:each="role : ${roles}"
+                  th:value="${role.key}"
+                  th:text="${role.value}">
+          </option>
+        </select>
+      </td>
+      </th:block>
+      <th:block th:if="${userForm.mode=='CONFIRM' || userForm.mode=='DELETE'}">
+        <td th:text="*{roleTypeName}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>事業所<span class="must_input">*</span></th>
+      <td>
+        <table class="list" id="selectPlaceTable">
+          <tbody>
+          <tr>
+            <th style="text-align:center;width:80px;">デフォルト</th>
+            <th style="text-align:center;width:80px;">利用可</th>
+            <th style="text-align:center;width:300px;">事業所名</th>
+          <tr>
+          <tr th:each="place : ${places}" >
+            <th:block th:if="${userForm.mode!='CONFIRM' && userForm.mode!='DELETE'}">
+              <td align="center"><input type="radio" class="form-check-input" th:value="${place.oid}" th:field="*{defaultPlace}"></td>
+              <td align="center"><input type="checkbox" th:value="${place.oid}" th:field="*{selectPlaces}"></td>
+            </th:block>
+            <th:block th:if="${userForm.mode=='CONFIRM' || userForm.mode=='DELETE'}">
+              <td align="center" th:text="${#strings.equals(#strings.toString(place.oid),userForm.defaultPlace)} ? '○' : ''"></td>
+              <td align="center" th:text="${#arrays.contains(userForm.selectPlaces,#strings.toString(place.oid))} ? '○' : ''"></td>
+            </th:block>
+            <td th:text="${place.name}">事業所名</td>
+          </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <th:block th:if="${optionflg}">
+    <tr>
+      <th>出荷場所</th>
+      <th:block th:if="${userForm.mode!='CONFIRM' && userForm.mode!='DELETE'}">
+        <td>
+          <select  th:field="*{selectShipment}" >
+            <option th:each="shipment:${shipmentList}" th:value="${shipment.key}" th:text="${shipment.value}" />
+          </select>
+        </td>
+      </th:block>
+      <th:block th:if="${userForm.mode=='CONFIRM' || userForm.mode=='DELETE'}">
+        <td th:text="*{selectShipmentName}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>納入場所</th>
+      <th:block th:if="${userForm.mode!='CONFIRM' && userForm.mode!='DELETE'}">
+        <td>
+          <select th:field="*{selectDelivery}" >
+            <option th:each="delivery:${deliveryList}" th:value="${delivery.key}" th:text="${delivery.value}" />
+          </select>
+        </td>
+      </th:block>
+      <th:block th:if="${userForm.mode=='CONFIRM' || userForm.mode=='DELETE'}">
+        <td th:text="*{selectDeliveryName}"></td>
+      </th:block>
+    </tr>
+    </th:block>
+  </tbody>
+</table>
+<table width="100%" border="0" cellpadding="8">
+  <tr>
+    <td align="left" width="15%">
+    </td>
+    <td align="center">
+      <th:block th:if="${userForm.mode!='CONFIRM' && userForm.mode!='DELETE'}">
+        <input type="submit" value="登録確認" >
+      </th:block>
+      <th:block th:if="${userForm.mode=='CONFIRM'}">
+        <input type="submit" value="登録実行" >
+      </th:block>
+      <th:block th:if="${userForm.mode=='DELETE'}">
+        <input type="submit" value="削除実行" >
+      </th:block>
+      <input type="button" value="キャンセル"  th:attr="onClick='location.href=\'' + @{/masterUser/list} + '\''">
+      <input type="hidden" name="mode" th:value="*{mode}">
+      <input type="hidden" name="userOid" th:value="*{userOid}" >
+      <input type="hidden" name="defaultPlaceOid" th:value="*{defaultPlaceOid}">
+      <th:block th:if="${userForm.mode=='CONFIRM' || userForm.mode=='DELETE'}">
+        <input type="hidden" th:field="*{iptUserId}">
+        <input type="hidden" th:field="*{iptPassword}">
+        <input type="hidden" th:field="*{iptName}">
+        <input type="hidden" th:field="*{roleTypeId}">
+        <input type="hidden" th:field="*{defaultPlace}">
+        <input type="hidden" th:field="*{selectPlaces}">
+        <input type="hidden" th:field="*{selectShipment}">
+        <input type="hidden" th:field="*{selectDelivery}">
+      </th:block>
+    </td>
+    <td align="right" width="15%">
+    </td>
+  </tr>
+</table>
+</form>
+
+<script th:inline="javascript">
+  $( document ).ajaxError(function(x) {
+    console.log(x);
+  });
+
+  $('input[name=defaultPlace]').click(function(){
+    var param = {
+          defaultPlace : $('input[name=defaultPlace]:checked').val(),
+    }
+    var shipment_url = "./shipment";
+    $.ajax({
+      url : shipment_url,
+      type : "POST",
+      dataType : "json",
+      data : JSON.stringify(param),
+      contentType : "application/json",
+      cache : false,
+      success : function(res) {
+          var shipmentList = '';
+          for (var keyString in res) {
+              shipmentList += "<option value=" + keyString + ">" + res[keyString] + "</option>";
+          }
+          $("#selectShipment").html(shipmentList).show();
+      }
+    });
+    var delivery_url = "./delivery";
+    $.ajax({
+      url : delivery_url,
+      type : "POST",
+      dataType : "json",
+      data : JSON.stringify(param),
+      contentType : "application/json",
+      cache : false,
+      success : function(res) {
+          var deliveryList = '';
+          for (var keyString in res) {
+              deliveryList += "<option value=" + keyString + ">" + res[keyString] + "</option>";
+          }
+          $("#selectDelivery").html(deliveryList).show();
+      }
+    });
+  });
+</script>
+
+  </div>
+
+</BODY>
+</HTML>

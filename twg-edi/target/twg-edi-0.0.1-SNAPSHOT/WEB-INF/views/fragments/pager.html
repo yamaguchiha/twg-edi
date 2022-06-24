@@ -1,0 +1,53 @@
+<script type="text/javascript">
+  function pagechange(formObj) {
+    if(formObj.pageselect.value != $pager.currentPage
+      || formObj.pagesize.value != $pager.SizePerPage) {
+      formObj.command.value = '$command';
+      formObj.nextpage.value = formObj.pageselect.value;
+      formObj.nextsize.value = formObj.pagesize.value;
+      formObj.submit();
+    }
+  }
+  function gotoList(nextpage) {
+	    if(nextpage != $pager.currentPage) {
+	      var formObj = document.getElementById('form1');
+	      formObj.command.value = '$command';
+	      formObj.nextpage.value = nextpage;
+	      formObj.submit();
+	    }
+	  }
+</script>
+<input type="hidden" name="nextpage" >
+<input type="hidden" name="nextsize" >
+<th:block th:with="pagerInfo=${pageList}">
+<!--
+   総件数：<span th:text="${pagerInfo.totalElements}"></span>
+   ページ数：<span th:text="${pagerInfo.totalPages}"></span>
+   ページ番号：<span th:text="${pagerInfo.number + 1}"></span>
+   ページ内件数：<span th:text="${pagerInfo.size}"></span><br>
+ -->
+<table width="100%" cellpadding="0">
+  <tr>
+    <td width="20%" align="left" nowrap>
+      <span th:text="${pagerInfo.size * (pagerInfo.number) + 1}">1</span>件&nbsp;-&nbsp;<span th:text="${pagerInfo.size * (pagerInfo.number) + pagerInfo.content.size()}">5</span>件&nbsp;(全<span th:text="${pagerInfo.totalElements}"></span>件)
+    </td>
+    <td width="53%" align="center">
+      <span th:if="${pagerInfo.first}">&lt;&lt;前</span><a th:if="${!pagerInfo.first}" th:href="@{./list(page = (${pagerInfo.number} - 1))}">&lt;&lt;前</a>
+      <li th:each="i : ${#numbers.sequence(0, pagerInfo.totalPages - 1)}" style="display:inline; margin-left:10px;">
+        <span th:if="${i} == ${pagerInfo.number}" th:text="${i + 1}">1</span><a th:if="${i} != ${pagerInfo.number}" th:href="@{./list(page = ${i})}"><span th:text="${i+1}">1</span></a>
+    </li>
+      <span th:if="${pagerInfo.last}">次&gt;&gt;</span><a  th:if="${!pagerInfo.last}" th:href="@{./list(page = (${pagerInfo.number} + 1))}">次&gt;&gt;</a>
+    </td>
+    <td width="17%" align="center" nowrap>
+      表示行数
+      <select th:field="${condition.pageSize}">
+        <option th:each="pageSize:${pageSizeList}" th:value="${pageSize.key}" th:text="${pageSize.value}" />
+      </select>
+      <input type="button" class="btn" value="変更" onClick="this.form.submit();" >
+    </td>
+    <td width="10%" align="right" nowrap>
+<!-- #parse("web/pager/pagejump.vm") -->
+    </td>
+  </tr>
+</table>
+</th:block>

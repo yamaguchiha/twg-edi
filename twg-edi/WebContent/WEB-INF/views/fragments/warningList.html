@@ -1,0 +1,13 @@
+<th:block th:if="${warnings.hasError()}">
+<div id="warningMessage" class="messageTable table_fixed_width">
+<table>
+  <tr>
+    <td><span class="img-warning"></span></td>
+    <td class="message">
+    <th:block th:each="warning : ${warnings}">
+      [[${warning}]]<br>
+    </td>
+  </tr>
+</table>
+</div>
+</th:block>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+        http://mybatis.org/schema/mybatis-spring
+        http://mybatis.org/schema/mybatis-spring.xsd">
+
+    <context:property-placeholder order="1" location="classpath:/META-INF/spring/*.properties" />
+
+    <context:component-scan base-package="jp.or.twg">
+        <!-- 複数パスを指定する場合は；か，で区切る -->
+        <context:include-filter type="regex" expression="jp\.or\.twg\twg_edi\..*\..*; jp\.or\.twg\..*\..*"/>
+    </context:component-scan>
+
+    <!-- Enables the Spring MVC @Controller programming model -->
+    <mvc:annotation-driven />
+
+    <!-- Default Servlet -->
+    <mvc:default-servlet-handler />
+
+
+    <bean id="dataSource"
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5433/TestDB?characterEncoding=UTF-8" />
+        <property name="username" value="postgres" />
+        <property name="password" value="postgres" />
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <!-- define the SqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+      <property name="dataSource" ref="dataSource" />
+      <property name="configLocation" value="classpath:/META-INF//mybatis/mybatis-config.xml" />
+      <property name="typeAliasesPackage" value="jp.or.twg.springmybatis.model;jp.or.twg.twg_edi.common.entity;" />
+    </bean>
+
+    <!-- テストDBにPostgreSQLを使用する場合は、ここはコメントにする H2の場合のみ -->
+	<jdbc:initialize-database data-source="dataSource"
+	    ignore-failures="ALL">
+	    <jdbc:script location="classpath:/META-INF/sql/schema.sql" encoding="UTF-8" />
+<!--
+	    <jdbc:script location="classpath:/META-INF/sql/data.sql" encoding="UTF-8" />
+ -->
+	</jdbc:initialize-database>
+
+    <!-- scan for Mappers -->
+    <!-- 複数パスを指定する場合は；か，で区切る -->
+    <mybatis:scan base-package="jp.or.twg.springmybatis.mapper;jp.or.twg.twg_edi.common.mapper;jp.or.twg.twg_edi.job.mapper;jp.or.twg.twg_edi.kanban.mapper;jp.or.twg.twg_edi.kanbanslim.mapper" />
+
+</beans>

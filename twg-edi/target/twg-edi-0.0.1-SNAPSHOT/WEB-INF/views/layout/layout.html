@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex">
+
+  <link th:href="@{/css/main.css}" rel="stylesheet">
+  <link th:href="@{/css/menu.css}" rel="stylesheet">
+  <link th:href="@{/css/work.css}" rel="stylesheet">
+  <link th:href="@{/css/optionmain.css}" rel="stylesheet">
+  <link th:href="@{/js/jquery-ui/smoothness/jquery-ui-1.8.9.custom.css}" rel="stylesheet">
+  <script th:src="@{/js/jquery.js}"></script>
+  <script th:src="@{/js/jquery.cookie.js}"></script>
+  <script th:src="@{/js/jquery-ui/jquery-ui-1.8.9.custom.js}"></script>
+  <script th:src="@{/js/common.js}"></script>
+  <script th:src="@{/js/scw.js}"></script>
+
+  <script type="text/javascript">
+    $(function(){
+      $( "#dialog-confirm" ).dialog({
+        resizable: false,
+        height:220,
+        width:370,
+        modal: true,
+        buttons: {
+          "OK": function() { $( this ).dialog( "close" ); }
+        }
+      });
+
+      $("#srhUserPlaceOid").change(
+        function(){
+          // &が自動エスケープされchromeやfirefoxだと値が渡せずnullで落ちるため明示的に記述。IEだと問題なし。
+          location.href = "$link.setAction('/top').addQueryData('command','changePlace')&srhUserPlaceOid=" + $(this).val();
+        }
+      );
+    });
+  </script>
+  <title layout:title-pattern="$DECORATOR_TITLE - $CONTENT_TITLE">トヨタWG共通EDI</title>
+</head>
+<body>
+  <!-- 共通ヘッダー -->
+  <header th:replace="fragments/com_header::header">共通ヘッダー</header>
+
+    <table class="content_width">
+      <tr>
+        <td valign="top">
+        <!-- エラーリスト -->
+        <div id="error" th:replace="fragments/errorList">エラーエリア</div>
+        <!-- 警告リスト -->
+        <div id="warning" th:replace="fragments/warningList">警告エリア</div>
+        <!-- メッセージリスト -->
+        <div id="message" th:replace="fragments/messageList">メッセージエリア</div>
+        </td>
+      </tr>
+      <tr>
+        <td valign="top">
+        <!-- コンテンツ -->
+        <div layout:fragment="content">
+        コンテンツ（置き換え部分）
+        </div>
+        </td>
+    </table>
+
+  <!-- 共通フッター -->
+  <footer>
+    <div></div>
+  </footer>
+
+</body>
+</html>

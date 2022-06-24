@@ -1,0 +1,1571 @@
+@charset "UTF-8";
+body {
+	margin-top:0px;
+	margin-left:0px;
+	margin-bottom:0px;
+	margin-right:0px;
+    padding:0px;         /* ページ全体のpadding */
+    text-align:left;   /* 下記のautoに未対応用のセンタリング */
+    font-size : 9pt;
+    color : #000000;
+    font-family: "ＭＳ ゴシック" ,sans-serif;
+    width:1350px;
+}
+
+* html div#container{
+	height:100%;
+}
+div#container{
+	background-color:#FFFFFF;
+	position:relative;
+	width:1350px;
+	margin: 0 0;
+	min-height: 100%;
+}
+/***********************************
+	ヘッダー
+************************************/
+div#header{
+/*--- filename : banner.gif ---*/
+	margin: 0 0 0 0;
+	background-image:url("../images/title.gif");
+	background-position : left -87px ;
+	background-repeat:no-repeat ;
+    background-color:#180685;
+    width:1350px;
+    height:50px;
+    text-align:left;
+	position:relative;
+}
+
+div#header div.title{
+	position:relative;
+	top: 0px;
+	left:0px;
+}
+
+div#header div.user{
+	position:relative;
+	top: 10px;
+    left:500px;
+    width:780px;
+    height:34px;
+}
+
+div#contents{
+    width:1350px;
+	text-align:center;
+	padding-top: 0px;
+}
+
+
+.user {
+    color:       #ffffff;
+    font-size:   9pt;
+    font-weight: 700;
+    font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+.timeStamp {
+/*  color:       #16288B; */
+    color:       #ffffff;
+    font-size:   8pt;
+    font-family: "ＭＳ ゴシック" ,sans-serif;
+    width:       140px;
+    height:      12px;
+}
+
+.header_table {
+	width:       780px;
+    height:      34px;
+}
+
+/** リスト内のボタン */
+table.list input.btn {
+	height: 20px;
+}
+
+/** バージョン情報 */
+p#versionInformation{
+	padding-top: 38px;
+	padding-right: 10px;
+	text-align: right;
+	color: white;
+	font-size: 9pt;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+	position:absolute;
+    bottom: 0;
+    right: 0;
+}
+/***********************************
+    メニューバー
+************************************/
+#tabsJ{
+    margin:0 0 2px 0;
+    float:left;
+    width:100%;
+    background:#F9F9F9;
+    font-size:100%;
+    line-height:normal;
+}
+
+#tabsJ ul {
+    margin:0;
+    padding:2px 10px 0px 0px;
+    list-style:none;
+}
+
+#tabsJ li {
+    display:inline;
+    margin:0;
+    padding:0;
+}
+
+#tabsJ a {
+    float:left;
+    margin:0px;
+    text-decoration:none;
+}
+
+#tabsJ a span {
+    float:left;
+    display:block;
+    background:url("../images/menu_bg.gif") no-repeat right top;
+    padding:6px 13px 8px 13px;
+    color:#FFFFFF;
+    font-size:123%;
+    border-right:1px solid #000000;
+}
+
+#tabsJ div {
+    margin: 0 0;
+    padding:6px 8px 6px 0;
+    color:#FFFFFF;
+    font-size:123%;
+    background:url("../images/menu_bg.gif") no-repeat right top;
+    height:17px;
+}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+#tabsJ a span {float:none;}
+/* End IE5-Mac hack */
+#tabsJ a:hover span {
+/*  color:#FFFF22; */
+    color:#FFFFFF;
+}
+
+#tabsJ a:hover {
+    background-position:0% -42px;
+}
+
+#tabsJ a:hover span {
+    background-position:100% -42px;
+}
+
+#tabsJ a.on{
+    background-position:0% -42px;
+}
+#tabsJ a.on span{
+    float:left;
+    display:block;
+    background:url("../images/sprite.gif") no-repeat right top;
+    padding:6px 13px 8px 13px;
+/*  color:#FFFF22; */
+    color:#50DDFF;
+    background-position:100% -42px;
+}
+#tabsJ a.on {
+    background-position:0% -42px;
+}
+
+/***********************************
+	ボタン定義（メニュー）
+************************************/
+INPUT.btn_menu {
+	padding-left:7px;
+	padding-right:7px;
+	padding-top:5px;
+	padding-bottom:5px;
+	font-size : 12pt;
+}
+/***********************************
+	ボタン定義（印刷）
+************************************/
+INPUT.btn_print {
+	width: 50px;
+	padding-left:0px;
+	padding-right:0px;
+	padding-top:0px;
+	padding-bottom:2px;
+	height: 20px;
+}
+/***********************************
+	ボタン定義（印刷）
+************************************/
+INPUT.btn_print_long {
+	width: 60px;
+	padding-left:0px;
+	padding-right:0px;
+	padding-top:0px;
+	padding-bottom:2px;
+	height: 20px;
+}
+/***********************************
+	ボタン定義（検索条件）
+************************************/
+INPUT.btn_search {
+	width: 70px;
+	padding-left:0px;
+	padding-right:0px;
+	padding-top:2px;
+	padding-bottom:2px;
+}
+/***********************************
+	ページタイトル
+************************************/
+.pagetitle {
+	height:25px;
+    width:1350px;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+	font-size:   14pt;
+	font-weight: 900;
+	line-height: 25px;
+	padding:2px;
+    display: table-cell;
+	background-image:	url("../images/pagetitle.gif");
+	background-repeat:	repeat-x;
+	clear: both;
+	margin: 3px 5px 0 3px;
+    vertical-align: middle;
+}
+
+.pagetitle_text {
+	float:				left;
+	margin: 3px 0 0 0;
+}
+
+.pagetitle_right {
+    vertical-align: middle;
+	float:				right;
+}
+
+
+.title {
+	padding-left:		5px;
+	vertical-align:     middle;
+	color: 	      		#16288B;
+	font-size:       	14pt;
+	font-weight: 		900;
+	height:     		30px;
+	background-color:	#EEEEFF;
+}
+
+/***********************************
+	サブタイトル定義
+************************************/
+span.subtitle {
+	color:       #CD2626;
+	font-size:   9pt;
+	font-weight: 700;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+/***********************************
+	メッセージテーブル定義
+************************************/
+.messageTable{
+	padding: 10px;
+	box-sizing: border-box;
+ 	border: 2px solid #d0d0d0;
+	border-bottom: 3px solid #a0a0a0;
+	background-color: #FFFFCC;
+}
+
+/***********************************
+	エラーメッセージ定義
+************************************/
+.error {
+	font-size:   11pt;
+	color:       #FF0000;
+	font-weight: 700;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/***********************************
+	警告メッセージ定義
+************************************/
+.warning {
+	font-size:   11pt;
+	color:       #808000;
+	font-weight: 700;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/***********************************
+	通常メッセージ定義
+************************************/
+.message {
+	font-size:   11pt;
+	color:       #0000FF;
+	font-weight: 700;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/***********************************
+	必須
+************************************/
+.need {
+	font-size:   9pt;
+	color:        #FF0000;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/***********************************
+	太字
+************************************/
+.bold {
+  font-weight:          bold;
+}
+
+/***********************************
+	文字サイズ大
+************************************/
+.large,
+TABLE.list TBODY TD.large {
+  font-size:            large;
+}
+
+/***********************************
+	自動改行禁止
+************************************/
+.nowrap {
+  white-space: nowrap;
+}
+
+/***********************************
+	テーブル定義
+************************************/
+TABLE {
+    font-size:       9pt;
+	font-family: 	"ＭＳ ゴシック" ,sans-serif;
+}
+
+TD {
+    font-size:       9pt;
+	font-family: 	"ＭＳ ゴシック" ,sans-serif;
+}
+
+.content_width {
+    width:              1350px;
+}
+
+/* 固定幅テーブル等 */
+.table_fixed_width {
+	width:              1346px;
+}
+
+/** TOP画面の開始位置調整用 */
+table#topView {
+  margin-left: 10px;
+}
+
+/***********************************
+	サブタイトル
+************************************/
+DIV.subtitle{
+	border-style:    	solid;
+	border-width:    	1px 1px 0px 1px;
+	border-color:    	#B3B3B3;
+	background-color:   #16288B;
+	filter:				alpha(opacity=100,finishopacity=80,style=1);
+    color: 	      		#FFFFFF;
+	font-size:       	11pt;
+	font-weight: 		900;
+	height:     		30px;
+	clear:				left;
+}
+
+DIV.subtitle_text{
+/*--- filename : title_mark.gif ---*/
+	background-image : url("../images/sprite.gif") ;
+	background-position : left -180px ;
+	background-repeat:	no-repeat;
+	height : 23px ;
+	float:				left;
+	padding-left:		25px;
+	padding-top:		7px;
+}
+DIV.subtitle_left{
+	color: 	      		#FFFFFF;
+	font-size:       	9pt;
+	font-weight: 		normal;
+	float:				left;
+	padding-top:		2px;
+}
+DIV.subtitle_right{
+	color: 	      		#FFFFFF;
+	font-size:       	9pt;
+	font-weight: 		normal;
+	float:				right;
+	padding-top:		2px;
+}
+
+DIV.subtitle_right A:link    { color: #FFFFFF;}
+DIV.subtitle_right A:visited { color: #FFFFFF;}
+DIV.subtitle_right A:hover   { color: #FFFFFF;}
+DIV.subtitle_right A:active  { color: #FFFFFF;}
+
+td.subtitle {
+	background-color:	#16288B;
+	filter:				alpha(opacity=100,finishopacity=80,style=1);
+	padding-left:		25px;
+	vertical-align:     middle;
+	color: 	      		#FFFFFF;
+	font-size:       	11pt;
+	font-weight: 		900;
+	height:     		30px;
+}
+
+DIV.func_back{
+	text-align: 		right;
+	height:				25px;
+	background-repeat:repeat;
+	background-image:url("../images/sys04/func_back.gif");
+	border-style:    	solid;
+	border-width:    	1px 1px 0px 1px;
+	border-color:    	#B3B3B3;
+}
+
+/***********************************
+	テーブル定義（list）
+************************************/
+TABLE.list {
+	border-collapse: collapse;
+	border-color:    #AAAAAA;
+	border-style:    solid;
+	border-width:    1px;
+    font-size:       9pt;
+	font-family: 	"ＭＳ ゴシック" ,sans-serif;
+	empty-cells:     hide;
+	width:           100%;
+}
+
+TABLE.list THEAD TH {
+	white-space: nowrap;
+	color: #4F4F4F;
+	background-color:   #E0E0E0;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	font-weight:        normal;
+	border-color:       #999999;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+    text-align :        center;
+    vertical-align :    middle;
+    empty-cells:     	hide;
+}
+
+TABLE.list THEAD TD {
+}
+
+TABLE.list TBODY TH{
+	white-space: nowrap;
+	color: #4F4F4F;
+	background-color:   #E0E0E0;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	font-weight:        normal;
+	border-color:       #999999;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+    text-align :        right;
+    vertical-align :    middle;
+    empty-cells:     	hide;
+}
+
+TABLE.list TBODY TD {
+	background-color:   #EEEEEE;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	border-color:       #CCCCCC ;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           auot 2px auto 2px;
+	/* 最低限の高さ設定 */
+	min-height:         21px;
+	height:             auto !important;
+	height:             21px; /*ここにIE6用の高さを指定*/
+}
+
+/***********************************
+	テーブル定義（caption）
+************************************/
+TABLE.caption {
+	border-collapse: collapse;
+	border-color:    #AAAAAA;
+	border-style:    solid;
+	border-width:    1px;
+    font-size:       9pt;
+	font-family: 	"ＭＳ ゴシック" ,sans-serif;
+	empty-cells:     hide;
+}
+
+TABLE.caption THEAD TH {
+	white-space: nowrap;
+	color: #4F4F4F;
+	background-color:   #CCCCCC;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	font-weight:        normal;
+	border-color:       #999999;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+    text-align :        center;
+    vertical-align :    middle;
+    empty-cells:     	hide;
+}
+
+TABLE.caption THEAD TD {
+}
+
+TABLE.caption TBODY TH{
+	white-space: nowrap;
+	color: #000000;
+	background-color:   #EEEEEE;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	font-weight:        normal;
+	border-color:       #CCCCCC;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+    text-align :        right;
+    vertical-align :    middle;
+    empty-cells:     	hide;
+}
+
+TABLE.caption TBODY TD {
+	background-color:   #FFFFFF;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	border-color:       #CCCCCC ;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+}
+
+/***********************************
+	テーブル定義（login）
+************************************/
+TABLE.login {
+	font-family: 	"ＭＳ ゴシック" ,sans-serif;
+	empty-cells:     hide;
+	margin: 15px 0 0 20px;
+}
+
+TABLE.login TBODY td {
+	background-color: #DCE1E2;
+	width: 339px;
+	height: 210px;
+	font-size:	12pt;
+	border-style:	outset;
+	border-width:	2px;
+	border-color:	#DDDDDD;
+}
+
+TABLE.login TBODY div {
+	font-family: 	"ＭＳ ゴシック" ,sans-serif;
+	text-align: left;
+	position: relative;
+	left: 90px;
+}
+
+/** ログインマーク **/
+TABLE TBODY div#mark {
+	background:url("../images/sprite.gif") no-repeat left top;
+	margin: 10px 0 5px 0;
+	height: 50px;
+	width: 200px;
+}
+
+TABLE TBODY span.login_bold {
+	font-size: 16pt;
+  	font-weight: bold;
+}
+
+/* ログイン画面背景 */
+body#loginpage {
+	background:url("../images/topbg.gif") no-repeat left top;
+}
+
+#log_err_msg {
+	height: 30px;
+	position: relative;
+	left: 0;
+}
+/***********************************
+	テーブル（ヘッダ）定義
+************************************/
+TD.head, TH.head {
+	white-space: nowrap;
+	color: #4F4F4F;
+	background-color:   #E0E0E0;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	font-weight:        normal;
+	border-color:       #999999;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+    text-align :        center;
+    vertical-align :    middle;
+    empty-cells:     	hide;
+}
+
+/***********************************
+    テーブル定義（pager）
+************************************/
+TABLE.pager {
+    font-size:       9pt;
+    font-family:    "ＭＳ ゴシック" ,sans-serif;
+    empty-cells:     hide;
+    width:           1346px;
+}
+
+/******************************************
+	データ定義(背景：白色　データ偶数行)
+*******************************************/
+TABLE.list tr.even td,
+TABLE.list tbody.even td{
+	background-color:   #F6F6F6;
+}
+
+/******************************************
+	データ定義(背景：灰色　データ奇数行)
+*******************************************/
+TABLE.list tr.odd td,
+TABLE.list tbody.odd td {
+	background-color:   #EEEEEE;
+}
+
+/******************************************
+	データ定義(背景：赤)
+*******************************************/
+TABLE.list TR TD.bgred,
+TABLE.caption TR TD.bgred {
+	background-color:   #F08080;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	border-color:       #CCCCCC ;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+}
+
+/******************************************
+	データ定義(背景：橙)
+*******************************************/
+TABLE.list TR TD.bgorange,
+TABLE.caption TR TD.bgorange {
+	background-color:   orange;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	border-color:       #CCCCCC ;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+}
+
+/******************************************
+	ステータスデータ定義(背景：緑)
+*******************************************/
+TABLE.list TD.bgblue,
+TABLE.caption TD.bgblue {
+	background-color:   #99FFCC;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	border-color:       #CCCCCC ;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+}
+
+/******************************************
+	ステータスデータ定義(背景:グレー)
+*******************************************/
+TABLE.list TR TD.bgdark,
+TABLE.caption TR TD.bgdark {
+	background-color:   #666666;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	border-color:       #CCCCCC ;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+}
+
+/******************************************
+	データ定義(前景：赤)
+*******************************************/
+.fgred {
+	color:	red;
+}
+
+/******************************************
+	データ定義(前景：青)
+*******************************************/
+.fgblue {
+	color:	blue;
+}
+
+/******************************************
+	データ定義(前景：黒)
+*******************************************/
+.fgblack {
+	color:	black;
+}
+
+/******************************************
+	データ定義(詳細：ヘッダ)
+*******************************************/
+TABLE.list TR TD.headh,
+TABLE.caption TR TD.headh {
+	white-space: nowrap;
+	background-color:   #EEEEEE;
+	text-align :        right;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	border-color:       #CCCCCC;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+}
+
+/******************************************
+	データ定義(詳細：データ)
+*******************************************/
+TABLE.list TR TD.datah,
+TABLE.caption TR TD.datah {
+	color: #4F4F4F;
+	background-color:   #FFFFFF;
+	font-size :         9pt;
+	font-family: 		"ＭＳ ゴシック" ,sans-serif;
+	border-color:       #CCCCCC ;
+	border-style:       solid;
+	border-width:       1px;
+	padding :           2px 2px 2px 2px;
+}
+
+/******************************************
+	テーブル（枠線なし）
+*******************************************/
+TABLE.noborder TR TD {
+	border-style:none;
+}
+
+/******************************************
+	稼働日カレンダー
+*******************************************/
+TABLE.calendar {
+	border-collapse: separate;
+	border-spacing: 1px;
+}
+TABLE.calendar th.sat {
+	background: #9bf;
+}
+TABLE.calendar th.sun {
+	background: #f99;
+}
+TABLE.calendar td {
+	text-align: center;
+	border: none;
+	padding:0px;
+}
+TABLE.calendar td.otherMonth {
+	background: #bbb;
+	font-size: small;
+}
+TABLE.calendar td.operation {
+	text-align: center;
+	background: white;
+	border: solid gray 1px;
+	width:5em;
+	height:3em;
+}
+TABLE.calendar td.notoperation {
+	text-align: center;
+	background: #fbb;
+	border: solid gray 1px;
+	width:5em;
+	height:3em;
+}
+TABLE.calendar td.halfoperation {
+	text-align: center;
+	background: yellow;
+	border: solid gray 1px;
+	width:5em;
+	height:3em;
+}
+TABLE.calendar td.temporary {
+	text-align: center;
+	background: skyblue;
+	border: solid gray 1px;
+	width:5em;
+	height:3em;
+}
+TABLE.calendar button {
+	width:5em;
+	height:2em;
+	font-size:big;
+}
+TABLE.calendar button.btn0 {
+	background: #fbb;
+	border:outset 3px #bbb;
+}
+TABLE.calendar button.btn1 {
+	background: white;
+	border:outset 3px #bbb;
+}
+TABLE.calendar button.btn2 {
+	background: yellow;
+	border:outset 3px #bbb;
+}
+TABLE.calendar button.btn3 {
+	background: skyblue;
+	border:outset 3px #bbb;
+}
+TH {
+	border: solid gray 1px;
+	padding: 2px;
+	background:#666;
+	color:#fff;
+}
+
+/***********************************
+  トランザクションステータス色
+************************************/
+/* 発注予定 */
+TABLE.list TR TD.pre_indicate,
+TABLE.caption TR TD.pre_indicate {
+  background-color:     yellow;
+}
+/* 納入指示待 */
+TABLE.list TR TD.deljit,
+TABLE.caption TR TD.deljit {
+  background-color:     pink;
+}
+/* 出荷待 */
+TABLE.list TR TD.desadv,
+TABLE.caption TR TD.desadv {
+  background-color:     lightgreen;
+}
+/* 受領待 */
+TABLE.list TR TD.desadv_send,
+TABLE.caption TR TD.desadv_send {
+  background-color:     orange;
+}
+/* 分納分出荷待 */
+TABLE.list TR TD.ostrpt,
+TABLE.caption TR TD.ostrpt {
+  background-color:     yellow;
+}
+/* 分納分受領待 */
+TABLE.list TR TD.ostrpt_send,
+TABLE.caption TR TD.ostrpt_send {
+  background-color:     silver;
+}
+/* 受領済 */
+TABLE.list TR TD.recadv,
+TABLE.caption TR TD.recadv {
+  background-color:     skyblue;
+}
+
+/* 0件納入指示済 */
+TABLE.list TR TD.zero_deljit,
+TABLE.caption TR TD.zero_deljit {
+  background-color:    #B3A2C7;
+}
+
+/* なし */
+TABLE.list TR TD.none,
+TABLE.caption TR TD.none {
+  background-color:     white;
+}
+
+/***********************************
+ 別送支給処理状況データ状況ステータス色
+************************************/
+/* 支給先からの納入指示受信 */
+TABLE.list TR TD.deljit_receive,
+TABLE.caption TR TD.deljit_receive {
+  background-color:     #DBEEF4;
+}
+/* 仕入先へ納入指示送信 */
+TABLE.list TR TD.deljit_sended,
+TABLE.caption TR TD.deljit_sended {
+  background-color:     #00FF00;
+}
+/* 支給先へ出荷待 */
+TABLE.list TR TD.desadv_wait,
+TABLE.caption TR TD.desadv_wait {
+  background-color:     #FFC000;
+}
+/* 支給先へ出荷済 */
+TABLE.list TR TD.desadv_sended,
+TABLE.caption TR TD.desadv_sended {
+  background-color:     #FFCCFF;
+}
+/* 仕入先へのキャンセル済 */
+TABLE.list TR TD.supplier_canceled,
+TABLE.caption TR TD.supplier_canceled {
+  background-color:     #B3A2C7;
+}
+/* 支給先からのキャンセル済 */
+TABLE.list TR TD.supply_canceled,
+TABLE.caption TR TD.supply_canceled {
+  background-color:     #D99694;
+}
+
+/* 0件納入指示済 */
+TABLE.list TR TD.zero_deljit,
+TABLE.caption TR TD.zero_deljit {
+  background-color:    #B3A2C7;
+}
+
+/* なし */
+TABLE.list TR TD.none,
+TABLE.caption TR TD.none {
+  background-color:     white;
+}
+
+
+/***********************************
+  メッセージステータス色
+************************************/
+/* 未回答 */
+TABLE.list TR TD.ms00,
+TABLE.caption TR TD.ms00 {
+  background-color:     yellow;
+}
+/* 受諾 */
+TABLE.list TR TD.ms01,
+TABLE.caption TR TD.ms01 {
+  background-color:     lightgreen;
+}
+/* 拒否 */
+TABLE.list TR TD.ms11,
+TABLE.caption TR TD.ms11 {
+  background-color:     pink;
+}
+/* 未到達 */
+TABLE.list TR TD.ms99,
+TABLE.caption TR TD.ms99 {
+  background-color:     skyblue;
+}
+
+/***********************************
+  スレッドステータス色
+************************************/
+/* 実行中 */
+TABLE.list TR TD.running,
+TABLE.caption TR TD.running {
+  background-color:     lightgreen;
+}
+/* 正常終了 */
+TABLE.list TR TD.successful,
+TABLE.caption TR TD.successful {
+  background-color:     skyblue;
+}
+/* 異常終了 */
+TABLE.list TR TD.abend,
+TABLE.caption TR TD.abend {
+  background-color:     orange;
+}
+/* 例外発生 */
+TABLE.list TR TD.exception,
+TABLE.caption TR TD.exception {
+  background-color:     lightcoral;
+}
+
+/***********************************
+  納入指示テストステータス色
+************************************/
+/* 未回答 */
+TABLE.list TR TD.dcs00,
+TABLE.caption TR TD.dcs00 {
+  background-color:     yellow;
+}
+
+/* 納入指示可 */
+TABLE.list TR TD.dcs01,
+TABLE.caption TR TD.dcs01 {
+  background-color:     lightgreen;
+}
+/* 納入指示不可 */
+TABLE.list TR TD.dcs11,
+TABLE.caption TR TD.dcs11 {
+  background-color:     pink;
+}
+/* 異常終了 */
+TABLE.list TR TD.dcs12,
+TABLE.caption TR TD.dcs12 {
+  background-color:     lightcoral;
+}
+/* 処理中 */
+TABLE.list TR TD.dcs99,
+TABLE.caption TR TD.dcs99 {
+  background-color:     skyblue;
+}
+
+
+/***********************************
+  必須入力文字
+************************************/
+.must_input {
+  font-weight:        bold;
+  color :             red;
+}
+
+/***********************************
+  カテゴリー色・アイコン
+************************************/
+/* ＴＯＰ */
+DIV.category_TP {
+  background-color:     #16288B;
+}
+/* 納入管理 */
+DIV.category_IB {
+  background-color:     #383D50;
+/*  background-color:     #106BC6; */
+}
+SPAN.category_IB {
+  background-color:     #383D50;
+}
+SPAN.category_IB_OFF {
+  background-color:     #74798C;
+}
+#IB_icon {
+	background-image: url("../images/sprite.gif");
+	background-position: -875px bottom;
+	background-repeat: no-repeat;
+	width: 50px;
+	height: 25px;
+	border:0;
+	display: inline-block;
+}
+
+/* 出荷管理 */
+DIV.category_OB {
+  background-color:     #384F3D;
+/*  background-color:     #007B42; */
+}
+SPAN.category_OB {
+  background-color:     #384F3D;
+}
+SPAN.category_OB_OFF {
+  background-color:     #748B79;
+}
+#OB_icon {
+	background-image: url("../images/sprite.gif");
+	background-position: -575px -137px;
+	background-repeat: no-repeat;
+	width: 50px;
+	height: 25px;
+	border:0;
+	display: inline-block;
+}
+
+/* 支給管理 */
+DIV.category_SP {
+  background-color:     #300040;
+/*  background-color:     #106BC6; */
+}
+SPAN.category_SP {
+  background-color:     #300040;
+}
+SPAN.category_SP_OFF {
+  background-color:     #74798C;
+}
+#SP_icon {
+	background-image: url("../images/kanban.gif");
+	background-repeat: no-repeat;
+	background-position-x: +5px;
+	background-position-y: +2px;
+	width: 50px;
+	height: 25px;
+	border:0;
+	display: inline-block;
+}
+
+/* 内示管理 */
+DIV.category_DF {
+  background-color:     #51323A;
+/*  background-color:     #1029A2; */
+}
+SPAN.category_DF {
+  background-color:     #51323A;
+}
+SPAN.category_DF_OFF {
+  background-color:     #8D6E76;
+}
+#DF_icon {
+	background-image: url("../images/sprite.gif");
+	background-position: -795px -175px;
+	background-repeat: no-repeat;
+	width: 50px;
+	height: 25px;
+	border:0;
+	display: inline-block;
+}
+/* 生産管理 */
+DIV.category_MN {
+  background-color:     saddlebrown;
+}
+/* 実績集計 */
+DIV.category_SU {
+  background-color:     #51323A;
+/*  background-color:     #0829A5; */
+}
+SPAN.category_SU {
+  background-color:     #51323A;
+}
+SPAN.category_SU_OFF {
+  background-color:     #8D6E76;
+}
+#SU_icon {
+	background-image: url("../images/sprite.gif");
+	background-position: -716px -175px;
+	background-repeat: no-repeat;
+	width: 50px;
+	height: 25px;
+	border:0;
+	display: inline-block;
+}
+/* マスタ管理 */
+DIV.category_MA {
+  background-color:     #3F3D3E;
+/*  background-color:     #850083; */
+}
+#MA_icon {
+	background-image: url("../images/sprite.gif");
+	background-position: -572px -175px;
+	background-repeat: no-repeat;
+	width: 50px;
+	height: 25px;
+	border:0;
+	display: inline-block;
+}
+/* システム */
+DIV.category_SY {
+  background-color:     #666666;
+/*  background-color:     #637B84; */
+}
+#SY_icon {
+	background-image: url("../images/sprite.gif");
+	background-position: -644px -175px;
+	background-repeat: no-repeat;
+	width: 50px;
+	height: 25px;
+	border:0;
+	display: inline-block;
+}
+
+/***********************************
+  内示ステータス色
+************************************/
+/* 内示 */
+TABLE.list TR TD.delfor,
+TABLE.caption TR TD.delfor {
+  background-color:     lightgreen;
+}
+/* 内々示 */
+TABLE.list TR TD.delforPlan,
+TABLE.caption TR TD.delforPlan {
+  background-color:     yellow;
+}
+
+/***********************************
+回転/非回転かんばん色
+************************************
+/* 非回転かんばん */
+TABLE.list TR TD.notRotation,
+TABLE.caption TR TD.notRotation {
+  background-color:     darkgray;
+}
+
+/***********************************
+  その他
+************************************/
+/* 選択 */
+TD.select {
+  background-color:     skyblue;
+}
+
+
+/***********************************
+  IMEモード
+************************************/
+/* 自動 */
+.imeAuto {
+  ime-mode:             auto;
+}
+
+/* 有効 */
+.imeActive {
+  ime-mode:             active;
+}
+
+/* 無効 */
+.imeInActive {
+  ime-mode:             inactive;
+}
+
+/* 使用不可 */
+.imeDisabled {
+  ime-mode:             disabled;
+}
+
+/*
+.Freezing {
+	z-index: 10;
+	position: relative;
+	top: expression(this.offsetParent.scrollTop)
+}
+.FreezingCol {
+	z-index: 1;
+	left: expression(document.getElementById("freezingDiv").scrollLeft);
+	position: relative
+}
+*/
+
+/***********************************
+  css sprite 座標指定
+************************************/
+
+/*--- filename : banner.gif ---*/
+.img_banner {
+	background-image : url("../images/sprite.gif") ;
+	width : 1350px ;
+	height : 50px ;
+	background-position : left -87px ;
+	background-repeat : no-repeat ;
+	display: inline-block;
+}
+
+/*--- filename : logoff.gif ---*/
+.img_logoff {
+	background-image : url("../images/sprite.gif") ;
+	width : 74px ;
+/*	width : 64px ; */
+	height : 20px ;
+	background-position : -420px -140px ;
+/*	background-position : -426px -140px ; */
+	background-repeat : no-repeat ;
+	cursor: pointer;
+	display: inline-block;
+}
+
+/*--- filename : top.gif ---*/
+.img_top {
+	background-image : url("../images/sprite.gif") ;
+	width : 50px ;
+	height : 20px ;
+	background-position : -334px -140px ;
+	background-repeat : no-repeat ;
+	cursor: pointer;
+	display: inline-block;
+}
+
+/*--- filename : error.gif ---*/
+.img-error {
+	background-image : url("../images/sprite.gif") ;
+	width : 24px ;
+	height : 24px ;
+	background-position : -200px 0px ;
+	background-repeat : no-repeat ;
+	cursor: default;
+	display: inline-block;
+}
+
+/*--- filename : info.gif ---*/
+.img-info {
+	background-image : url("../images/sprite.gif") ;
+	width : 24px ;
+	height : 24px ;
+	background-position : -224px 0px ;
+	background-repeat : no-repeat ;
+	cursor: default;
+	display: inline-block;
+}
+
+/*--- filename : warning.gif ---*/
+.img-warning {
+	background-image : url("../images/sprite.gif") ;
+	width : 24px ;
+	height : 24px ;
+	background-position : -248px 0px ;
+	background-repeat : no-repeat ;
+	cursor: default;
+	display: inline-block;
+}
+
+/*--- filename : warn.gif ---*/
+.img_warn {
+	background-image : url("../images/sprite.gif") ;
+	width : 32px ;
+	height : 32px ;
+	background-position : -244px -140px ;
+	background-repeat : no-repeat ;
+}
+
+/*--- filename : list_mark.gif ---*/
+.img_list_mark {
+	background-image : url("../images/sprite.gif") ;
+	width : 14px ;
+	height : 14px ;
+	background-position : -280px 0px ;
+	background-repeat : no-repeat ;
+	cursor: default;
+	display: inline-block;
+}
+
+/*--- filename : calendar.gif ---*/
+.calendarbtn {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : 0px 0px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	cursor: pointer;
+	display: inline-block;
+}
+
+/*--- filename : detail.gif ---*/
+.img_detail {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -16px 0px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : edi_reject.gif ---*/
+.img_edi_reject {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : 0px -16px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : edi_send.gif ---*/
+.img_edi_send {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -48px 0px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : edi_error.gif ---*/
+.img_edi_error {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -64px 0px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : edit.gif ---*/
+.img_edit {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -33px 0px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : lock_on.gif ---*/
+.img_lockon {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -16px -16px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : lock_off.gif ---*/
+.img_lockoff {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -32px -16px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : gear.gif ---*/
+.img_quantity {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -64px -16px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : container.gif ---*/
+.img_unitquantity {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -48px -16px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : search.gif ---*/
+.img_search {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : 0px -32px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	cursor: pointer;
+	display: inline-block;
+}
+
+/*--- filename : edi_processing.gif ---*/
+.img_edi_processing {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -16px -32px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : edi_accepted.gif ---*/
+.img_edi_accepted {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -32px -33px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:15px;
+	border:0;
+	display: inline-block;
+}
+
+/*--- filename : timer.gif ---*/
+.img_timer {
+	background-image : url("../images/sprite16x16.gif") ;
+	background-position : -48 -32px ;
+	background-repeat : no-repeat ;
+	width:16px;
+	height:16px;
+	border:0;
+	display: inline-block;
+}
+
+
+/***********************************
+  日付スクロール表示
+************************************/
+/*
+div#scrollContainer {
+    margin: 0 0 20px;
+    border: none;
+    width: 1350px;
+    height: 400px;
+    overflow: hidden;
+}
+*/
+
+/***********************************
+  検索条件欄
+************************************/
+#srhCondTable {
+	/*display: none;*/
+	width:  100%;
+}
+
+#srhCondToggleBtn {
+	width: 67px;
+}
+
+/***********************************
+  詳細選択タブ
+************************************/
+#tabsDetail {
+	float:left;
+	width:100%;
+	font-size:100%;
+	line-height:normal;
+}
+
+#tabsDetail ul {
+	margin:0;
+	padding:2px 10px 0px 0px;
+	list-style:none;
+}
+
+#tabsDetail li {
+	display:inline;
+	margin:0;
+	padding:0;
+}
+
+#tabsDetail a {
+	float:left;
+	margin:0px;
+	text-decoration:none;
+	cursor:pointer;
+}
+
+#tabsDetail a span {
+	float:left;
+	display:block;
+	padding:8px 23px 8px 23px;
+	color:#FFFFFF;
+	font-size:123%;
+	font-weight: bolder;
+	border-right:1px solid #000000;
+}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+#tabsDetail a span {float:none;}
+/* End IE5-Mac hack */
+#tabsDetail a:hover span {
+	color:#50DDFF;
+}
+
+#tabsDetail a.on span{
+	float:left;
+	display:block;
+	padding:8px 25px 8px 25px;
+	background-position:100% -42px;
+	text-decoration: none;
+}
+#tabsDetail a.on {
+	background-position:0% -42px;
+}

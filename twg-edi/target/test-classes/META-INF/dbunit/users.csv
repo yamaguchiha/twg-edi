@@ -1,0 +1,6 @@
+oid;user_id;password;name;role_type;default_place_oid;enabled_place_oid_values;loading_oid;discharge_oid
+1;sd07_T00000001;RGfI+mJvX3F6fdklUmjwcQ==;Support07;1;1;"1,2"';;
+2;sd07_T00000002;RGfI+mJvX3F6fdklUmjwcQ==;Support07;1;3;"3,4,5";;
+3;sd07_T00000003;RGfI+mJvX3F6fdklUmjwcQ==;Support07;1;6;"6,7,8,9";;
+4;sd07_T00000004;RGfI+mJvX3F6fdklUmjwcQ==;Support07;1;10;"10";;
+5;sd07_T00000005;RGfI+mJvX3F6fdklUmjwcQ==;Support07;1;11;"11,12,13,14,15";;

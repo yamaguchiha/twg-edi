@@ -1,0 +1,83 @@
+<header class="panel panel-heading" th:fragment="header">
+<div id="header">
+  <div class="user">
+    <table  class="header_table">
+      <tr>
+        <td align="right">
+          <table>
+            <tr>
+              <td align="right"><span class="user">所属：</span></td>
+              <td align="left"><span class="user">[[${loginInfo.myPartySetting.abbrCode}]]&nbsp;[[${loginInfo.myParty.name}]]&nbsp;([[${loginInfo.myPlace.name}]])</span></td>
+            </tr>
+            <tr>
+              <td align="right"><span class="user">利用者：</span></td>
+              <td align="left"><span class="user">[[${loginInfo.myUsers.name}]] [[${loadingDischargeName}]]</span></td>
+            </tr>
+          </table>
+        </td>
+        <td valign="top" align="right" width="160">
+          <span class="timeStamp">
+            <th:block th:if="${currentTimeStamp != ''}">[[${currentTimeStamp}]]</th:block>
+          </span>
+          <a href="/twg-edi/logoff" class="img_logoff"></a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div id="tabsJ">
+  <ul>
+    <li>
+      <a th:href="@{/scm}" title="ＴＯＰ" th:classappend="${menu == 'TP'} ? 'on':''"><span>ＴＯＰ</span></a>
+    </li>
+    <li th:if="${loginInfo.functionLimited}">
+      <a th:href="@{/menuIB}" title="発注管理" th:classappend="${menu == 'IB'} ? 'on':''"><span>発注管理</span></a>
+    </li>
+    <li>
+      <a href="./scm" title="受注管理" th:classappend="${menu == 'OB'} ? 'on':''"><span>受注管理</span></a>
+    </li>
+    <li th:if="${loginInfo.supplyfuncLimited}">
+      <a th:href="@{/scm}" title="支給管理" th:classappend="${menu == 'SP'} ? 'on':''"><span>支給管理</span></a>
+    </li>
+    <li>
+      <a th:href="@{/scm}" title="内示管理" th:classappend="${menu == 'DF'} ? 'on':''"><span>内示管理</span></a>
+    </li>
+    <li>
+      <a th:href="@{/scm}" title="実績集計" th:classappend="${menu == 'SU'} ? 'on':''"><span>実績集計</span></a>
+    </li>
+    <li th:if="${loginInfo.notOperatorOrSearcher}">
+      <a th:href="@{/menuMA}" title="マスタ管理" th:classappend="${menu == 'MA'} ? 'on':''"><span>マスタ管理</span></a>
+    </li>
+    <li th:if="${loginInfo.notOperatorOrSearcherOrOptUser}">
+      <a th:href="@{/menuSY}" title="システム" th:classappend="${menu == 'SY'} ? 'on':''"><span>システム</span></a>
+    </li>
+  </ul>
+  <div align="right">
+    事業所&nbsp;
+  </div>
+</div>
+<div class="pagetitle">
+  <div class="pagetitle_text">[[${pageTitle}]]</div>
+  <div class="pagetitle_right" id="retTop"></div>
+<!--
+#if($currentPath != '/top' && $topCommand)
+    <input type="button" value="$!topTitle TOPへ" class="btn_size9" onClick="changeContents('$link.setAction('/top').addQueryData('command', $topCommand)');"  style="vertical-align: middle">
+#end
+  </div>
+  <div class="pagetitle_right" id="retBtn1">
+    <input id="headerBackButton" type="button" class="btn_size7" value="前の画面へ戻る" onClick="execSubmit('executeRefresh');" style="vertical-align: middle">&nbsp;
+  </div>
+  <div class="pagetitle_right" id="retGuide" style="vertical-align: middle; padding: 0px 10px 0px 0px;">
+  ## 運用ガイドはtiles-def.xmlにURLが設定されていれば表示する。
+  #if($tiles.getAttribute("urlGuide"))
+    <a href=$tiles.getAttribute("urlGuide") target="_blank" title="ガイド" class="btn-flat btn-flat-guide">ガイド</a>
+  #end
+  #if($tiles.getAttribute("urlHelp"))
+    <a href=$tiles.getAttribute("urlHelp") target="_blank" title="ヘルプ" class="btn-flat btn-flat-help">ヘルプ</a>
+  #end
+  &nbsp;
+  </div>
+ -->
+</div>
+</header>

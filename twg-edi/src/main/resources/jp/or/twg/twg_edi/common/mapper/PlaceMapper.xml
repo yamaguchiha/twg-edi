@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.or.twg.twg_edi.common.mapper.PlaceMapper">
+
+  <!-- resultMap -->
+  <resultMap id="slectPlaceList" type="jp.or.twg.twg_edi.common.entity.Place">
+    <id column="oid" property="oid"/>
+    <result column="place_tdb_place_code"     property="tdbPlaceCode"/>
+    <result column="place_name"               property="name"/>
+    <association property="party"             javaType="jp.or.twg.twg_edi.common.entity.Party">
+      <result column="party_tdb_party_code"   property="tdbPartyCode"/>
+      <result column="party_name"             property="name"/>
+    </association>
+    <association property="partySetting"      javaType="jp.or.twg.twg_edi.common.entity.PartySetting">
+      <result column="partySetting_abbr_code" property="abbrCode"/>
+    </association>
+  </resultMap>
+
+  <!-- 企業事業所選択のSQL -->
+  <select id="selectPlaceList" resultMap="slectPlaceList">
+    select party.tdb_party_code as party_tdb_party_code,
+           party.name           as party_name,
+           T1.abbr_code         as partySetting_abbr_code,
+           place.tdb_place_code as place_tdb_place_code,
+           place.name           as place_name
+    from place
+    inner join party
+    on party.oid=place.party_oid
+    left outer join (select oid, party_oid, own_place_oid,abbr_code from party_setting where own_place_oid=#{ownPlaceOid}) as T1
+    on T1.party_oid=party.oid
+    and T1.own_place_oid=place.oid
+    <where>
+      <if test="tdbPartyCode != null">
+        party.tdb_party_code=#{tdbPartyCode}
+      </if>
+      <if test="abbrCode != null">
+        and T1.abbr_code=#{abbrCode}
+      </if>
+      <if test="partyName != null">
+        and party.name like #{partyName}
+      </if>
+      <if test="isLimit">
+        and place.valid_end_string_date>=to_char(CURRENT_DATE, 'YYYYMMDD')
+      </if>
+    </where>
+    order by party.tdb_party_code,place.tdb_place_code
+  </select>
+</mapper>

@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="partitionKanban" pageWidth="566" pageHeight="297" orientation="Landscape" columnWidth="566" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<field name="field1" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="297" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="566" height="55"/>
+				<staticText>
+					<reportElement x="197" y="5" width="173" height="40"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[仕切りかんばん]]></text>
+				</staticText>
+				<frame>
+					<reportElement x="0" y="0" width="201" height="55"/>
+					<rectangle>
+						<reportElement x="8" y="5" width="193" height="40"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="10" y="6" width="40" height="12"/>
+						<textElement>
+							<font size="8"/>
+						</textElement>
+						<text><![CDATA[仕入先名称]]></text>
+					</staticText>
+					<textField>
+						<reportElement x="50" y="4" width="81" height="20"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="131" y="4" width="70" height="20"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="50" y="24" width="122" height="20"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement key="ラベル" x="179" y="28" width="20" height="14"/>
+						<textElement/>
+						<text><![CDATA[御中]]></text>
+					</staticText>
+				</frame>
+				<frame>
+					<reportElement x="361" y="0" width="205" height="55"/>
+					<rectangle>
+						<reportElement x="4" y="5" width="195" height="40"/>
+					</rectangle>
+					<textField>
+						<reportElement x="5" y="5" width="98" height="40"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement x="103" y="5" width="80" height="40"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement key="ラベル" x="178" y="23" width="20" height="14"/>
+						<textElement/>
+						<text><![CDATA[御中]]></text>
+					</staticText>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement x="0" y="63" width="566" height="107"/>
+				<frame>
+					<reportElement key="オーダーNo" x="8" y="3" width="137" height="46"/>
+					<rectangle>
+						<reportElement key="オーダーNo・枠" x="0" y="0" width="137" height="46"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="137" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="12"/>
+						</textElement>
+						<text><![CDATA[オーダーNo]]></text>
+					</staticText>
+					<textField>
+						<reportElement key="オーダーNo" x="0" y="15" width="137" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font size="16" isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="仕入先" x="145" y="3" width="137" height="46"/>
+					<rectangle>
+						<reportElement key="仕入先・枠" x="0" y="0" width="137" height="46"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="136" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="12"/>
+						</textElement>
+						<text><![CDATA[仕入先]]></text>
+					</staticText>
+					<textField>
+						<reportElement key="仕入先１" x="0" y="15" width="28" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement key="仕入先２" x="28" y="15" width="51" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement key="仕入先３" x="79" y="15" width="23" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement key="仕入先４" x="102" y="15" width="35" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="納入先" x="282" y="3" width="137" height="46"/>
+					<rectangle>
+						<reportElement key="納入先・枠" x="0" y="0" width="137" height="46"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="137" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="12"/>
+						</textElement>
+						<text><![CDATA[納入先]]></text>
+					</staticText>
+					<textField>
+						<reportElement key="納入先１" x="0" y="15" width="67" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement key="納入先２" x="67" y="15" width="24" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement key="納入先３" x="91" y="15" width="46" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="作成便" x="419" y="3" width="137" height="46"/>
+					<rectangle>
+						<reportElement key="作成便・枠" x="0" y="0" width="137" height="46"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="137" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="12" isBold="false"/>
+						</textElement>
+						<text><![CDATA[作成便]]></text>
+					</staticText>
+					<textField>
+						<reportElement key="作成便１" x="0" y="15" width="107" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement key="作成便２" x="105" y="15" width="32" height="31"/>
+						<textElement verticalAlignment="Middle">
+							<font isBold="true"/>
+						</textElement>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="納入日" x="8" y="53" width="137" height="40"/>
+					<rectangle>
+						<reportElement key="納入日・枠" x="0" y="0" width="137" height="40"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="137" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="12"/>
+						</textElement>
+						<text><![CDATA[納入日]]></text>
+					</staticText>
+					<textField>
+						<reportElement key="納入日１" x="0" y="15" width="89" height="25"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<textField>
+						<reportElement key="納入日２" x="89" y="15" width="48" height="25"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="納入番号" x="145" y="53" width="137" height="40"/>
+					<rectangle>
+						<reportElement key="納入番号・枠" x="0" y="0" width="137" height="40"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="136" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="12"/>
+						</textElement>
+						<text><![CDATA[納入番号]]></text>
+					</staticText>
+					<textField>
+						<reportElement key="納入番号" x="0" y="15" width="136" height="25"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="＃" x="282" y="53" width="92" height="40"/>
+					<rectangle>
+						<reportElement key="＃・枠" x="0" y="0" width="92" height="40"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="92" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="12"/>
+						</textElement>
+						<text><![CDATA[＃]]></text>
+					</staticText>
+					<textField>
+						<reportElement key="＃" x="0" y="15" width="92" height="25"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="支給元" x="374" y="53" width="92" height="40"/>
+					<rectangle>
+						<reportElement key="支給元・枠" x="0" y="0" width="92" height="40"/>
+					</rectangle>
+					<textField>
+						<reportElement key="支給元" x="0" y="15" width="92" height="25"/>
+						<textElement verticalAlignment="Middle"/>
+						<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement x="0" y="0" width="92" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="12"/>
+						</textElement>
+						<text><![CDATA[支給元]]></text>
+					</staticText>
+				</frame>
+				<frame>
+					<reportElement x="466" y="53" width="90" height="40"/>
+					<rectangle>
+						<reportElement x="0" y="0" width="90" height="40"/>
+					</rectangle>
+					<rectangle>
+						<reportElement x="0" y="0" width="90" height="15"/>
+					</rectangle>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement x="0" y="170" width="566" height="127"/>
+				<textField>
+					<reportElement x="8" y="7" width="189" height="28"/>
+					<textElement verticalAlignment="Middle">
+						<font size="22"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="8" y="39" width="123" height="69"/>
+					<textElement verticalAlignment="Top">
+						<font size="18"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="ラベル" x="221" y="7" width="144" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[ポストＮｏ]]></text>
+				</staticText>
+				<textField>
+					<reportElement key="ポストNo" x="374" y="7" width="65" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="ラベル" x="221" y="44" width="144" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[かんばん枚数]]></text>
+				</staticText>
+				<textField>
+					<reportElement key="かんばん枚数" x="374" y="44" width="65" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="ラベル" x="221" y="80" width="144" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[チケット枚数]]></text>
+				</staticText>
+				<textField>
+					<reportElement key="チケット枚数" x="374" y="80" width="65" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.lang.String"><![CDATA[$F{field}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement key="ラベル" mode="Opaque" x="492" y="85" width="57" height="32" forecolor="#FFFFFF" backcolor="#000000"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="25" isBold="true"/>
+					</textElement>
+					<text><![CDATA[特配]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

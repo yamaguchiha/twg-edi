@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="partitionKanban" pageWidth="566" pageHeight="292" orientation="Landscape" columnWidth="566" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.6528925619834722"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="a04CodeType" class="java.lang.String">
+		<fieldDescription><![CDATA[a04CodeType]]></fieldDescription>
+	</field>
+	<field name="a04CodeTypeSize" class="java.lang.Integer">
+		<fieldDescription><![CDATA[a04CodeTypeSize]]></fieldDescription>
+	</field>
+	<field name="sheetTotal" class="java.lang.Integer">
+		<fieldDescription><![CDATA[sheetTotal]]></fieldDescription>
+	</field>
+	<field name="deliveryDate" class="java.lang.String">
+		<fieldDescription><![CDATA[deliveryDate]]></fieldDescription>
+	</field>
+	<field name="shipFromCd" class="java.lang.String">
+		<fieldDescription><![CDATA[shipFromCd]]></fieldDescription>
+	</field>
+	<field name="shipFromFactCd" class="java.lang.String">
+		<fieldDescription><![CDATA[shipFromFactCd]]></fieldDescription>
+	</field>
+	<field name="shipFromFactNm" class="java.lang.String">
+		<fieldDescription><![CDATA[shipFromFactNm]]></fieldDescription>
+	</field>
+	<field name="shipFromFactNmSize" class="java.lang.Integer">
+		<fieldDescription><![CDATA[shipFromFactNmSize]]></fieldDescription>
+	</field>
+	<field name="shipFromNm" class="java.lang.String">
+		<fieldDescription><![CDATA[shipFromNm]]></fieldDescription>
+	</field>
+	<field name="shipFromNmSize" class="java.lang.Integer">
+		<fieldDescription><![CDATA[shipFromNmSize]]></fieldDescription>
+	</field>
+	<field name="shipFromPlaceCd" class="java.lang.String">
+		<fieldDescription><![CDATA[shipFromPlaceCd]]></fieldDescription>
+	</field>
+	<field name="shipNo" class="java.lang.String">
+		<fieldDescription><![CDATA[shipNo]]></fieldDescription>
+	</field>
+	<field name="shipToCd" class="java.lang.String">
+		<fieldDescription><![CDATA[shipToCd]]></fieldDescription>
+	</field>
+	<field name="shipToFactCd" class="java.lang.String">
+		<fieldDescription><![CDATA[shipToFactCd]]></fieldDescription>
+	</field>
+	<field name="shipToFactNm" class="java.lang.String">
+		<fieldDescription><![CDATA[shipToFactNm]]></fieldDescription>
+	</field>
+	<field name="shipToRecvCd" class="java.lang.String">
+		<fieldDescription><![CDATA[shipToRecvCd]]></fieldDescription>
+	</field>
+	<field name="shipToNm" class="java.lang.String">
+		<fieldDescription><![CDATA[shipToNm]]></fieldDescription>
+	</field>
+	<field name="docRefIdAau" class="java.lang.String">
+		<fieldDescription><![CDATA[docRefIdAau]]></fieldDescription>
+	</field>
+	<field name="divisionNo" class="java.lang.String">
+		<fieldDescription><![CDATA[divisionNo]]></fieldDescription>
+	</field>
+	<field name="partitionCarMakerArea1" class="java.lang.String">
+		<fieldDescription><![CDATA[partitionCarMakerArea1]]></fieldDescription>
+	</field>
+	<field name="partitionCarMakerArea2" class="java.lang.String">
+		<fieldDescription><![CDATA[partitionCarMakerArea2]]></fieldDescription>
+	</field>
+	<field name="partitionCarMakerArea3" class="java.lang.String">
+		<fieldDescription><![CDATA[partitionCarMakerArea3]]></fieldDescription>
+	</field>
+	<field name="partitionCarMakerArea4" class="java.lang.String">
+		<fieldDescription><![CDATA[partitionCarMakerArea4]]></fieldDescription>
+	</field>
+	<field name="partitionCarMakerArea5" class="java.lang.String">
+		<fieldDescription><![CDATA[partitionCarMakerArea5]]></fieldDescription>
+	</field>
+	<field name="partitionCarMakerArea0" class="java.lang.String">
+		<fieldDescription><![CDATA[partitionCarMakerArea0]]></fieldDescription>
+	</field>
+	<field name="partitionCarMakerAreaQrImage" class="java.io.InputStream">
+		<fieldDescription><![CDATA[partitionCarMakerAreaQrImage]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="292" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="566" height="55"/>
+				<staticText>
+					<reportElement x="197" y="5" width="173" height="40"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[仕切りかんばん]]></text>
+				</staticText>
+				<frame>
+					<reportElement x="0" y="0" width="201" height="55"/>
+					<rectangle>
+						<reportElement x="8" y="5" width="193" height="40"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="10" y="7" width="30" height="10"/>
+						<textElement>
+							<font fontName="IPAゴシック" size="5"/>
+						</textElement>
+						<text><![CDATA[納入者名称]]></text>
+					</staticText>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入者名称 7文字" x="32" y="15" width="100" height="13">
+							<printWhenExpression><![CDATA[$F{shipFromNmSize} <= 14]]></printWhenExpression>
+						</reportElement>
+						<textElement verticalAlignment="Top">
+							<font fontName="IPAゴシック" size="12" pdfEncoding="UniJIS-UCS2-H"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{shipFromNm}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入者名称 10文字" x="32" y="15" width="100" height="13">
+							<printWhenExpression><![CDATA[$F{shipFromNmSize} > 14 && $F{shipFromNmSize} <= 20]]></printWhenExpression>
+						</reportElement>
+						<textElement verticalAlignment="Top">
+							<font fontName="IPAゴシック" size="10" pdfEncoding="UniJIS-UCS2-H"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{shipFromNm}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入者工区名称 5文字" x="134" y="15" width="66" height="13">
+							<printWhenExpression><![CDATA[$F{shipFromFactNmSize} <= 10]]></printWhenExpression>
+						</reportElement>
+						<textElement verticalAlignment="Top">
+							<font fontName="IPAゴシック" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{shipFromFactNm}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入者工区名称 6文字" x="134" y="15" width="66" height="13">
+							<printWhenExpression><![CDATA[$F{shipFromFactNmSize} > 10]]></printWhenExpression>
+						</reportElement>
+						<textElement verticalAlignment="Top">
+							<font fontName="IPAゴシック" size="11"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{shipFromFactNm}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入場所" x="17" y="29" width="128" height="15"/>
+						<textElement verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{shipFromPlaceCd}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement key="ラベル" x="179" y="29" width="22" height="16"/>
+						<textElement/>
+						<text><![CDATA[御中]]></text>
+					</staticText>
+				</frame>
+				<frame>
+					<reportElement x="361" y="0" width="205" height="55"/>
+					<rectangle>
+						<reportElement x="4" y="5" width="195" height="40"/>
+					</rectangle>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入先名称" x="6" y="14" width="97" height="28"/>
+						<textElement verticalAlignment="Top">
+							<font fontName="IPAゴシック" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{shipToNm}]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入先工区名称" x="118" y="14" width="81" height="28"/>
+						<textElement verticalAlignment="Top">
+							<font fontName="IPAゴシック" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{shipToFactNm}]]></textFieldExpression>
+					</textField>
+					<staticText>
+						<reportElement key="ラベル" x="178" y="29" width="22" height="16"/>
+						<textElement/>
+						<text><![CDATA[御中]]></text>
+					</staticText>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement x="0" y="63" width="566" height="107"/>
+				<frame>
+					<reportElement key="オーダーNo" x="8" y="3" width="164" height="46"/>
+					<rectangle>
+						<reportElement key="オーダーNo・枠" x="0" y="0" width="164" height="46"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="162" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="12"/>
+						</textElement>
+						<text><![CDATA[納入日]]></text>
+					</staticText>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入日２" x="104" y="15" width="60" height="31"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="12"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{shipNo} == null ? "" : $F{shipNo} + "便"]]></textFieldExpression>
+					</textField>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入日１" x="0" y="15" width="115" height="31"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="14"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{deliveryDate}.length()==8
+    ? $F{deliveryDate}.substring( 0, 4 )+"年"
+     +$F{deliveryDate}.substring( 4, 6 )+"月"
+     +$F{deliveryDate}.substring( 6, 8 ) + "日"
+   : $F{deliveryDate}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="仕入先" x="172" y="3" width="110" height="46"/>
+					<rectangle>
+						<reportElement key="仕入先・枠" x="0" y="0" width="110" height="46"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="1" y="0" width="107" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="12"/>
+						</textElement>
+						<text><![CDATA[納入番号]]></text>
+					</staticText>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入番号" x="0" y="15" width="110" height="31"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="14"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{docRefIdAau}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="納入先" x="282" y="3" width="137" height="46"/>
+					<rectangle>
+						<reportElement key="納入先・枠" x="0" y="0" width="137" height="46"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="137" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="12"/>
+						</textElement>
+						<text><![CDATA[納入者]]></text>
+					</staticText>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入先１" x="0" y="15" width="137" height="31"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="11" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[($F{shipFromCd} == null ? "" : $F{shipFromCd}) + "-" + ($F{shipFromFactCd} == null ? "" : $F{shipFromFactCd})]]></textFieldExpression>
+					</textField>
+				</frame>
+				<frame>
+					<reportElement key="作成便" x="419" y="3" width="137" height="46"/>
+					<rectangle>
+						<reportElement key="作成便・枠" x="0" y="0" width="137" height="46"/>
+					</rectangle>
+					<staticText>
+						<reportElement key="ラベル" x="0" y="0" width="137" height="16"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="12" isBold="false"/>
+						</textElement>
+						<text><![CDATA[納入先]]></text>
+					</staticText>
+					<textField isBlankWhenNull="true">
+						<reportElement key="納入先１" x="0" y="15" width="137" height="31"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font fontName="IPAゴシック" size="11" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[($F{shipToCd} == null ? "" : $F{shipToCd})
++ "-" + ($F{shipToFactCd} == null ? "" : $F{shipToFactCd})
++ (($F{shipToRecvCd} == null || $F{shipToRecvCd}.trim().isEmpty()) ? "" : "-" + $F{shipToRecvCd})]]></textFieldExpression>
+					</textField>
+				</frame>
+			</frame>
+			<frame>
+				<reportElement x="0" y="165" width="566" height="127">
+					<printWhenExpression><![CDATA[$F{partitionCarMakerArea0}.equals("01")]]></printWhenExpression>
+				</reportElement>
+				<staticText>
+					<reportElement key="ラベル" x="221" y="44" width="144" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[かんばん枚数]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement key="かんばん枚数" x="374" y="44" width="65" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{sheetTotal}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement key="発注区分・枠" x="460" y="89" width="96" height="26" backcolor="#000000">
+						<printWhenExpression><![CDATA[$F{a04CodeType} != null && new Boolean($F{a04CodeType}.trim().equals("")==false)]]></printWhenExpression>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+					</graphicElement>
+				</rectangle>
+				<textField isBlankWhenNull="true">
+					<reportElement key="発注区分名4文字" mode="Transparent" x="460" y="87" width="96" height="28" forecolor="#FFFFFF">
+						<printWhenExpression><![CDATA[new Boolean($F{a04CodeType}.trim().equals("")==false)
+&& ($F{a04CodeTypeSize} <= 8)]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="20" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{a04CodeType}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="発注区分名6文字" mode="Transparent" x="460" y="89" width="96" height="26" forecolor="#FFFFFF">
+						<printWhenExpression><![CDATA[new Boolean($F{a04CodeType}.trim().equals("")==false)
+&& ($F{a04CodeTypeSize} > 8)]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{a04CodeType}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="127" width="566" height="165">
+					<printWhenExpression><![CDATA[$F{partitionCarMakerArea0}.equals("02")]]></printWhenExpression>
+				</reportElement>
+				<staticText>
+					<reportElement key="ラベル" x="320" y="54" width="144" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="22" isBold="true"/>
+					</textElement>
+					<text><![CDATA[かんばん枚数]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement key="かんばん枚数" x="473" y="54" width="65" height="28"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="22" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{sheetTotal}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement key="発注区分・枠" x="460" y="125" width="96" height="26" backcolor="#000000">
+						<printWhenExpression><![CDATA[$F{a04CodeType} != null && new Boolean($F{a04CodeType}.trim().equals("")==false)]]></printWhenExpression>
+					</reportElement>
+					<graphicElement>
+						<pen lineWidth="0.0" lineStyle="Solid"/>
+					</graphicElement>
+				</rectangle>
+				<textField isBlankWhenNull="true">
+					<reportElement key="発注区分名4文字" mode="Transparent" x="460" y="123" width="96" height="28" forecolor="#FFFFFF">
+						<printWhenExpression><![CDATA[new Boolean($F{a04CodeType}.trim().equals("")==false)
+&& ($F{a04CodeTypeSize} <= 8)]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="20" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{a04CodeType}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="発注区分名6文字" mode="Transparent" x="460" y="125" width="96" height="26" forecolor="#FFFFFF">
+						<printWhenExpression><![CDATA[new Boolean($F{a04CodeType}.trim().equals("")==false)
+&& ($F{a04CodeTypeSize} > 8)]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="14" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{a04CodeType}]]></textFieldExpression>
+				</textField>
+				<rectangle>
+					<reportElement key="納入先・枠" x="10" y="19" width="272" height="95"/>
+				</rectangle>
+				<textField isBlankWhenNull="true">
+					<reportElement key="仕切りカーメーカーエリア（１）-1" x="10" y="19" width="272" height="19"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{partitionCarMakerArea1} == null ? "" : $F{partitionCarMakerArea1})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="仕切りカーメーカーエリア（１）-2" x="10" y="38" width="272" height="19"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{partitionCarMakerArea2} == null ? "" : $F{partitionCarMakerArea2})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="仕切りカーメーカーエリア（１）-3" x="10" y="57" width="272" height="19" isRemoveLineWhenBlank="true"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{partitionCarMakerArea3} == null ? "" : $F{partitionCarMakerArea3})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="仕切りカーメーカーエリア（１）-4" x="10" y="76" width="272" height="19" isRemoveLineWhenBlank="true"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{partitionCarMakerArea4} == null ? "" : $F{partitionCarMakerArea4})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement key="仕切りカーメーカーエリア（１）-5" x="10" y="95" width="272" height="19" isRemoveLineWhenBlank="true"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font fontName="IPAゴシック" size="11" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{partitionCarMakerArea5} == null ? "" : $F{partitionCarMakerArea5})]]></textFieldExpression>
+				</textField>
+				<image>
+					<reportElement key="仕切りカーメーカーエリア（１）-6" mode="Opaque" x="364" y="90" width="75" height="75"/>
+					<imageExpression><![CDATA[$F{partitionCarMakerAreaQrImage}]]></imageExpression>
+				</image>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

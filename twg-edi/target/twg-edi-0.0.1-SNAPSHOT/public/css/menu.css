@@ -1,0 +1,475 @@
+/***********************************
+
+************************************/
+.banner{
+	background-image:url("../images/sprite.gif");
+	background-position : left -87px ;
+	background-repeat:no-repeat;
+	width:1320px;
+	height:80px;
+}
+
+a:link{
+  color: #39399D;
+  text-decoration: none;
+  }
+a:visited{
+  color: #26266A;
+  text-decoration: none;
+  }
+a:hover,a:active{
+  color: #1939BD;
+  text-decoration: underline;
+  /*background: none;*/
+  }
+
+.menu_title {
+	height: 25px;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+	margin: 0px;
+	padding: 2px 0;
+	background: #003399;
+	border-left: #80838F 1px solid;
+	border-right: #80838F 1px solid;
+	border-top: #80838F 1px solid;
+	line-height: 22px;
+}
+
+.menu_title_info {
+	height:30px;
+	color:#000000;
+	font-size:18px;
+	font-weight:bold;
+	margin:0px 0px 0px 10px;
+	padding:0px 5px;
+	border-left: #464646 6px solid;
+	border-bottom: #000000 1px solid;
+/*	border-left: #0A4477 7px solid; */
+/*	border-bottom: #000000 3px solid; */
+	line-height: 22px;
+}
+
+/* メニュータイトルの垂直方向の調整用 */
+span#menu_title {
+  vertical-align: 5px;
+}
+
+#info_icon {
+	background-image: url("../images/sprite.gif");
+/*	background-position: right -165px; */
+	background-position: right -164px;
+	background-repeat: no-repeat;
+	width: 25px;
+	height: 25px;
+	border:0;
+	display: inline-block;
+}
+
+#info_new_icon {
+	background-image: url("../images/new.gif");
+	width: 24px;
+	height: 11px;
+	background-repeat: no-repeat;
+	border:0;
+	display: inline-block;
+}
+
+.menu_title_help {
+	height:25px;
+	color:#000000;
+	font-size:18px;
+	font-weight:bold;
+	margin:0px 0px 0px 10px;
+	padding:0px 5px;
+	border-left: #464646 6px solid;
+	border-bottom: #000000 1px solid;
+/*	border-left: #BB0C15 7px solid; */
+/*	border-bottom: #000000 3px solid; */
+	line-height: 22px;
+}
+
+
+#help_icon {
+	background-image: url("../images/sprite.gif");
+	background-position: right -140px;
+	background-repeat: no-repeat;
+	width: 25px;
+	height: 25px;
+	border:0;
+	display: inline-block;
+}
+
+
+.menu_title_msg {
+	height:25px;
+	color:#000000;
+	font-size:18px;
+	font-weight:bold;
+	margin:0px 0px 0px 10px;
+	padding:0px 5px 1px;
+	border-left: #464646 6px solid;
+	border-bottom: #000000 1px solid;
+/*	border-left: #FE5216 7px solid; */
+/*	border-bottom: #000000 3px solid; */
+	line-height: 22px;
+}
+
+
+#info_msg {
+	background-image: url("../images/sprite.gif");
+	background-position: right bottom;
+	background-repeat: no-repeat;
+	width: 25px;
+	height: 22px;
+	margin: 0 0 2px 0;
+	border:0;
+	display: inline-block;
+}
+
+.menu_box {
+	background:#ffffff;
+	margin:0px 0px 10px 0px;
+	padding:5px 8px;
+	border-left: #80838F 1px solid;
+	border-right: #80838F 1px solid;
+	border-bottom: #80838F 1px solid;
+	line-height: 18px;
+}
+
+.menu_box_info ul {
+	margin: 5px;
+	padding: 5px;
+	text-
+}
+
+.menu_box_info li {
+	margin: 0 0 0 15px;
+	padding:5px 0 5px 0;
+	border-bottom: #80838F 1px solid;
+	font-size: 16px;
+	list-style-type: none;
+}
+
+.menu_box_info p {
+	margin: 0 0 0 15px;
+	padding: 5px 0 5px 0;
+	font-size: 16px;
+}
+
+.menu_box_msg ul {
+	margin: 5px;
+	padding: 5px;
+}
+
+/*
+div ul .msg_hed {
+	margin: 0 0 0 15px;
+	padding:5px 0 5px 0;
+	font-size: 12pt;
+	list-style-type: none;
+	font-weight: bold;
+}
+*/
+
+div ul .msg_data {
+	margin: 0 0 0 18px;
+/*	padding:5px 0 5px 0; */
+	font-size: 11pt;
+	list-style-type: none;
+}
+
+/*
+.menu_form {
+	height: 250px;
+}
+*/
+
+.menu_left {
+	float:				left;
+}
+.menu_right{
+	float:				right;
+}
+
+.menu_list {
+	height: 80px;
+	overflow: auto;
+}
+
+.menu_list_L {
+	height: 100px;
+	overflow: auto;
+}
+
+.menu_list_LL {
+	height: 150px;
+	overflow: auto;
+}
+
+ul.menu_ul{
+  margin: 0px;
+  padding: 5px 15px;
+  list-style-type: none;
+  font-size: 120%;
+}
+
+ul.menu_ul li {
+  margin: 3px 0;
+  padding: 2px 0px;
+}
+
+span#menu_list {
+  margin-left: -17px;
+}
+
+a#menu_link {
+  color: white;
+/*  font-size: 14px; */
+  font-size: 14pt;
+  font-weight: bold;
+  text-decoration: none;
+}
+a#menu_link:hover, a#menu_link:active {
+  text-decoration: underline;
+  background: none;
+}
+
+.menu_alert {
+	margin-bottom: 10px;
+}
+.menu_alert p {
+	font-size: 16px;
+	font-weight: bold;
+	color: red;
+	padding: 15px 0 15px 0;
+	background-color: ffffcc;
+	text-align: center;
+}
+
+/*
+  ガイド・ヘルプ用のボタン
+ */
+.btn-flat {
+  font-size: 14px;
+  display: inline-block;
+  padding: 0px 2px;
+  text-decoration: none;
+  border-radius: 3px;
+  transition: .4s;
+  line-height: 18px;
+  height: 18px;
+  width: 68px;
+  text-align: center;
+}
+
+/* ガイド（発注管理メニュー） */
+.btn-flat-guide-top {
+  background: #dae3f3;
+  border: solid 1px #67c5ff;
+}
+
+.btn-flat-guide-top:hover {
+  background: #67c5ff;
+  color: white;
+  text-decoration: none;
+}
+
+/* ガイド（発注管理各業務画面） */
+.btn-flat-guide {
+  background: #dae3f3;
+  border: solid 1px #1995ad;
+}
+
+.btn-flat-guide:hover {
+  background: #1995ad;
+  color: white;
+  text-decoration: none;
+}
+
+/* ヘルプ（共通） */
+.btn-flat-help {
+  background: #efcaf2;
+  border: solid 1px #ef789e;
+}
+
+.btn-flat-help:hover {
+  background: #ef789e;
+  color: white;
+  text-decoration: none;
+}
+
+/*
+  TOP画面のツールチップ表示用
+ */
+div.menu_box_banner {
+	display: inline-block;
+	margin: 0 0 0 15px;
+	padding: 5px 0 5px 0;
+	/*font-size: 16px;*/
+}
+
+a.tooltip_top {
+	/*padding:2px 3px;*/
+}
+
+
+a.tooltip_top img {
+	display:inline-block;
+	/*width: 330px;
+	height: 50px;*/
+}
+
+a.tooltip_top span {
+	display:none;
+}
+
+a.tooltip_top:hover {
+    position: relative;
+}
+
+a.tooltip_top:hover span {
+	display:inline-block;
+	position:absolute;
+    /*top: 50px;*/
+    margin-top: 50px;
+    left: 0px;
+    /*width: 318px;*/
+    padding: 5px;
+    background-color: #ffff96;
+    color: #000000;
+    border:solid 1px #555;
+    text-align: left;
+    z-index: 100;
+    text-decoration: none;
+}
+/***********************************
+
+************************************/
+.user {
+/*	color:       #16288B; */
+	color:       #ffffff;
+	font-size:   9pt;
+	font-weight: 700;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+.timeStamp {
+/*	color:       #16288B; */
+	color:       #ffffff;
+	font-size:   8pt;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+.graybold {
+	color:       #363636;
+	font-size:   9pt;
+	font-weight: 700;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+
+#mcategory {
+	color:#666666;
+	font-size : 11pt;
+    font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+#border {
+	color:#666666;
+	font-size : 11pt;
+    font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+#title {
+	color:       #16288B;
+	font-size:   11pt;
+	font-weight: 700;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+#tabsJ{
+	margin:0 0 2px 0;
+	float:left;
+	width:100%;
+	background:#F9F9F9;
+	font-size:100%;
+	line-height:normal;
+}
+
+#tabsJ ul {
+	margin:0;
+	padding:2px 10px 0px 0px;
+	list-style:none;
+}
+
+#tabsJ li {
+	display:inline;
+	margin:0;
+	padding:0;
+}
+
+#tabsJ a {
+	float:left;
+	margin:0px;
+	text-decoration:none;
+}
+
+#tabsJ a span {
+	float:left;
+	display:block;
+	background:url("../images/menu_bg.gif") no-repeat right top;
+	padding:6px 13px 8px 13px;
+	color:#FFFFFF;
+	font-size:123%;
+	border-right:1px solid #000000;
+}
+
+#tabsJ div {
+	margin: 0 0;
+	padding:6px 8px 6px 0;
+/*	color:#000000; */
+	color:#FFFFFF;
+	font-size:123%;
+	background:url("../images/menu_bg.gif") no-repeat right top;
+}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+#tabsJ a span {float:none;}
+/* End IE5-Mac hack */
+#tabsJ a:hover span {
+/*	color:#FFFF22; */
+	color:#FFFFFF;
+}
+
+#tabsJ a:hover {
+	background-position:0% -42px;
+}
+
+#tabsJ a:hover span {
+	background-position:100% -42px;
+}
+
+#tabsJ a.on{
+	background-position:0% -42px;
+}
+#tabsJ a.on span{
+	float:left;
+	display:block;
+	background:url("../images/sprite.gif") no-repeat right top;
+	padding:6px 13px 8px 13px;
+/*	color:#FFFF22; */
+	color:#50DDFF;
+	background-position:100% -42px;
+}
+#tabsJ a.on {
+	background-position:0% -42px;
+}
+
+/*
+ * 出荷場セキュリティ Link非活性時Style
+ */
+a.disabled{
+    color:#c0c0c0;
+}

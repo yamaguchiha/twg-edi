@@ -1,0 +1,458 @@
+/*
+ INPUT フィールドのサイズ指定
+ INPUT ボタンのサイズ指定
+ テーブルセルのサイズ指定
+
+ 数が多いため一旦こちらに追加
+ 調整完了後 main.cssへ
+*/
+
+/*
+ TODO フォントはMS ゴシック統一なのでとりあえず一括で登録
+      不都合があれば個別に設定する
+*/
+
+SELECT {
+    font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+INPUT {
+    font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/***********************************
+  テキスト入力用
+************************************/
+
+
+/* 企業コード */
+INPUT.field_mainPartyAbbrCode_css {
+	width:6em;
+}
+
+/* ajax用企業コード */
+INPUT.field_selectPartyAbbrCode_css {
+	width:6em;
+	ime-mode:disabled;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/* 工場コード */
+INPUT.field_mainPlaceCode_css {
+	width:3.5em;
+}
+
+/* ajax用工場コード */
+INPUT.field_selectPlaceAbbrCode_css {
+	width:3.5em;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/* 企業名 */
+INPUT.field_partyName_css {
+	width:11em;
+}
+
+/* ajax用企業名 */
+INPUT.field_selectPartyName_css {
+	width:11em;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/* ajax用企業名カナ */
+INPUT.field_selectPartyKanaName_css {
+	width:11em;
+}
+
+/* 拠点名 */
+INPUT.field_placeName_css {
+	width:7em;
+}
+
+/* 出荷場 */
+INPUT.field_shipFromSendCode_css {
+	width:3.5em;
+}
+
+/* 納品書番号 */
+INPUT.field_slipNoUnion_css {
+	width:5em;
+}
+
+/* 日付 */
+INPUT.field_ymd_css {
+	width:6em;
+}
+
+/* 便 */
+INPUT.field_shipmentNo_css {
+	text-align:right;
+	width:2em;
+}
+
+/* 品番 */
+INPUT.field_itemCode_css {
+	width:15em;
+}
+
+/* ajax用品番 */
+INPUT.field_selectViewerItemCode_css {
+	width:15em;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/* 品名 */
+INPUT.field_itemName_css {
+	width:18em;
+}
+
+/* 受入 */
+INPUT.field_shipToReciveCode_css {
+	width:3.5em;
+}
+
+/* 背番号 */
+INPUT.field_itemAbbrName_css {
+	width:6em;
+}
+
+/* ajax用背番号 */
+INPUT.field_selectItemAbbrName_css {
+	width:6em;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/* 所番地 */
+INPUT.field_storeAddress_css {
+	width:6em;
+}
+
+/* ajax用所番地 */
+INPUT.field_selectStoreAddress_css {
+	width:6em;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/* 部品取扱識別 */
+INPUT.field_itemIdentifier_css {
+	width:6em;
+}
+
+/* 部品取扱識別 */
+INPUT.field_selectItemIdentifier_css {
+	width:6em;
+	font-family: "ＭＳ ゴシック" ,sans-serif;
+}
+
+/* 年月 */
+INPUT.field_period_css {
+	width:4.5em;
+	ime-mode:disabled;
+}
+
+/* 収容数 */
+INPUT.field_perPackageQuantity_css {
+	width:5em;
+	text-align:right;
+	ime-mode:disabled;
+}
+
+/* 箱種 */
+INPUT.field_packageType_css {
+	width:5em;
+}
+
+/* 数量単位 */
+INPUT.field_quantityUnitCode_css {
+	width:5em;
+}
+
+/* 納入サイクル */
+INPUT.field_itemM03_css {
+	width:4.5em;
+}
+
+/* 後工程 */
+INPUT.field_itemP05_css {
+	width:46em;
+}
+
+/* 枝番 */
+INPUT.field_itemP08_css {
+	width: 5em;
+}
+
+/* 社内用企業コード */
+INPUT.field_partyAbbrCode_css {
+	width:11em;
+}
+
+/* TDBコード */
+INPUT.field_tdbPartyCode_css {
+	width:11em;
+}
+
+INPUT.24byte_text {
+	width:12em;
+}
+
+/***********************************
+	ボタン定義
+************************************/
+INPUT.btn {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+/*
+	position:relative;
+	left:400px;
+	top:100px;
+*/
+}
+
+INPUT.btn_size2 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:3.5em;
+}
+
+INPUT.btn_size3 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:4.5em;
+}
+
+INPUT.btn_size4 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:5.5em;
+}
+
+INPUT.btn_size5 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:6.5em;
+}
+
+INPUT.btn_size6 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:7.5em;
+}
+
+INPUT.btn_size7 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:8.5em;
+}
+
+INPUT.btn_size8 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:9.5em;
+}
+
+INPUT.btn_size9 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:10.5em;
+}
+
+INPUT.btn_size10 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:11.5em;
+}
+
+INPUT.btn_size11 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:12.5em;
+}
+
+INPUT.btn_size12 {
+	padding-left:3px;
+	padding-right:3px;
+	padding-top:0px;
+	padding-bottom:0px;
+	width:13.5em;
+}
+
+
+/***********************************
+  テーブルのセル幅
+************************************/
+/* 詳細リンク */
+TH.detail_link_cell {
+	width:1.4em;
+}
+
+/* 編集リンク */
+TH.edit_link_cell {
+	width:1.4em;
+}
+
+/* EDI状況 */
+TH.edi_status_cell {
+	width:2.3em;
+}
+
+/* チェックボックス */
+TH.checkbox_cell {
+	width:1.5em;
+}
+
+/* 各文字数幅（全角は×２）*/
+
+TH.2byte_cell {
+	width:1.1em;
+}
+
+TH.3byte_cell {
+	width:1.6em;
+}
+
+TH.4byte_cell {
+	width:2.1em;
+}
+
+TH.5byte_cell {
+	width:2.6em;
+}
+
+TH.6byte_cell {
+	width:3.1em;
+}
+
+TH.7byte_cell {
+	width:3.6em;
+}
+
+TH.8byte_cell {
+	width:4.1em;
+}
+
+TH.10byte_cell {
+	width:5.1em;
+}
+
+TH.12byte_cell {
+	width:6.1em;
+}
+
+TH.13byte_cell {
+	width:6.6em;
+}
+
+TH.14byte_cell {
+	width:7.1em;
+}
+
+TH.15byte_cell {
+	width:7.6em;
+}
+
+TH.16byte_cell {
+	width:8.1em;
+}
+
+TH.18byte_cell {
+	width:9.1em;
+}
+
+TH.20byte_cell {
+	width:10.1em;
+}
+
+TH.25byte_cell {
+	width:12.6em;
+}
+
+TH.28byte_cell {
+	width:14.1em;
+}
+
+TH.30byte_cell {
+	width:15.1em;
+}
+
+TH.33byte_cell {
+	width:16.6em;
+}
+
+TH.35byte_cell {
+	width:17.6em;
+}
+
+TH.40byte_cell {
+	width:20.6em;
+}
+
+TH.45byte_cell {
+	width:22.6em;
+}
+
+TH.50byte_cell {
+	width:25.6em;
+}
+
+/* ＣＳＶ取得ボタン */
+TH.btn_getcsv_cell {
+	width:4.2em;
+}
+
+/* 印刷ボタン（大）*/
+TH.btn_print_long_cell {
+	width:4.8em;
+}
+
+TH.btn_print_cell {
+	width:4.8em;
+}
+
+/* 更新ボタン */
+TH.btn_update_cell {
+	width:4.8em;
+}
+
+/* 削除ボタン */
+TH.btn_delete_cell {
+	width:4.8em;
+}
+
+/* キャンセルボタン */
+TH.btn_cancel_cell {
+	width:5em;
+}
+
+/* Tooltip */
+
+ 利用側タグ
+ <a href="#" class="tooltip" style="a:link { color: #000000;}">表示<span>ToolTip内容</span></a>
+*/
+a:hover {background:#ffffff; text-decoration:none;}
+a.tooltip span {display:none; padding:2px 3px; margin-left:8px; width:130px;}
+a.tooltip:hover span{display:inline; position:absolute; background:#ffffaa; border:1px solid #cccccc; color:#6c6c6c;}
+
+

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+  <classPathEntry location="C:\workspaces\workspace_202112_edi\twg-edi\etc\lib\postgresql-42.3.1.jar"/>
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:postgresql://localhost:5433/EdiDB"
+                    driverClass="org.postgresql.Driver"
+                    password="ediuser"
+                    userId="ediuser" />
+    <javaModelGenerator
+        targetPackage="jp.or.twg.twg_edi.common.entity"
+        targetProject="twg-edi/src/main/java/" >
+    </javaModelGenerator>
+    <sqlMapGenerator
+        targetPackage="jp.or.twg.twg_edi.common.mapper"
+        targetProject="twg-edi/src/main/resources/" >
+    </sqlMapGenerator>
+    <javaClientGenerator
+        targetPackage="jp.or.twg.twg_edi.common.mapper"
+        targetProject="twg-edi/src/main/java/"
+        type="XMLMAPPER">
+    </javaClientGenerator>
+
+    <table schema="public" tableName="%" >
+    </table>
+  </context>
+</generatorConfiguration>

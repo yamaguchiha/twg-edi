@@ -1,0 +1,129 @@
+<script type="text/javascript">
+  var setSelectPlaceData = "";
+
+  /*
+   * 指定の検索条件でのAjax問い合わせ結果で更新する。
+   */
+  function getSearchPlaceList() {
+    $("#selectList tr:gt(0)").remove();
+    var param = {
+      srhSelectPartyCode : $("#srhSelectPartyCode").val(),
+      srhSelectPartyAbbrCode : $("#srhSelectPartyAbbrCode").val(),
+      srhSelectPartyName : $("#srhSelectPartyName").val(),
+    };
+    jQuery.ajax ({
+      url: "../common/ajaxPartyPlaceList",
+      type : "POST",
+      dataType : "json",
+      data : JSON.stringify(param),
+      contentType : "application/json",
+      cache : false,
+      success: function(placeExtList) {
+        updateSearchPlaceResult(placeExtList);
+      }
+    });
+  }
+
+  /*
+   * 指定の検索条件でのAjax問い合わせ結果で更新する。
+   * searchResult 検索結果のデータ
+   */
+  function updateSearchPlaceResult(searchResult) {
+    $("#selectList tbody:empty").remove();
+    var row = "";
+    for (key in searchResult) {
+      var rowData = searchResult[key];
+      row += '<tbody><tr>';
+      row += '<td>' + rowData['partyCode'] + '</td>';
+      row += '<td>' + rowData['partyAbbrCode'] + '</td>';
+      row += '<td>' + rowData['placeCdInfo'] + '</td>';
+      row += '<td>' + rowData['partyName'] + '</td>';
+      row += '<td>' + rowData['placeName'] + '</td>';
+      row += '<td align="center"><input type="button" value="選択" onclick="setPartyPlaceCode(\''+rowData['partyCode']+'\', \''+rowData['placeCdInfo']+'\')"></td>';
+      row += '</tr></tbody>';
+    }
+    $("#selectList thead:first").after(row);
+    alternateRowColor("placeList");
+  }
+
+  /*
+   * キーコードイベントチェック
+   * event イベント
+   */
+  function checkEnter(event) {
+    if (keyCode(event) == 13) {
+      getSearchPlaceList();
+    }
+  }
+
+  /*
+   * キーコード取得
+   * event イベント
+   */
+  function keyCode(event) {
+    if (document.all) {
+      return  event.keyCode;
+    }
+
+    if (document.getElementById) {
+      return (event.keyCode) ? event.keyCode: event.charCode;
+    }
+
+    if (document.layers) {
+      return event.which;
+    }
+  }
+
+  /*
+   * 検索内容リセットする
+   */
+  function resetList() {
+    $("#srhSelectPartyCode").val("");
+    $("#srhSelectPartyAbbrCode").val("");
+    $("#srhSelectPartyName").val("");
+    $("#srhSelectPartyKanaName").val("");
+    getSearchPlaceList();
+  }
+</script>
+
+  <div id="placeSelectList" style="display:none;">
+    <table class="caption" width="100%">
+      <TBODY>
+        <tr>
+          <th>企業コード</th>
+          <td>
+            <input type="text" name="srhSelectPartyCode" id="srhSelectPartyCode" class="field_selectPartyAbbrCode_css" maxlength="$field.selectPartyAbbrCode.maxLength" onkeydown="checkEnter(event)" value="" >
+          </td>
+          <th>社内用企業コード</th>
+          <td>
+            <input type="text" name="srhSelectPartyAbbrCode" id="srhSelectPartyAbbrCode" class="field_selectPartyAbbrCode_css" maxlength="$field.selectPartyAbbrCode.maxLength" onkeydown="checkEnter(event)" value="" >
+          </td>
+          <th>企業名</th>
+          <td>
+            <input type="text" name="srhSelectPartyName" id="srhSelectPartyName" class="field_selectPartyName_css" maxlength="$field.selectPartyName.maxLength" onkeydown="checkEnter(event)" value="" >
+          </td>
+          <td align="center">
+            <input type="button" class="btn" value="検索" onClick="getSearchPlaceList();" >
+            <input type="button" class="btn" value="リセット" onClick="resetList();" >
+          </td>
+        </tr>
+      </TBODY>
+    </table>
+    <br>
+    <div style="overflow:scroll; overflow-x:auto; height:240px;">
+      <table class="list placeList" width="100%" id="selectList" style="table-layout:fixed;">
+        <thead>
+          <tr>
+            <th>企業コード</th>
+            <th>社内用企業コード</th>
+            <th>事業所工区コード</th>
+            <th>企業名</th>
+            <th>事業所名</th>
+            <th style="width:55px;">選択</th>
+          </tr>
+        </thead>
+        <TBODY>
+        </TBODY>
+      </table>
+    </div>
+  </div>

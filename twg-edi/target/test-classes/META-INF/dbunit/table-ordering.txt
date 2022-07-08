@@ -1,5 +1,0 @@
-teacher
-party
-place
-party_setting
-place_setting

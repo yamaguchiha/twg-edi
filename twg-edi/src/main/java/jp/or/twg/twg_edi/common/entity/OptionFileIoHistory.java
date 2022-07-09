@@ -1,7 +1,10 @@
 package jp.or.twg.twg_edi.common.entity;
 
 import java.util.Date;
+
 import javax.annotation.Generated;
+
+import jp.or.twg.twg_edi.common.difinition.OptionFileIoType;
 
 public class OptionFileIoHistory {
 
@@ -185,4 +188,14 @@ public class OptionFileIoHistory {
 	public void setTsLastModifiedUserPlaceId(Long tsLastModifiedUserPlaceId) {
 		this.tsLastModifiedUserPlaceId = tsLastModifiedUserPlaceId;
 	}
+
+    /**
+     * ファイル入出力種別取得
+     *
+     * @return ファイル入出力種別
+     */
+    public OptionFileIoType getFileIoType() {
+    	return OptionFileIoType.getType(getFileIoTypeId());
+    }
+
 }

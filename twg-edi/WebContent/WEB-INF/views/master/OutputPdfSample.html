@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+  <!-- <header th:replace="fragments/header::common_header"></header> -->
+  <!-- コンテンツの表示 -->
+  <div layout:fragment="content"class="container-fluid">
+
+
+<div class="subtitle category_MA">
+  <div class="subtitle_text">PDF発行サンプル</div>
+</div>
+<form th:action="@{/outputPdf/list}" th:method="POST"  novalidate>
+
+<table class="list" width="100%">
+<th:block th:with="list=${list}">
+  <div th:if="${list.size() == 0}">
+  <table class="list">
+    <tbody>
+      <tr>
+        <td>検索条件に該当するユーザーはありません</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div th:if="${list.size() != 0}">
+  <table class="list">
+    <thead>
+      <tr>
+        <th class="14byte_cell">種別</th>
+        <th class="25byte_cell">開始日時</th>
+        <th class="25byte_cell">終了日時</th>
+        <th class="15byte_cell">所要時間</th>
+        <th class="10byte_cell">件数</th>
+        <th width="*"></th>
+        <th class="btn_print_long_cell">出力</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="optionFileIoHistory : ${list}" th:object="${optionFileIoHistory}">
+        <td th:text="*{fileIoTypeId}"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td th:text="*{dataSize}"></td>
+        <td></td>
+        <td align="center"><input type="button" name="SUBMIT" th:attr="onClick='location.href=\'' + @{/outputPdf/output/{oid}(oid=*{oid})} + '\''" value="発行"></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</th:block>
+
+</table>
+</form>
+
+  </div>
+</BODY>
+</HTML>

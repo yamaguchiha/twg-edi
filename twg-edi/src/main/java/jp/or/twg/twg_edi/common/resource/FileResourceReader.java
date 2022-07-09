@@ -107,4 +107,13 @@ public class FileResourceReader extends ResourceReader {
 		return getString("content.excel");
 	}
 
+	/**
+	 * キャラセット(UTF8)取得
+	 *
+	 * @return キャラセット(UTF8)
+	 */
+	public String getCharsetUTF8() {
+		return getString("charset.UTF8");
+	}
+
 }

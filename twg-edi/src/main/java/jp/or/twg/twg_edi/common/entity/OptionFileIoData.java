@@ -1,6 +1,7 @@
 package jp.or.twg.twg_edi.common.entity;
 
 import java.util.Date;
+
 import javax.annotation.Generated;
 
 public class OptionFileIoData {
@@ -137,4 +138,5 @@ public class OptionFileIoData {
 	public void setTsLastModifiedUserPlaceId(Long tsLastModifiedUserPlaceId) {
 		this.tsLastModifiedUserPlaceId = tsLastModifiedUserPlaceId;
 	}
+
 }

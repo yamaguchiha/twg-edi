@@ -24,35 +24,6 @@ import jp.or.twg.twg_edi.common.utility.DateUtility;
 public class KanbanSlimController extends BaseController {
 
 	/**
-	 * かんばん納入指示Slim 初期画面表示
-	 *
-	 * @param model
-	 * @return
-	 */
-	@GetMapping({"/inboundSimpleKanbanDeljit"})
-    public String inboundSimpleKanbanDeljitInit(Model model) {
-    	// セッションにログイン情報を格納？
-    	// SCMからの遷移方法を聞いてから検討する
-    	Object obj = RequestContextHolder.getRequestAttributes().getAttribute("session", RequestAttributes.SCOPE_SESSION);
-    	if(obj instanceof UserSession) {
-            model.addAttribute("loginInfo", (UserSession)obj);
-            model.addAttribute("currentTimeStamp", DateUtility.getStringFromDate(new Date(), "yyyy/MM/dd HH:mm:ss"));
-            model.addAttribute("pageTitle", "かんばん納入指示Slim");
-            model.addAttribute("messages", getMessages());
-            model.addAttribute("errors", getErrors());
-            model.addAttribute("warnings", getWarnings());
-    	} else {
-    		// SCMのログイン画面に戻す。
-    		return "redirect:/timeout";
-    	}
-
-    	// 必要な初期処理を記述
-
-
-        return "kanbanslim/inboundSimpleKanbanDeljit";
-    }
-
-	/**
 	 * かんばん読取枚数調整 初期画面
 	 * @param model
 	 * @return

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.or.twg.twg_edi.kanbanslim.mapper.KanbanSlimDeljitMapper">
+
+  <!-- resultMap -->
+  <resultMap id="slectItemList" type="jp.or.twg.twg_edi.common.entity.Item">
+    <id column="oid" property="oid"/>
+    <result column="item_id_in"            property="itemIdIn"/>
+    <result column="item_e18"              property="itemE18"/>
+    <result column="place_by_oid"          property="placeByOid"/>
+    <result column="place_se_oid"          property="placeSeOid"/>
+    <result column="place_ob_oid"          property="placeObOid"/>
+    <result column="place_sf_oid"          property="placeSfOid"/>
+    <result column="place_st_oid"          property="placeStOid"/>
+    <result column="place_of_loading_id"   property="placeOfLoadingId"/>
+    <result column="place_of_loading_name" property="placeOfLoadingName"/>
+    <result column="place_of_discharge_id" property="placeOfDischargeId"/>
+    <result column="materials_type"        property="materialsType"/>
+    <association property="party" javaType="jp.or.twg.twg_edi.common.entity.Party">
+      <result column="tdb_party_code"   property="tdbPartyCode"/>
+    </association>
+    <association property="place" javaType="jp.or.twg.twg_edi.common.entity.Place">
+      <result column="tdb_place_code"   property="tdbPlaceCode"/>
+    </association>
+    <association property="optionOrderTargetManager" javaType="jp.or.twg.twg_edi.common.entity.OptionOrderTargetManager">
+      <result column="last_processing_date" property="lastProcessingDate"/>
+      <result column="last_delivery_date"   property="lastDeliveryDate"/>
+      <result column="last_shipment_no"     property="lastShipmentNo"/>
+    </association>
+  </resultMap>
+
+  <!-- 品番選択のSQL -->
+  <select id="getSelectItemList" resultMap="slectItemList">
+      select ITEM.OID as oid
+           , PARTY.TDB_PARTY_CODE as tdb_party_code
+           , PLACE.TDB_PLACE_CODE as tdb_place_code
+           , ITEM.ITEM_ID_IN as item_id_in
+           , ITEM.ITEM_E18 as item_e18
+           , ITEM.PLACE_BY_OID as place_by_oid
+           , ITEM.PLACE_SE_OID as place_se_oid
+           , ITEM.PLACE_OB_OID as place_ob_oid
+           , ITEM.PLACE_SF_OID as place_sf_oid
+           , ITEM.PLACE_ST_OID as place_st_oid
+           , ITEM.PLACE_OF_LOADING_ID as place_of_loading_id
+           , ITEM.PLACE_OF_LOADING_NAME as place_of_loading_name
+           , ITEM.PLACE_OF_DISCHARGE_ID as place_of_discharge_id
+           , ITEM.MATERIALS_TYPE as materials_type
+           , OPTION_ORDER_TARGET_MANAGER.LAST_PROCESSING_DATE as last_processing_date
+           , OPTION_ORDER_TARGET_MANAGER.LAST_DELIVERY_DATE as last_delivery_date
+           , OPTION_ORDER_TARGET_MANAGER.LAST_SHIPMENT_NO as last_shipment_no
+      from ITEM,
+           PLACE,
+           PARTY,
+           OPTION_ORDER_TARGET_MANAGER
+      where ITEM.PLACE_SF_OID=PLACE.OID
+       and PLACE.PARTY_OID=PARTY.OID
+       and ITEM.PLACE_BY_OID=#{placeByOid}
+      <if test="shipToReciveCode != null">
+       and ITEM.PLACE_OF_DISCHARGE_ID=#{shipToReciveCode}
+      </if>
+      <if test="materialsTypeCode != null">
+       and ITEM.MATERIALS_TYPE=#{materialsTypeCode}
+      </if>
+       and ITEM.OID=OPTION_ORDER_TARGET_MANAGER.ITEM_PART_OID
+       and OPTION_ORDER_TARGET_MANAGER.ORDER_TARGET_TYPE=1
+      order by ITEM.PLACE_OF_DISCHARGE_ID asc
+             , PARTY.TDB_PARTY_CODE asc
+             , PLACE.TDB_PLACE_CODE asc
+             , ITEM.PLACE_OF_LOADING_ID asc
+             , ITEM.ITEM_ID_IN asc
+  </select>
+
+</mapper>

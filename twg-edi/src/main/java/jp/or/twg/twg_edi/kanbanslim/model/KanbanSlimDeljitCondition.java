@@ -18,4 +18,6 @@ public class KanbanSlimDeljitCondition {
 	private String materialsTypeCode;
 
 	private String shipToReciveCode;
+
+	private Long pageSize;
 }

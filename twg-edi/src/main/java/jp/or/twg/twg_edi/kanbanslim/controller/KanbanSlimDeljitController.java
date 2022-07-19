@@ -14,13 +14,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import jp.or.twg.twg_edi.common.controller.BaseController;
 import jp.or.twg.twg_edi.common.difinition.RoleType;
 import jp.or.twg.twg_edi.common.model.UserSession;
 import jp.or.twg.twg_edi.common.service.SystemConfigService;
+import jp.or.twg.twg_edi.common.utility.CommonDataUtil;
 import jp.or.twg.twg_edi.common.utility.DateUtility;
 import jp.or.twg.twg_edi.kanbanslim.model.KanbanSlimDeljitBean;
+import jp.or.twg.twg_edi.kanbanslim.model.KanbanSlimDeljitCondition;
 import jp.or.twg.twg_edi.kanbanslim.model.KanbanSlimDeljitForm;
 import jp.or.twg.twg_edi.kanbanslim.service.KanbanSlimDeljitService;
 
@@ -94,6 +98,30 @@ public class KanbanSlimDeljitController extends BaseController {
     		form.setAuthorized(false);
     	}
 
+    	KanbanSlimDeljitCondition condition = null;
+    	Object obj = RequestContextHolder.getRequestAttributes().getAttribute("kanbanSlimDeljitCondition", RequestAttributes.SCOPE_SESSION);
+    	if(obj != null && obj instanceof KanbanSlimDeljitCondition) {
+    		// セッションに検索条件がある場合
+    		condition = (KanbanSlimDeljitCondition)obj;
+    		if(form.getPageSize() == null) {
+    			form.setPageSize(condition.getPageSize());
+    		} else {
+    			condition.setPageSize(form.getPageSize());
+    		}
+    		if(CommonDataUtil.isNullOrEmpty(form.getShipToReciveCode())) {
+    			form.setShipToReciveCode(condition.getShipToReciveCode());
+    		} else {
+    			condition.setShipToReciveCode(form.getShipToReciveCode());
+    		}
+    	} else {
+    		// セッションにない場合は検索条件を保存
+    		condition = new KanbanSlimDeljitCondition();
+    		condition.setPageSize(form.getPageSize());
+    		condition.setShipToReciveCode(form.getShipToReciveCode());
+    	}
+    	// セッションに検索条件を格納
+		RequestContextHolder.getRequestAttributes().setAttribute("kanbanSlimDeljitCondition", condition, RequestAttributes.SCOPE_SESSION);
+
     	// →シスパラの納入指示日の時間（HHMM)を取得して処理日を決定する必要がある。対応したらこのコメントを削除
     	// システム日付を処理日にセット
     	form.setIptOperationDate(DateUtility.getStringFromDate(new Date(), "yyyy/MM/dd"));
@@ -112,6 +140,7 @@ public class KanbanSlimDeljitController extends BaseController {
 	    	pageable = PageRequest.of(pageable.getPageNumber(), form.getPageSize().intValue(), pageable.getSort());
     	}
     	// ここまではおまじないと思って記述してください。m(_ _)m
+
 
     	// 検索条件に一致するデータを取得
 		Page<KanbanSlimDeljitBean> pageList = service.getListByShipToReciveCode(pageable, form.getShipToReciveCode());

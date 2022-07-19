@@ -90,7 +90,7 @@ public class KanbanSlimDeljitService {
     			break;
     		}
     	}
-		return new PageImpl<>(beanList, pageable, beanList.size());
+		return new PageImpl<>(beanList, pageable, totalBeaneanList.size());
 	}
 
     /**

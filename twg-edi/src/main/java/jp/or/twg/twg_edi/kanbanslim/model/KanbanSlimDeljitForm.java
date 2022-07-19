@@ -1,6 +1,6 @@
 package jp.or.twg.twg_edi.kanbanslim.model;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -37,6 +37,7 @@ public class KanbanSlimDeljitForm {
 	private Long pageSize;
 
 	/** 一覧 */
-	Page<KanbanSlimDeljitBean> pageList;
+//	Page<KanbanSlimDeljitBean> pageList;
+	List<KanbanSlimDeljitBean> beanList;
 
 }

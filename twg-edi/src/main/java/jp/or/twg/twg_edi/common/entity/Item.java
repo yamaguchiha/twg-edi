@@ -1342,4 +1342,11 @@ public class Item {
 	@Setter
 	private Place place;
 
+	/**
+	 * 発注対象管理テーブル
+	 */
+	@Getter
+	@Setter
+	private OptionOrderTargetManager optionOrderTargetManager;
+
 }

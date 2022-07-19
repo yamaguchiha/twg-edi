@@ -2,6 +2,8 @@ package jp.or.twg.twg_edi.kanbanslim.controller;
 
 import java.util.Date;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,7 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import jp.or.twg.twg_edi.common.controller.BaseController;
 import jp.or.twg.twg_edi.common.difinition.RoleType;
@@ -27,6 +31,7 @@ import jp.or.twg.twg_edi.kanbanslim.service.KanbanSlimDeljitService;
  *
  */
 @Controller
+@RequestMapping("inboundSimpleKanbanDeljit")
 public class KanbanSlimDeljitController extends BaseController {
 
 	@Autowired
@@ -36,13 +41,29 @@ public class KanbanSlimDeljitController extends BaseController {
 	SystemConfigService systemConfigService;
 
 	/**
-	 * かんばん納入指示Slim 初期画面表示
+	 * かんばん納入指示Slim 初期画面表示(GET)
 	 *
+	 * @param pageable
 	 * @param model
 	 * @return
 	 */
-	@GetMapping({"/inboundSimpleKanbanDeljit/list"})
+	//@RequestMapping({"/inboundSimpleKanbanDeljit/list"})
+	@RequestMapping(value="list", params="refresh", method=RequestMethod.GET)
     public String inboundSimpleKanbanDeljitInit(@PageableDefault(page = 0, size = 20) Pageable pageable, Model model) {
+    	KanbanSlimDeljitForm form = new KanbanSlimDeljitForm();
+    	return inboundSimpleKanbanDeljitRefresh(form, pageable, model);
+	}
+
+	/**
+	 * かんばん納入指示Slim 検索(POST)
+	 *
+	 * @param pageable
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="list", params="refresh", method=RequestMethod.POST)
+    public String inboundSimpleKanbanDeljitRefresh(@Valid @ModelAttribute("kanbanSlimDeljitForm") KanbanSlimDeljitForm form, @PageableDefault(page = 0, size = 20) Pageable pageable, Model model) {
+
 		UserSession userSession = getUserSession();
     	if(userSession != null) {
             model.addAttribute("loginInfo", userSession);
@@ -57,7 +78,6 @@ public class KanbanSlimDeljitController extends BaseController {
     	}
 
     	// 必要な初期処理を記述
-    	KanbanSlimDeljitForm form = new KanbanSlimDeljitForm();
 
     	// 出荷場セキュリティの使用（自分の工区情報から取得）
     	form.setUserDischargePlaceCode(false);
@@ -95,12 +115,17 @@ public class KanbanSlimDeljitController extends BaseController {
 
     	// 検索条件に一致するデータを取得
 		Page<KanbanSlimDeljitBean> pageList = service.getListByShipToReciveCode(pageable, form.getShipToReciveCode());
-		form.setPageList(pageList);
+
+		// 属性名はpageList固定とする
+    	model.addAttribute("pageList", pageList);
+
+    	// POST時に必要なリストをセット
+    	form.setBeanList(pageList.getContent());
 
     	// ページサイズ変更用（Pagerを使用する画面は必須）
     	model.addAttribute("pageSizeList", getPageSizeList());
 
-    	model.addAttribute("simpleKanbanForm", form);
+    	model.addAttribute("kanbanSlimDeljitForm", form);
 
     	// Controllerが持っているメッセージをクリア（次以降の動作でメッセージがクリアされている）
         clearErrors();

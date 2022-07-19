@@ -7,21 +7,28 @@
   <!-- コンテンツの表示 -->
   <div layout:fragment="content"class="container-fluid">
 
+<script type="text/javascript">
+  function calenderName(name, format) {
+  var elements = document.getElementById(name);
+  wrtCalendarLay(elements, event)
+  }
+</script>
+
 <div class="subtitle category_IB">
   <div class="subtitle_text">検索条件</div>
   <div class="subtitle_right">
     <input type="button" id="srhCondToggleBtn" class="btn" value="" >
   </div>
 </div>
-<form name="simpleKanbanForm" th:action="@{/inboundSimpleKanbanDeljit/list?page=0}" th:object="${simpleKanbanForm}" method ="POST" novalidate>
+<form name="kanbanSlimDeljitForm" th:action="@{/inboundSimpleKanbanDeljit/list?page=0}" th:object="${kanbanSlimDeljitForm}" method ="POST" novalidate>
 <table class="caption" id="srhCondTable">
   <tbody>
     <tr>
       <th width="11%">納入場所</th>
-      <th:block th:if="${simpleKanbanForm.userDischargePlaceCode}">
+      <th:block th:if="${kanbanSlimDeljitForm.userDischargePlaceCode}">
         <td th:text="*{shipToReciveCode}"></td>
       </th:block>
-      <th:block th:if="${!simpleKanbanForm.userDischargePlaceCode}">
+      <th:block th:if="${!kanbanSlimDeljitForm.userDischargePlaceCode}">
         <td><input type="text" th:field="*{shipToReciveCode}"></td>
       </th:block>
       <td width="10%" align="center">
@@ -34,9 +41,9 @@
 
 <div class="subtitle category_IB">
   <DIV class="subtitle_text">対象部品一覧</DIV>
-  <th:block th:if="${simpleKanbanForm.authorized}">
+  <th:block th:if="${kanbanSlimDeljitForm.authorized}">
   <DIV class="subtitle_right">
-    <th:block th:if="${simpleKanbanForm.authorized}">
+    <th:block th:if="${kanbanSlimDeljitForm.authorized}">
       <input type="submit" class="btn_size6" value="納入指示実行" name="deljitRun" >
     </th:block>
   </DIV>
@@ -47,13 +54,13 @@
   <tr>
     <th width="10%">処理日</th>
     <td width="20%">
-      <input type="text" th:field="*{iptOperationDate}" class="field_ymd_css" maxlength="$field.ymd.maxLength">
+      <input type="text" th:field="*{iptOperationDate}" class="field_ymd_css" maxlength="10">
       <input name="calendar1" type="button" value="  " class="calendarbtn" onClick="wrtCalendarLay(this.form.iptOperationDate, event)" >
     </td>
 
     <th width="10%">納入指示日-便</th>
     <td width="50%">
-      <input type="text" th:field="*{iptShipmentDate}" class="field_ymd_css" maxlength="$field.ymd.maxLength">
+      <input type="text" th:field="*{iptShipmentDate}" class="field_ymd_css" maxlength="10">
       <input name="calendar2" type="button" value="  " class="calendarbtn" onClick="wrtCalendarLay(this.form.iptShipmentDate, event)" >
       -
       <input type="text" th:field="*{iptShipmentNo}" maxlength="2"  size="2" style="text-align: left" >
@@ -63,7 +70,7 @@
 </TBODY>
 </table>
 <br>
-<th:block th:with="pagerInfo=*{pageList}">
+<th:block th:with="pagerInfo=${pageList}">
   <div th:if="${pagerInfo.content.size() == 0}">
     かんばん納入指示対象はありません<br><br>
     <br>
@@ -92,15 +99,60 @@
       </tr>
     </thead>
     <tbody>
-      <tr th:each="simpleKanbanDeljitBean : ${pagerInfo.content}" th:object="${simpleKanbanDeljitBean}" >
+      <tr th:each="kanbanSlimDeljitBean, beanStat : *{beanList}" >
+        <td align="center"><input type="checkbox"></td>
+      <td>
+        [[${kanbanSlimDeljitBean.placeOfDischargeId}]]
+      </td>
+      <td>
+        <div th:if="${kanbanSlimDeljitBean.partySfSetting == null}">
+        [[${kanbanSlimDeljitBean.partySf.tdbPartyCode}]]
+        </div>
+        <div th:if="${kanbanSlimDeljitBean.partySfSetting != null}">
+        [[${kanbanSlimDeljitBean.partySfSetting.abbrCode}]]
+        </div>
+        <br>
+        [[${kanbanSlimDeljitBean.partySf.name}]]
+      </td>
+      <td>
+        [[${kanbanSlimDeljitBean.placeSf.tdbPlaceCode}]]
+        <br>
+        [[${kanbanSlimDeljitBean.placeSf.name}]]
+      </td>
+      <td>
+        [[${kanbanSlimDeljitBean.placeOfLoadingId}]]
+        <br>
+        [[${kanbanSlimDeljitBean.placeOfLoadingName}]]
+      </td>
+      <td align="center">
+        [[${kanbanSlimDeljitBean.lastProcessDate}]]
+      </td>
+      <td align="center">
+        [[${kanbanSlimDeljitBean.lastDeliveryDate}]]
+      </td>
+      <td align="center">
+        [[${kanbanSlimDeljitBean.lastShipmentNo}]]
+      </td>
+      <td align="center">
+        <input type="text" th:field="*{beanList[__${beanStat.index}__].iptDeliveryDate}" class="field_ymd_css" maxlength="10">
+        <input name="calendar3" type="button" value="  " class="calendarbtn" th:attr="onClick='calenderName(\'beanList' + ${beanStat.index} + '.iptDeliveryDate\');'" >
+      </td>
+      <td align="center">
+        <input type="text" th:field="*{beanList[__${beanStat.index}__].iptShipmentNo}" size="2" >
+      </td>
+      <td>
+        [[${kanbanSlimDeljitBean.memo}]]
+      </td>
       </tr>
     </tbody>
   </table>
+  <!--
   <table class="pager">
     <tr>
       <td><div id="pager" th:replace="fragments/pager">pager</div></td>
     </tr>
   </table>
+   -->
   </div>
 </th:block>
 

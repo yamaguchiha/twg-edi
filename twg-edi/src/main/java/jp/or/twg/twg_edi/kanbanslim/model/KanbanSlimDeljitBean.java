@@ -1,7 +1,11 @@
 package jp.or.twg.twg_edi.kanbanslim.model;
 
+import java.util.Date;
+
 import jp.or.twg.twg_edi.common.entity.Item;
-import jp.or.twg.twg_edi.common.entity.OptionOrderTargetManager;
+import jp.or.twg.twg_edi.common.entity.Party;
+import jp.or.twg.twg_edi.common.entity.PartySetting;
+import jp.or.twg.twg_edi.common.entity.Place;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,25 +24,20 @@ public class KanbanSlimDeljitBean {
     **/
     private  java.util.List<Item>   allItemList;
 
-    /**
-     * EDI送信ステータス
+   /**
+     * 納入場所
     **/
-    private  String   ediSendStatus;
+    private  String   placeOfDischargeId;
 
     /**
-     * 納入指示実行可
+     * 出荷場所
     **/
-    private  Boolean   forceDeljit;
+    private  String   placeOfLoadingId;
 
     /**
-     * 納入指示日
+     * 出荷場所名称
     **/
-    private  String   iptDeliveryDate;
-
-    /**
-     * 納入指示便
-    **/
-    private  String   iptShipmentNo;
+    private  String   placeOfLoadingName;
 
     /**
      * 最終納入指示日
@@ -57,23 +56,46 @@ public class KanbanSlimDeljitBean {
 
     /**
      * 備考
-    **/
-    private  String   memo;
+     */
+    private String    memo;
 
     /**
-     * 処理時間
+     * 前回処理日
     **/
-    private  String   operationTime;
+    private  String   lastOperationDate;
 
     /**
-     * 基本情報設定の納入方式リスト
+     * 前回処理便
     **/
-    private  java.util.List<String>   optionItemTypeM01List;
+    private  String   lastOperationNo;
 
     /**
-     * 発注対象情報
+     * 納入指示日
     **/
-    private OptionOrderTargetManager   optionOrderTargetManager;
+    private  String   iptDeliveryDate;
 
+    /**
+     * 納入指示便
+    **/
+    private  String   iptShipmentNo;
 
+    /**
+     * 処理日
+    **/
+    private  Date   operationDate;
+
+    /**
+     * 出荷元Party
+     */
+    private Party partySf;
+
+    /**
+     * 出荷元PartySetting
+     */
+    private PartySetting partySfSetting;
+
+    /**
+     * 出荷元Place
+     */
+    private Place placeSf;
 }

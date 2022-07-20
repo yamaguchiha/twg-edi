@@ -272,9 +272,9 @@ public class BaseController {
 	 */
 	protected Map<String,String> getPageSizeList() {
 		Map<String, String> pageSizeList = new LinkedHashMap<String, String>();
-		pageSizeList.put("1", "1");		// test
-		pageSizeList.put("2", "2");		// test
-		pageSizeList.put("3", "3");		// test
+//		pageSizeList.put("1", "1");		// test
+//		pageSizeList.put("2", "2");		// test
+//		pageSizeList.put("3", "3");		// test
 		pageSizeList.put("5", "5");
 		pageSizeList.put("10", "10");
 		pageSizeList.put("20", "20");

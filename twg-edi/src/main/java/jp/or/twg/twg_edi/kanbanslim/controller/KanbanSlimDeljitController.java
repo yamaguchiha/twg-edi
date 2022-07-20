@@ -53,9 +53,9 @@ public class KanbanSlimDeljitController extends BaseController {
 	 */
 	//@RequestMapping({"/inboundSimpleKanbanDeljit/list"})
 	@RequestMapping(value="list", params="refresh", method=RequestMethod.GET)
-    public String inboundSimpleKanbanDeljitInit(@PageableDefault(page = 0, size = 20) Pageable pageable, Model model) {
+    public String kanbanSlimDeljitInit(@PageableDefault(page = 0, size = 20) Pageable pageable, Model model) {
     	KanbanSlimDeljitForm form = new KanbanSlimDeljitForm();
-    	return inboundSimpleKanbanDeljitRefresh(form, pageable, model);
+    	return kanbanSlimDeljitRefresh(form, pageable, model);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class KanbanSlimDeljitController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value="list", params="refresh", method=RequestMethod.POST)
-    public String inboundSimpleKanbanDeljitRefresh(@Valid @ModelAttribute("kanbanSlimDeljitForm") KanbanSlimDeljitForm form, @PageableDefault(page = 0, size = 20) Pageable pageable, Model model) {
+    public String kanbanSlimDeljitRefresh(@Valid @ModelAttribute("kanbanSlimDeljitForm") KanbanSlimDeljitForm form, @PageableDefault(page = 0, size = 20) Pageable pageable, Model model) {
 
 		UserSession userSession = getUserSession();
     	if(userSession != null) {
@@ -83,6 +83,181 @@ public class KanbanSlimDeljitController extends BaseController {
 
     	// 必要な初期処理を記述
 
+    	// 各メソッド共通処理
+    	pageable = commonLogic(form, userSession, pageable);
+
+    	// →シスパラの納入指示日の時間（HHMM)を取得して処理日を決定する必要がある。対応したらこのコメントを削除
+    	// システム日付を処理日にセット
+    	form.setIptOperationDate(DateUtility.getStringFromDate(new Date(), "yyyy/MM/dd"));
+
+    	// 検索条件に一致するデータを取得
+		Page<KanbanSlimDeljitBean> pageList = service.getListByShipToReciveCode(pageable, form.getShipToReciveCode());
+
+		// 属性名はpageList固定とする
+    	model.addAttribute("pageList", pageList);
+
+    	// POST時に必要なリストをセット
+    	form.setBeanList(pageList.getContent());
+
+    	// ページサイズ変更用（Pagerを使用する画面は必須）
+    	model.addAttribute("pageSizeList", getPageSizeList());
+
+    	model.addAttribute("kanbanSlimDeljitForm", form);
+
+    	// Controllerが持っているメッセージをクリア（次以降の動作でメッセージがクリアされている）
+        clearErrors();
+        clearMessages();
+        clearWarnings();
+
+        return "kanbanslim/inboundSimpleKanbanDeljit";
+    }
+
+	/**
+	 * 納入指示実行
+	 *   納入指示実行のスレッドを起動し、再度検索した結果を画面表示する
+	 *
+	 * @param form
+	 * @param pageable
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="list", params="execute", method=RequestMethod.POST)
+    public String kanbanSlimDeljitExecute(@Valid @ModelAttribute("kanbanSlimDeljitForm") KanbanSlimDeljitForm form, @PageableDefault(page = 0, size = 20) Pageable pageable, Model model) {
+
+		UserSession userSession = getUserSession();
+    	if(userSession != null) {
+            model.addAttribute("loginInfo", userSession);
+            model.addAttribute("currentTimeStamp", DateUtility.getStringFromDate(new Date(), "yyyy/MM/dd HH:mm:ss"));
+            model.addAttribute("pageTitle", "かんばん納入指示Slim");
+            model.addAttribute("messages", getMessages());
+            model.addAttribute("errors", getErrors());
+            model.addAttribute("warnings", getWarnings());
+    	} else {
+    		// SCMのログイン画面に戻す。
+    		return "redirect:/timeout";
+    	}
+
+    	// 必要な初期処理を記述
+
+    	// 各メソッド共通処理
+    	pageable = commonLogic(form, userSession, pageable);
+
+    	// →シスパラの納入指示日の時間（HHMM)を取得して処理日を決定する必要がある。対応したらこのコメントを削除
+    	// システム日付を処理日にセット
+    	form.setIptOperationDate(DateUtility.getStringFromDate(new Date(), "yyyy/MM/dd"));
+
+    	// ここから納入指示実行の処理を記載する
+
+
+
+
+
+
+
+		// Messageに「かんばん納入指示を開始しました。」を設定する
+
+
+
+    	// これ以降は再検索になる
+
+    	// 検索条件に一致するデータを取得
+		Page<KanbanSlimDeljitBean> pageList = service.getListByShipToReciveCode(pageable, form.getShipToReciveCode());
+
+		// 属性名はpageList固定とする
+    	model.addAttribute("pageList", pageList);
+
+    	// POST時に必要なリストをセット
+    	form.setBeanList(pageList.getContent());
+
+    	// ページサイズ変更用（Pagerを使用する画面は必須）
+    	model.addAttribute("pageSizeList", getPageSizeList());
+
+    	model.addAttribute("kanbanSlimDeljitForm", form);
+
+    	// Controllerが持っているメッセージをクリア（次以降の動作でメッセージがクリアされている）
+        clearErrors();
+        clearWarnings();
+
+		return "kanbanslim/inboundSimpleKanbanDeljit";
+	}
+
+	/**
+	 * 一括登録
+	 *   納入指示日、便を表示されている対象一覧に設定する
+	 *   もし現行がJavaScriptで実装しているならこのメソッドは破棄
+	 *
+	 * @param form
+	 * @param pageable
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="list", params="allInsert", method=RequestMethod.POST)
+    public String kanbanSlimDeljitAllInsert(@Valid @ModelAttribute("kanbanSlimDeljitForm") KanbanSlimDeljitForm form, @PageableDefault(page = 0, size = 20) Pageable pageable, Model model) {
+
+		UserSession userSession = getUserSession();
+    	if(userSession != null) {
+            model.addAttribute("loginInfo", userSession);
+            model.addAttribute("currentTimeStamp", DateUtility.getStringFromDate(new Date(), "yyyy/MM/dd HH:mm:ss"));
+            model.addAttribute("pageTitle", "かんばん納入指示Slim");
+            model.addAttribute("messages", getMessages());
+            model.addAttribute("errors", getErrors());
+            model.addAttribute("warnings", getWarnings());
+    	} else {
+    		// SCMのログイン画面に戻す。
+    		return "redirect:/timeout";
+    	}
+
+    	// 必要な初期処理を記述
+
+    	// 各メソッド共通処理
+    	pageable = commonLogic(form, userSession, pageable);
+
+    	// →シスパラの納入指示日の時間（HHMM)を取得して処理日を決定する必要がある。対応したらこのコメントを削除
+    	// システム日付を処理日にセット
+    	form.setIptOperationDate(DateUtility.getStringFromDate(new Date(), "yyyy/MM/dd"));
+
+    	// これ以降は再検索になる
+
+    	// 検索条件に一致するデータを取得
+		Page<KanbanSlimDeljitBean> pageList = service.getListByShipToReciveCode(pageable, form.getShipToReciveCode());
+
+		// 一括登録の処理として対象一覧内のデータに納入指示日と便を設定する
+		for(KanbanSlimDeljitBean bean : pageList.getContent()) {
+			bean.setIptDeliveryDate(form.getIptShipmentDate());
+			bean.setIptShipmentNo(form.getIptShipmentNo());
+		}
+		// 属性名はpageList固定とする
+    	model.addAttribute("pageList", pageList);
+
+    	// POST時に必要なリストをセット
+    	form.setBeanList(pageList.getContent());
+
+    	// ページサイズ変更用（Pagerを使用する画面は必須）
+    	model.addAttribute("pageSizeList", getPageSizeList());
+
+    	model.addAttribute("kanbanSlimDeljitForm", form);
+
+    	// Controllerが持っているメッセージをクリア（次以降の動作でメッセージがクリアされている）
+        clearErrors();
+        clearMessages();
+        clearWarnings();
+
+		return "kanbanslim/inboundSimpleKanbanDeljit";
+	}
+
+	/**
+	 * 各メソッドでの共通処理
+	 *   出荷場セキュリティの使用有無
+	 *   ユーザの実行権限
+	 *   検索条件の保持、更新
+	 *   ページング処理
+	 *
+	 * @param form
+	 * @param userSession
+	 * @param pageable
+	 * @return
+	 */
+	private Pageable commonLogic(KanbanSlimDeljitForm form, UserSession userSession, Pageable pageable) {
     	// 出荷場セキュリティの使用（自分の工区情報から取得）
     	form.setUserDischargePlaceCode(false);
 
@@ -122,10 +297,6 @@ public class KanbanSlimDeljitController extends BaseController {
     	// セッションに検索条件を格納
 		RequestContextHolder.getRequestAttributes().setAttribute("kanbanSlimDeljitCondition", condition, RequestAttributes.SCOPE_SESSION);
 
-    	// →シスパラの納入指示日の時間（HHMM)を取得して処理日を決定する必要がある。対応したらこのコメントを削除
-    	// システム日付を処理日にセット
-    	form.setIptOperationDate(DateUtility.getStringFromDate(new Date(), "yyyy/MM/dd"));
-
     	// ここからはおまじないと思って記述してください。m(_ _)m
     	if(form.getPageSize() == null) {
 	    	// 1ページに表示する件数はシスパラから取得
@@ -141,28 +312,6 @@ public class KanbanSlimDeljitController extends BaseController {
     	}
     	// ここまではおまじないと思って記述してください。m(_ _)m
 
-
-    	// 検索条件に一致するデータを取得
-		Page<KanbanSlimDeljitBean> pageList = service.getListByShipToReciveCode(pageable, form.getShipToReciveCode());
-
-		// 属性名はpageList固定とする
-    	model.addAttribute("pageList", pageList);
-
-    	// POST時に必要なリストをセット
-    	form.setBeanList(pageList.getContent());
-
-    	// ページサイズ変更用（Pagerを使用する画面は必須）
-    	model.addAttribute("pageSizeList", getPageSizeList());
-
-    	model.addAttribute("kanbanSlimDeljitForm", form);
-
-    	// Controllerが持っているメッセージをクリア（次以降の動作でメッセージがクリアされている）
-        clearErrors();
-        clearMessages();
-        clearWarnings();
-
-        return "kanbanslim/inboundSimpleKanbanDeljit";
-    }
-
-
+    	return pageable;
+	}
 }

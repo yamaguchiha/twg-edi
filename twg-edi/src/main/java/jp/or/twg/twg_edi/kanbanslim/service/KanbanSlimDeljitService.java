@@ -60,7 +60,6 @@ public class KanbanSlimDeljitService {
 		// 出荷数変更オプションの利用有無を取得（自工区から取得）
 		boolean materialsOptionFlag = true;
 
-
 		// 出荷場セキュリテを利用時は画面側でshipToReciveCodeに入っているので特に気にしない
 
 		// 下記条件で該当する品番を全て検索する

@@ -45,6 +45,20 @@ public class PartyPlaceService {
     	this.myPlaceCode = tdbPlaceCode;
     }
 
+	/**
+	 * 企業のOIDからPartyを取得
+	 * @param partyOid
+	 * @return
+	 */
+	public Party getParty(Long partyOid) {
+		Optional<Party> obj = partyMapper.selectByPrimaryKey(partyOid);
+		if(obj.isEmpty()) {
+			return null;
+		} else {
+			return obj.get();
+		}
+	}
+
     /**
      * TDBコードからPartyを取得する
      *

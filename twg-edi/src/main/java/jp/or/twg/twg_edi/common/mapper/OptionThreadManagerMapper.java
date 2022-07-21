@@ -6,8 +6,9 @@ import static org.mybatis.dynamic.sql.SqlBuilder.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
 import javax.annotation.Generated;
-import jp.or.twg.twg_edi.common.entity.OptionThreadManager;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,6 +32,9 @@ import org.mybatis.dynamic.sql.update.UpdateModel;
 import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
+
+import jp.or.twg.twg_edi.common.entity.OptionThreadManager;
+import jp.or.twg.twg_edi.common.service.OptionThreadManagerMapperParam;
 
 @Mapper
 public interface OptionThreadManagerMapper {
@@ -227,4 +231,8 @@ public interface OptionThreadManagerMapper {
 				.equalToWhenPresent(record::getErrorMessage).set(memo).equalToWhenPresent(record::getMemo).set(memo2)
 				.equalToWhenPresent(record::getMemo2).where(id, isEqualTo(record::getId)));
 	}
+
+	public List<OptionThreadManager> selectUnissuedDownloadList(OptionThreadManagerMapperParam param);
+
+	public int selectRunKanbanOrder(OptionThreadManagerMapperParam param);
 }

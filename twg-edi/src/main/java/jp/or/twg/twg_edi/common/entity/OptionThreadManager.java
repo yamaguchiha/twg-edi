@@ -1,7 +1,11 @@
 package jp.or.twg.twg_edi.common.entity;
 
 import java.util.Date;
+
 import javax.annotation.Generated;
+
+import jp.or.twg.twg_edi.common.difinition.OptionThreadCategory;
+import jp.or.twg.twg_edi.common.difinition.OptionThreadStatus;
 
 public class OptionThreadManager {
 
@@ -196,5 +200,61 @@ public class OptionThreadManager {
 	@Generated(value = "org.mybatis.generator.api.MyBatisGenerator", date = "2022-06-21T19:20:40.5272266+09:00", comments = "Source field: public.option_thread_manager.memo2")
 	public void setMemo2(String memo2) {
 		this.memo2 = memo2;
+	}
+
+	/** from kazura-jama-option **/
+
+    /**
+     * 
+     * @return
+     */
+	public OptionThreadStatus getThreadStatusInType() {
+		return OptionThreadStatus.getThreadStatus(this.getThreadStatus());
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getThreadStatusName() {
+		return getThreadStatusInType().getName();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isErrorDetail() {
+		return getThreadStatusInType().isErrorDetail();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getThreadCategoryName() {
+		OptionThreadCategory threadCategory = OptionThreadCategory.getThreadCategory(this.getThreadCategory());
+		if (threadCategory != null) {
+			return threadCategory.getName();
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public Long getIntervalTime() {
+		if (getStartUpTime() == null) {
+			return null;
+		}
+
+		Date closeOutTime;
+		if (getCloseOutTime() != null) {
+			closeOutTime = getCloseOutTime();
+		} else {
+			closeOutTime = new Date();
+		}
+		return (closeOutTime.getTime() - getStartUpTime().getTime()) / 1000;
 	}
 }

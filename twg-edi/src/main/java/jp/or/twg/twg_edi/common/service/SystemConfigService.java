@@ -64,7 +64,7 @@ public class SystemConfigService {
 			return getEntityBySystemConfigCategory(systemConfigCategory, null, false);
 		}
 
-		return systemConfig.get();
+		return systemConfig.isEmpty() ? null : systemConfig.get();
 	}
 
 	/**

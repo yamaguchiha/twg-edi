@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.or.twg.twg_edi.common.mapper.OptionThreadManagerMapper">
+
+  <!-- resultMap -->
+  <resultMap id="selectUnissuedDownloadList" type="jp.or.twg.twg_edi.common.entity.OptionThreadManager">
+    <id column="id" property="id"/>
+    <result column="users_oid"             property="usersOid"/>
+    <result column="user_place_oid"        property="userPlaceOid"/>
+    <result column="place_Of_Discharge_Id" property="placeOfDischargeId"/>
+    <result column="thread_category"       property="threadCategory"/>
+    <result column="party_oid"             property="partyOid"/>
+    <result column="place_oid"             property="placeOid"/>
+    <result column="data_number"           property="dataNumber"/>
+    <result column="start_up_time"         property="startUpTime"/>
+  </resultMap>
+
+  <!-- 納入指示送信履歴リスト -->
+  <select id="selectUnissuedDownloadList" resultMap="selectUnissuedDownloadList">
+  <![CDATA[ 
+    select max(ID) as id
+         , USERS_OID as users_oid
+         , USER_PLACE_OID as user_place_oid
+         , PLACE_OF_DISCHARGE_ID as place_Of_Discharge_Id
+         , THREAD_CATEGORY as thread_category
+         , PARTY_OID as party_oid
+         , PLACE_OID as place_oid
+         , DATA_NUMBER as data_number
+         , START_UP_TIME as start_up_time
+      from OPTION_THREAD_MANAGER
+     where USERS_OID = #{srhUsersOid}
+       and USER_PLACE_OID = #{srhUserPlaceOid}
+       and THREAD_CATEGORY = #{srhThreadCategory}
+       and (CLOSE_OUT_TIME is null
+        or CLOSE_OUT_TIME >= #{srhCloseOutTimeToday}
+       and CLOSE_OUT_TIME < #{srhCloseOutTimeNext})
+     group by USERS_OID
+            , USER_PLACE_OID
+            , PLACE_OF_DISCHARGE_ID
+            , THREAD_CATEGORY
+            , PARTY_OID
+            , PLACE_OID
+            , DATA_NUMBER
+            , START_UP_TIME
+     order by DATA_NUMBER asc
+            , PARTY_OID asc
+            , PLACE_OID asc
+            , START_UP_TIME asc
+  ]]>
+  </select>
+
+  <!-- 納入指示送信の実行有無 -->
+  <select id="selectRunKanbanOrder" resultType="int">
+  <![CDATA[
+    select count(*)
+      from ( 
+        select max(ID) as id
+             , USERS_OID as users_oid
+             , USER_PLACE_OID as user_place_oid
+             , PLACE_OF_DISCHARGE_ID as place_Of_Discharge_Id
+             , THREAD_CATEGORY as thread_category
+             , PARTY_OID as party_oid
+             , PLACE_OID as place_oid
+             , START_UP_TIME as start_up_time
+          from OPTION_THREAD_MANAGER
+         where USERS_OID = #{srhUsersOid}
+           and USER_PLACE_OID = #{srhUserPlaceOid}
+           and THREAD_CATEGORY = #{srhThreadCategory}
+           and THREAD_STATUS = #{srhThreadStatus}
+           and (CLOSE_OUT_TIME is null
+            or CLOSE_OUT_TIME >= #{srhCloseOutTimeToday}
+           and CLOSE_OUT_TIME < #{srhCloseOutTimeNext})
+         group by USERS_OID
+                , USER_PLACE_OID
+                , PLACE_OF_DISCHARGE_ID
+                , THREAD_CATEGORY
+                , PARTY_OID
+                , PLACE_OID
+                , START_UP_TIME
+    ) x
+  ]]>
+  </select>
+</mapper>

@@ -153,7 +153,93 @@
   </table>
   </div>
 </th:block>
+<br>
+<!-- ## 納入指示送信状況 start ## -->
+<th:block th:with="downloadList=*{unissuedDownloadList}"><!-- unissuedDownloadListはFormのプロパティ -->
+  <th:block th:if="${downloadList == null || downloadList.size() == 0}">
+    <DIV class="subtitle category_IB">
+      <DIV class="subtitle_text">納入指示送信状況</DIV>
+      <DIV class="subtitle_right">
+        <input class="btn_size8" type="submit" value="最新の情報に更新" name="refresh">
+      </DIV>
+    </DIV>
+    <br>データはありません<br><br>
+  </th:block>
 
+  <th:block th:if="${downloadList != null && downloadList.size() != 0}">
+    <DIV class="subtitle category_IB">
+      <DIV class="subtitle_text">納入指示送信状況</DIV>
+      <DIV class="subtitle_right">
+        <th:block th:if="*{KanbanOrder} == true">
+          <input class="btn_size8" type="submit" value="最新の情報に更新" name="refresh">
+        </th:block>
+        <th:block th:if="*{KanbanOrder} == false">
+          <input class="btn_size8" type="submit" value="最新の情報に更新" name="refresh" disabled>
+        </th:block>
+      </DIV>
+    </DIV>
+    <table class="list" width="100%">
+      <thead>
+        <tr>
+          <th class="14byte_cell">処理日</th>
+          <th class="10byte_cell">納入場所</th>
+          <th class="10byte_cell">出荷元</th>
+          <th class="12byte_cell">出荷元工区</th>
+          <th class="16byte_cell">開始日時</th>
+          <th class="16byte_cell">終了日時</th>
+          <th class="10byte_cell">所要時間</th>
+          <th class="10byte_cell">品番件数</th>
+          <th class="10byte_cell">総箱数</th>
+          <th class="btn_print_long_cell">送信状況</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="bean : ${downloadList}" th:object="${bean}" >
+          <!-- 処理日 -->
+          <td th:text="${#dates.format(bean.threadManager.startUpTime, 'yyyy/MM/dd')}" align="center"></td>
+          <!-- <td th:text="*{threadManager.startUpTime}" align="center"></td> -->
+          <!-- 納入場所 -->
+          <td th:text="${bean.threadManager.placeOfDischargeId}"></td>
+          <!-- 出荷元 -->
+          <td>
+            <th:block th:if="${bean.partySetting != null && not #strings.isEmpty(bean.partySetting.abbrCode)}">
+            [[${bean.partySetting.abbrCode}]]
+            </th:block>
+            <th:block th:if="${bean.partySetting == null || #strings.isEmpty(bean.partySetting.abbrCode)}">
+            [[${bean.party.tdbPartyCode}]]
+            </th:block>
+            <br/>
+            [[${bean.party.name}]]
+          </td>
+          <!-- 出荷元工区 -->
+          <td>[[${bean.place.tdbPlaceCode}]]<br/>[[${bean.place.name}]]</td>
+          <!-- 開始日時 -->
+          <td align="center">[[${#dates.format(bean.threadManager.startUpTime, 'yyyy/MM/dd')}]]<br>[[${#dates.format(bean.threadManager.startUpTime, 'HH:mm:ss')}]]</td>
+          <!-- 終了日時 -->
+          <td  align="center">[[${#dates.format(bean.threadManager.closeOutTime, 'yyyy/MM/dd')}]]<br>[[${#dates.format(bean.threadManager.closeOutTime, 'HH:mm:ss')}]]</td>
+          <!-- 所要時間 -->
+          <td th:text="${#numbers.formatInteger(bean.threadManager.intervalTime, 1, 'COMMA')} + '秒'" align="right" nowrap></td>
+          <!-- 品番件数 -->
+          <td th:text="${#numbers.formatInteger(bean.threadManager.dataSize, 1, 'COMMA')} + '件'" align="right"></td>
+          <!-- 総箱数 -->
+          <td th:text="${#numbers.formatInteger(bean.threadManager.dataSize2, 1, 'COMMA')} + '件'" align="right"></td>
+          <!-- 送信状況 -->
+          <th:block th:switch="${bean.threadManager.threadStatus}">
+            <td th:case="'RUNNING'"                                       align="center"><p class="img_edi_processing"></p></td>
+            <td th:case="'REJECT'"                                        align="center"><p class="img_edi_reject"></p></td>
+            <td th:case="'SUCCESSFUL'"         class="successful"         align="center" th:text="${bean.threadManager.threadStatusName}"></td>
+            <td th:case="'SUCCESSFUL_WARNING'" class="successful_warning" align="center" th:text="${bean.threadManager.threadStatusName}"></td>
+            <td th:case="'ABEND'"              class="abend"              align="center" th:text="${bean.threadManager.threadStatusName}"></td>
+            <td th:case="'EXCEPTION'"          class="exception"          align="center" th:text="${bean.threadManager.threadStatusName}"></td>
+            <td th:case="'REJECT'"             class="abend"              align="center" th:text="${bean.threadManager.threadStatusName}"></td>
+            <td th:case="*"                    class="thread_other"       align="center" th:text="${bean.threadManager.threadStatusName}"></td>
+          </th:block>
+        </tr>
+      </tbody>
+    </table>
+  </th:block><!-- th:if=downloadList -->
+</th:block><!-- th:with=downloadList -->
+<!-- ## 納入指示送信状況 end   ## -->
 </form>
   </div>
 </BODY>

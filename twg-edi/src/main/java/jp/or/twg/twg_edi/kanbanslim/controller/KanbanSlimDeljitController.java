@@ -102,6 +102,12 @@ public class KanbanSlimDeljitController extends BaseController {
     	// ページサイズ変更用（Pagerを使用する画面は必須）
     	model.addAttribute("pageSizeList", getPageSizeList());
 
+        // かんばん納入指示送信履歴一覧
+    	form.setUnissuedDownloadList(service.getUnissuedDownloadList(userSession));
+
+    	// 納入指示実行有無
+    	form.setKanbanOrder(service.isRunKanbanOrder(userSession));
+
     	model.addAttribute("kanbanSlimDeljitForm", form);
 
     	// Controllerが持っているメッセージをクリア（次以降の動作でメッセージがクリアされている）
@@ -314,4 +320,28 @@ public class KanbanSlimDeljitController extends BaseController {
 
     	return pageable;
 	}
+
+	/**
+	 * かんばん納入指示 最新の情報に更新
+	 * @param form
+	 * @param pageable
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping(value="list", params="unissuedRefresh", method=RequestMethod.POST)
+    public String inboundKanbanDeljitUnissuedDataRefresh(@Valid @ModelAttribute("kanbanSlimDeljitForm") KanbanSlimDeljitForm form, @PageableDefault(page = 0, size = 20) Pageable pageable, Model model) {
+    	// セッションにログイン情報を格納？
+    	// SCMからの遷移方法を聞いてから検討する
+    	Object obj = RequestContextHolder.getRequestAttributes().getAttribute("session", RequestAttributes.SCOPE_SESSION);
+    	if(!(obj instanceof UserSession)) return "redirect:/timeout";	 // SCMのログイン画面に戻す。
+
+    	UserSession userSession = (UserSession)obj;
+
+    	// 各メソッド共通処理
+    	pageable = commonLogic(form, userSession, pageable);
+
+
+		return "kanbanslim/inboundSimpleKanbanDeljit";
+    }
+
 }

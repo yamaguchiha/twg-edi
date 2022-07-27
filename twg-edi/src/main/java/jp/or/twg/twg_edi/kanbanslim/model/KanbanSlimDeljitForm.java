@@ -2,6 +2,7 @@ package jp.or.twg.twg_edi.kanbanslim.model;
 
 import java.util.List;
 
+import jp.or.twg.twg_edi.kanban.service.OptionThreadManagerBean;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,6 +36,13 @@ public class KanbanSlimDeljitForm {
 
 	/** 1ページに表示する件数 */
 	private Long pageSize;
+
+	//Form（publicメソッド）
+	// 納入指示送信履歴リスト
+	private List<OptionThreadManagerBean> unissuedDownloadList;
+
+	// 納入指示送信実行状況の取得(isRunKanbanOrder)
+	private boolean isKanbanOrder;
 
 	/** 一覧 */
 //	Page<KanbanSlimDeljitBean> pageList;

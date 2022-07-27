@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -15,13 +16,20 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import jp.or.twg.twg_edi.common.difinition.MaterialsType;
+import jp.or.twg.twg_edi.common.difinition.OptionThreadCategory;
+import jp.or.twg.twg_edi.common.difinition.OptionThreadStatus;
 import jp.or.twg.twg_edi.common.entity.Item;
+import jp.or.twg.twg_edi.common.entity.OptionThreadManager;
 import jp.or.twg.twg_edi.common.entity.Party;
 import jp.or.twg.twg_edi.common.entity.Place;
+import jp.or.twg.twg_edi.common.entity.Users;
+import jp.or.twg.twg_edi.common.mapper.OptionThreadManagerMapper;
 import jp.or.twg.twg_edi.common.model.UserSession;
+import jp.or.twg.twg_edi.common.service.OptionThreadManagerMapperParam;
 import jp.or.twg.twg_edi.common.service.PartyPlaceService;
 import jp.or.twg.twg_edi.common.utility.CommonDataUtil;
 import jp.or.twg.twg_edi.common.utility.DateUtility;
+import jp.or.twg.twg_edi.kanban.service.OptionThreadManagerBean;
 import jp.or.twg.twg_edi.kanbanslim.mapper.KanbanSlimDeljitMapper;
 import jp.or.twg.twg_edi.kanbanslim.model.KanbanSlimDeljitBean;
 import jp.or.twg.twg_edi.kanbanslim.model.KanbanSlimDeljitCondition;
@@ -40,6 +48,8 @@ public class KanbanSlimDeljitService {
 
 	private final KanbanSlimDeljitMapper kanbanSlimDeljitMapper;
 	private final PartyPlaceService ppService;
+
+	private final OptionThreadManagerMapper optionThreadManagerMapper;
 
 	/**
 	 *
@@ -245,5 +255,82 @@ public class KanbanSlimDeljitService {
     	}
     	return false;
     }
+
+	/**
+	 * かんばん納入指示送信履歴一覧リストの取得
+	 * @param userSession ログイン情報
+	 * @return 納入指示送信履歴リストの取得
+	 */
+	public List<OptionThreadManagerBean> getUnissuedDownloadList(UserSession userSession) {
+
+		Users users = userSession.getMyUsers();
+		Place userPlace = userSession.getMyPlace();
+
+		Date today = DateUtility.getDateWith0Oclock(new Date());
+
+		OptionThreadManagerMapperParam param = new OptionThreadManagerMapperParam();
+		param.setSrhUsersOid(users.getOid());
+		param.setSrhUserPlaceOid(userPlace.getOid());
+		param.setSrhThreadCategory(OptionThreadCategory.MakeSimpleKanbanOrderService.name());
+		param.setSrhCloseOutTimeToday(today);
+		param.setSrhCloseOutTimeNext(DateUtility.getDateForward(today, 1));
+		List<OptionThreadManager> optionThreadManagerList = optionThreadManagerMapper.selectUnissuedDownloadList(param);
+
+		// 企業・事業所サービスの初期化
+		ppService.initialize(userSession.getMyParty().getTdbPartyCode(), userPlace.getTdbPlaceCode());
+
+		List<OptionThreadManagerBean> list = new ArrayList<OptionThreadManagerBean>();
+		OptionThreadManagerBean bean;
+		Optional<OptionThreadManager> optionThreadManager;
+		OptionThreadManager entity;
+		for(OptionThreadManager target : optionThreadManagerList) {
+			//IDでデータの再取得
+			optionThreadManager = optionThreadManagerMapper.selectByPrimaryKey(target.getId());
+
+			// リストデータ作成
+			bean = new OptionThreadManagerBean();
+			if(!optionThreadManager.isEmpty()) {
+				entity = optionThreadManager.get();
+				bean.setThreadManager(entity);
+
+				bean.setParty(ppService.getParty(entity.getPartyOid()));
+				bean.setPlace(ppService.getPlace(entity.getPlaceOid()));
+				if(bean.getParty() != null) {
+					bean.setPartySetting(ppService.getPartySetting(bean.getParty().getTdbPartyCode()));
+					if(bean.getPlace() != null) {
+						bean.setPlaceSetting(ppService.getPlaceSetting(bean.getParty().getTdbPartyCode()
+																	  		  , bean.getPlace().getTdbPlaceCode()));
+					}
+				}
+			}
+			list.add(bean);
+		}
+
+		return list;
+	}
+
+	/**
+	 * 納入指示送信実行状況の取得
+	 * @param userSession
+	 * @return 納入指示送信の実行有無
+	 */
+	public boolean isRunKanbanOrder(UserSession userSession) {
+
+		Users users = userSession.getMyUsers();
+		Place userPlace = userSession.getMyPlace();
+
+		Date today = DateUtility.getDateWith0Oclock(new Date());
+
+		OptionThreadManagerMapperParam param = new OptionThreadManagerMapperParam();
+		param.setSrhUsersOid(users.getOid());
+		param.setSrhUserPlaceOid(userPlace.getOid());
+		param.setSrhThreadCategory(OptionThreadCategory.MakeSimpleKanbanOrderService.name());
+		param.setSrhThreadStatus(OptionThreadStatus.RUNNING.name());
+		param.setSrhCloseOutTimeToday(today);
+		param.setSrhCloseOutTimeNext(DateUtility.getDateForward(today, 1));
+		int count = optionThreadManagerMapper.selectRunKanbanOrder(param);
+
+		return count != 0;
+	}
 
 }

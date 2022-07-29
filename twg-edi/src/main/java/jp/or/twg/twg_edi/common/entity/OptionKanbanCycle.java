@@ -1,6 +1,7 @@
 package jp.or.twg.twg_edi.common.entity;
 
 import java.util.Date;
+
 import javax.annotation.Generated;
 
 public class OptionKanbanCycle {
@@ -232,5 +233,12 @@ public class OptionKanbanCycle {
 	@Generated(value = "org.mybatis.generator.api.MyBatisGenerator", date = "2022-06-21T19:20:40.5202452+09:00", comments = "Source field: public.option_kanban_cycle.ts_last_modified_user_place_id")
 	public void setTsLastModifiedUserPlaceId(Long tsLastModifiedUserPlaceId) {
 		this.tsLastModifiedUserPlaceId = tsLastModifiedUserPlaceId;
+	}
+	
+	public int getRemainsCount() {
+		@SuppressWarnings("deprecation")
+		Double ceilNumber = new Double(getCycleC() + "." + getCycleD());
+		// 小数点以下は切り捨てとする。
+		return getCycleA() * (int) Math.floor(ceilNumber);
 	}
 }

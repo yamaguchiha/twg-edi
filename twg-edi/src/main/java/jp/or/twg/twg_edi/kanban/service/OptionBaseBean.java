@@ -15,15 +15,18 @@ import lombok.Setter;
 public class OptionBaseBean {
 
 	//base
-	/**
-     * チェックボックス値	TODO:おそらく不要
-    **/
-    private  String   checkboxValue;
+//	/**
+//     * チェックボックス値	TODO:おそらく不要
+//    **/
+//    private  String   checkboxValue;
+//
+//    /**
+//     * チェックボックス表示	TODO:おそらく不要
+//    **/
+//    private  String   checkboxView;
 
-    /**
-     * チェックボックス表示	TODO:おそらく不要
-    **/
-    private  String   checkboxView;
+	// チェックボックス値
+	private  Boolean   checkboxValue;
 
     /**
      * データNo

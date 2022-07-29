@@ -1,7 +1,10 @@
 package jp.or.twg.twg_edi.common.entity;
 
 import java.util.Date;
+
 import javax.annotation.Generated;
+
+import jp.or.twg.twg_edi.kanban.service.OperatingKbn;
 
 public class OptionCalendarSetting {
 
@@ -125,4 +128,22 @@ public class OptionCalendarSetting {
 	public void setTsLastModifiedUserPlaceId(Long tsLastModifiedUserPlaceId) {
 		this.tsLastModifiedUserPlaceId = tsLastModifiedUserPlaceId;
 	}
+	
+	public boolean isOperating() {
+		boolean operating = false;
+		if(OperatingKbn.NON_OPERATION.getId().equals(getOperatingInfo().toString())) {
+			operating = false;
+		}else{
+			operating = true;
+		}
+		return operating;
+	}
+	
+    public OperatingKbn getOperatingKbnForEnum() {
+    	return OperatingKbn.getOperationgKbnById(getOperatingInfo().toString());
+    }
+    
+    public void setOperatingKbnForEnum(OperatingKbn operatingKbn) {
+    	this.setOperatingInfo(operatingKbn == null ? null : Integer.valueOf(operatingKbn.getId()));
+    }
 }

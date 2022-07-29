@@ -192,7 +192,7 @@ INPUT.field_tdbPartyCode_css {
 	width:11em;
 }
 
-INPUT.24byte_text {
+INPUT.\32 4byte_text {
 	width:12em;
 }
 
@@ -325,95 +325,95 @@ TH.checkbox_cell {
 
 /* 各文字数幅（全角は×２）*/
 
-TH.2byte_cell {
+TH.\32 byte_cell {
 	width:1.1em;
 }
 
-TH.3byte_cell {
+TH.\33 byte_cell {
 	width:1.6em;
 }
 
-TH.4byte_cell {
+TH.\34 byte_cell {
 	width:2.1em;
 }
 
-TH.5byte_cell {
+TH.\35 byte_cell {
 	width:2.6em;
 }
 
-TH.6byte_cell {
+TH.\36 byte_cell {
 	width:3.1em;
 }
 
-TH.7byte_cell {
+TH.\37 byte_cell {
 	width:3.6em;
 }
 
-TH.8byte_cell {
+TH.\38 byte_cell {
 	width:4.1em;
 }
 
-TH.10byte_cell {
+TH.\31 0byte_cell {
 	width:5.1em;
 }
 
-TH.12byte_cell {
+TH.\31 2byte_cell {
 	width:6.1em;
 }
 
-TH.13byte_cell {
+TH.\31 3byte_cell {
 	width:6.6em;
 }
 
-TH.14byte_cell {
+TH.\31 4byte_cell {
 	width:7.1em;
 }
 
-TH.15byte_cell {
+TH.\31 5byte_cell {
 	width:7.6em;
 }
 
-TH.16byte_cell {
+TH.\31 6byte_cell {
 	width:8.1em;
 }
 
-TH.18byte_cell {
+TH.\31 8byte_cell {
 	width:9.1em;
 }
 
-TH.20byte_cell {
+TH.\32 0byte_cell {
 	width:10.1em;
 }
 
-TH.25byte_cell {
+TH.\32 5byte_cell {
 	width:12.6em;
 }
 
-TH.28byte_cell {
+TH.\32 8byte_cell {
 	width:14.1em;
 }
 
-TH.30byte_cell {
+TH.\33 0byte_cell {
 	width:15.1em;
 }
 
-TH.33byte_cell {
+TH.\33 3byte_cell {
 	width:16.6em;
 }
 
-TH.35byte_cell {
+TH.\33 5byte_cell {
 	width:17.6em;
 }
 
-TH.40byte_cell {
+TH.\34 0byte_cell {
 	width:20.6em;
 }
 
-TH.45byte_cell {
+TH.\34 5byte_cell {
 	width:22.6em;
 }
 
-TH.50byte_cell {
+TH.\35 0byte_cell {
 	width:25.6em;
 }
 
@@ -447,7 +447,7 @@ TH.btn_cancel_cell {
 }
 
 /* Tooltip */
-
+/*
  利用側タグ
  <a href="#" class="tooltip" style="a:link { color: #000000;}">表示<span>ToolTip内容</span></a>
 */

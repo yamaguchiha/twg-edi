@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.or.twg.twg_edi.kanban.mapper.InboundKanbanDeljitMapper">
+
+  <!-- resultMap -->
+  <resultMap id="optionKanbanCycleList" type="jp.or.twg.twg_edi.common.entity.OptionKanbanCycle">
+    <id column="oid" property="oid"/>
+    <result column="place_st_oid"                   property="placeStOid"/>
+    <result column="place_of_discharge_id"          property="placeOfDischargeId"/>
+    <result column="place_sf_oid"                   property="placeSfOid"/>
+    <result column="cycle_a"                        property="cycleA"/>
+    <result column="cycle_b"                        property="cycleB"/>
+    <result column="cycle_c"                        property="cycleC"/>
+    <result column="cycle_d"                        property="cycleD"/>
+    <result column="option_calendar_oid"            property="optionCalendarOid"/>
+    <result column="last_processing_date"           property="lastProcessingDate"/>
+    <result column="last_processing_no"             property="lastProcessingNo"/>
+    <result column="last_delivery_date_string_date" property="lastDeliveryDateStringDate"/>
+    <result column="last_shipment_no"               property="lastShipmentNo"/>
+  </resultMap>
+
+  <resultMap id="optionCalendarSettingList" type="jp.or.twg.twg_edi.common.entity.OptionCalendarSetting">
+    <id column="oid" property="oid"/>
+    <result column="option_calendar_oid" property="optionCalendarOid"/>
+    <result column="date"                property="date"/>
+    <result column="operating_info"      property="operatingInfo"/>
+  </resultMap>
+
+  <!-- サイクル取得SQL -->
+  <select id="getOptionKanbanCycle" resultMap="optionKanbanCycleList">
+    select distinct *
+      from option_kanban_cycle
+     where place_st_oid = #{placeStOid}
+       <if test="placeOfDischargeId != null">
+       and place_of_discharge_id = #{placeOfDischargeId}
+       </if>
+       and place_sf_oid = #{placeSfOid}
+       <if test="isNotOrder">
+       and (
+               (
+               to_char(last_processing_date, 'YYYYMMDD') &lt; #{lastProcessingDate_yyyymmdd}
+            or last_processing_date is null
+            or last_processing_no is null
+               )
+            or (
+                   to_char(last_processing_date, 'YYYYMMDD') = #{lastProcessingDate_yyyymmdd}
+               and last_processing_no &lt; #{lastProcessingNo}
+               )
+           )
+       </if>
+  </select>
+  <select id="getOptionCalendarSetting" resultMap="optionCalendarSettingList">
+    select *
+      from option_calendar_setting cs
+     inner join option_calendar c
+        on cs.option_calendar_oid = c.oid
+     where (
+           cs.option_calendar_oid = #{optionCalendarOid}
+        <if test="optionCalendarOidDefault != null">
+        <!-- カレンダー情報が削除されていた場合はデフォルトカレンダーを参照 -->
+        or cs.option_calendar_oid = #{optionCalendarOidDefault}
+        </if>
+           )
+       and date = #{operationDate}
+     order by c.calendar_no desc
+     limit 1
+  </select>
+</mapper>

@@ -10,22 +10,24 @@
 <script>
 function checkBeforeSubmit() {
   // 入力項目の値取得
-  var date = document.getElementById("inputOperationDate").value;
+  var date = document.getElementById("operationDate").value;
   var tableNum = document.getElementById("tableNo").value;
 
   var res = confirm("以下の納入指示を実行します。\n\n処理日：" + date
                   + "\nテーブルNo："+ tableNum + "\n\nよろしいですか？");
+  if (res == false) return;
 
-  if (res == true) {
-    //execSubmit('executeOrder');
-    return true;
-  }else{
-    return false;
-  }
+  let form = document.getElementsByTagName('form')[0];
+  form.action="execute";
+  form.method="post";
+  //form.name="execute";
+  form.submit();
+  //document.inboundKanbanDeljitForm.submit();
 }
 
 // 期限切れ品番情報ウィンドウ表示用ファンクション
 function viewOutOfRangeItem(srhOutOfRangeItem) {
+	alert(srhOutOfRangeItem);
     //setupDialogExistsCloseWithSize("outOfRangeItemList", "placeDialog", "品番情報", 475, 250);
     //getSearchOutOfRangeItem(srhOutOfRangeItem);
     //$("#outOfRangeItemList").dialog("open");
@@ -39,8 +41,8 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
   </div>
 </DIV>
 
-<form id="inboundkanbanDeljitForm" name="inboundkanbanDeljitForm" th:method="POST" th:action="@{/inboundkanbanDeljit/list?page=0}" th:object="${inboundKanbanDeljitForm}" class="needs-validation" novalidate>
-<!-- <form name="kanbanSearchForm" th:action="@{/inboundKanbandeljit/list?page=0}" th:object="${condition}" method ="POST" novalidate> -->
+<!-- <form id="inboundKanbanDeljitForm" name="inboundKanbanDeljitForm" th:method="POST" th:action="@{/inboundKanbanDeljit/list?refresh}" th:object="${inboundKanbanDeljitForm}" class="needs-validation" novalidate>-->
+<form name="inboundKanbanDeljitForm" th:action="@{/inboundKanbanDeljit/list?page=0}" th:object="${inboundKanbanDeljitForm}" th:method="POST" novalidate>
 <!-- ## 検索条件 start ## -->
 <table class="caption" id="srhCondTable">
   <tbody>
@@ -52,8 +54,7 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
       </td>
       <th width="10%">テーブルNo</th>
       <td width="14%">
-        <!-- <select th:field="*{inputTableNo}"> -->
-        <select id="inputTableNo">
+        <select th:field="*{inputTableNo}">
           <option th:each="tableNo : *{itemTypeHtmlList}"
                   th:value="${tableNo.key}"
                   th:text="${tableNo.value}"
@@ -84,11 +85,11 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
       <DIV class="subtitle category_IB">
         <DIV class="subtitle_text">納入指示対象一覧</DIV>
         <DIV class="subtitle_right">
-          <th:block th:if="*{autoSetDocRefIdAau} == false">
-            <input class="btn_size6" type="button" value="納入指示" th:attr="onClick='checkBeforeSubmit();'">
-          </th:block>
           <th:block th:if="*{autoSetDocRefIdAau} == true">
-            <input class="btn_size6" type="button" value="納入指示" th:attr="onClick='checkBeforeSubmit();'" disabled>
+            <input name="execute" class="btn_size6" type="button" value="納入指示" th:onClick="checkBeforeSubmit();">
+          </th:block>
+          <th:block th:if="*{autoSetDocRefIdAau} == false">
+            <input name="execute" class="btn_size6" type="button" value="納入指示" th:onClick="checkBeforeSubmit();" disabled>
           </th:block>
         </DIV>
       </DIV>
@@ -98,7 +99,7 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
       <DIV class="subtitle category_IB">
         <DIV class="subtitle_text">納入指示対象一覧</DIV>
         <DIV class="subtitle_right">
-          <input class="btn_size6" type="button" value="納入指示" th:attr="onClick='checkBeforeSubmit();'">
+          <input name="execute" class="btn_size6" type="button" value="納入指示" th:onClick="checkBeforeSubmit();">
         </DIV>
       </DIV>
       <table class="caption" id="srhCondTable">
@@ -113,8 +114,8 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
       <table class="list" width="100%">
         <thead>
           <tr>
-            <th class="checkbox_cell"></th>
-            <th class="10byte_cell">納入場所</th>
+            <th class="checkbox_cell"><input type="checkbox" id="allCheck" ></th>
+            <th class="8byte_cell">納入場所</th>
             <th class="10byte_cell">出荷元</th>
             <th class="12byte_cell">出荷元工区</th>
             <th class="8byte_cell">発注便</th>
@@ -123,53 +124,76 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
             <th class="12byte_cell">前回処理日</th>
             <th class="6byte_cell">便</th>
             <th class="50byte_cell" align="center" >備考</th>
-            <th class="detail_link_cell" rowspan="2">詳<br>細</th>
+            <th class="detail_link_cell">詳<br>細</th>
           </tr>
         </thead>
         <tbody>
-          <tr th:each="bean : ${pagerInfo.content}" th:object="${bean}" >
-            <!-- チェックボックス --> 
-            <td align="center" >
-
+          <tr th:each="bean, stat : *{beanList}">
+            <!-- チェックボックス -->
+            <td align="center">
+              <th:block th:if="${bean.forceDeljit == true}")>
+                <input type="checkbox" th:field="*{beanList[__${stat.index}__].checkboxValue}">
+              </th:block>
             </td>
-            <!-- 納入場所 --> 
-            <td th:text="*{placeOfDischargeId}"></td>
+            <!-- 納入場所 -->
+            <td>
+              [[${bean.placeOfDischargeId}]]
+            </td>
             <!-- 出荷元 -->
-            <!-- <td th:text="*{party.partySetting.codeByAbbrOrCode} + <br> + *{party.partySetting.nameByAbbrOrName}"></td> -->
-            <!-- <td>[[${bean.party.partySetting.codeByAbbrOrCode]]<br/>[[${bean.party.partySetting.nameByAbbrOrName}]]</td>-->
-            <td>[[${bean.party.tdbPartyCode]]<br/>[[${bean.party.name}]]</td>
-            <!-- 出荷元工区 --> 
-            <td>[[${bean.place.tdbPlaceCode]]<br/>[[${bean.place.name}]]</td>
+            <td>
+              <th:block th:if="${bean.partySetting != null && not #strings.isEmpty(bean.partySetting.abbrCode)}">
+              [[${bean.partySetting.abbrCode}]]
+              </th:block>
+              <th:block th:if="${bean.partySetting == null || #strings.isEmpty(bean.partySetting.abbrCode)}">
+              [[${bean.party.tdbPartyCode}]]
+              </th:block>
+              <br/>
+              [[${bean.party.name}]]
+            </td>
+            <!-- 出荷元工区 -->
+            <td>
+              [[${bean.place.tdbPlaceCode}]]<br/>[[${bean.place.name}]]
+            </td>
             <!-- 発注便 -->
-            <th:block th:switch="*{viewStatus}">
-              <td th:case="'SAME'"       th:text="*{appendShipmentNo}" class='pink' align="right"></td>
-              <td th:case="'OVER'"       th:text="*{appendShipmentNo}" class='gray' align="right"></td>
-              <td th:case="'NORUN'"      th:text="*{appendShipmentNo}" class='gray' align="right"></td>
-              <td th:case="'NODERIVERY'" th:text="*{appendShipmentNo}" class='gray' align="right"></td>
-              <td th:case="*"            th:text="*{appendShipmentNo}" class='qrsuccess' align="right"></td>
+            <th:block th:switch="${bean.viewStatus}">
+              <td th:case="'SAME'"       class='pink'      align="right">[[${bean.appendShipmentNo}]]</td>
+              <td th:case="'OVER'"       class='gray'      align="right">[[${bean.appendShipmentNo}]]</td>
+              <td th:case="'NORUN'"      class='gray'      align="right">[[${bean.appendShipmentNo}]]</td>
+              <td th:case="'NODERIVERY'" class='gray'      align="right">[[${bean.appendShipmentNo}]]</td>
+              <td th:case="*"            class='qrsuccess' align="right">[[${bean.appendShipmentNo}]]</td>
             </th:block>
-            <!-- 発注日種別 --> 
-            <td th:text="*{searchResult}" align="center"></td>
-            <!-- サイクル --> 
-            <td th:text="*{cycleInfo}" align="center"></td>
-            <!-- 前回処理日 --> 
-            <td th:text="*{lastOperationDate}" align="center"></td>
-            <!-- 便No --> 
-            <td th:text="*{lastOperationNo}" align="right"></td>
+            <!-- 発注日種別 -->
+            <td align="center">
+              [[${bean.searchResult}]]
+            </td>
+            <!-- サイクル -->
+            <td align="center">
+              [[${bean.cycleInfo}]]
+            </td>
+            <!-- 前回処理日 -->
+            <td align="center">
+              [[${bean.lastOperationDate}]]
+            </td>
+            <!-- 便No -->
+            <td align="right">
+              [[${bean.lastOperationNo}]]
+            </td>
             <!-- 備考 -->
-            <td th:style="*{outOfRangeItemList} ? 'color:red;' : ''" th:text="*{calendarMemo}"></td>
-            <!-- <td th:if="*{outOfRangeItemList}" style="color:red;" th:text="*{calendarMemo}"></td>-->
-            <!-- <td th:unless="*{outOfRangeItemList}" th:text="*{calendarMemo}"></td>-->
-            <!-- 品番情報 --> 
-            <td th:if="*{outOfRangeItemList}" align="center">
-              <!-- <a href="#" class="img_detail" onClick="viewOutOfRangeItem('$!bean.outOfRangeItemList');"></a> -->
+            <td th:style="${bean.outOfRangeItemList} ? 'color:red;' : ''">
+              [[${bean.calendarMemo}]]
+            </td>
+            <!-- 品番情報 -->
+            <td align="center">
+              <th:block th:if="${not #strings.isEmpty(bean.outOfRangeItemList)}">
+                <a href="#" class="img_detail" th:onClick="viewOutOfRangeItem('${bean.outOfRangeItemList}')"></a>
+              </th:block>
             </td>
           </tr>
         </tbody>
       </table>
       <table class="pager">
         <tr>
-          <td><div id="pager" th:replace="fragments/pager">pager</div></td>
+          <td><div id="pager" th:replace="fragments/pagerForm">pager</div></td>
         </tr>
       </table>
     </div>
@@ -178,7 +202,7 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
 <!-- ## 納入指示対象一覧 end   ## -->
 <br>
 <!-- ## 納入指示送信状況 start ## -->
-<th:block th:if="*{runSearch} == false">
+<!-- <th:block th:if="*{runSearch} == false"> runSearch -->
   <th:block th:with="downloadList=*{unissuedDownloadList}"><!-- unissuedDownloadListはFormのプロパティ -->
     <th:block th:if="${downloadList == null || downloadList.size() == 0}">
       <DIV class="subtitle category_IB">
@@ -194,12 +218,12 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
       <DIV class="subtitle category_IB">
         <DIV class="subtitle_text">納入指示送信状況</DIV>
         <DIV class="subtitle_right">
-          <th:block th:if="*{KanbanOrder} == true">
+          <th:block th:if="*{isKanbanOrder} == true">
             <input class="btn_size8" type="submit" value="最新の情報に更新" name="unissuedRefresh">
           </th:block>
-          <th:block th:if="*{KanbanOrder} == false">
+          <th:block th:if="*{isKanbanOrder} == false">
             <input class="btn_size8" type="submit" value="最新の情報に更新" name="unissuedRefresh" disabled>
-          </th:block>  
+          </th:block>
         </DIV>
       </DIV>
       <table class="list" width="100%">
@@ -207,7 +231,7 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
           <tr>
             <th class="14byte_cell">処理日</th>
             <th class="10byte_cell">テーブルNo</th>
-            <th class="10byte_cell">納入場所</th>
+            <th class="8byte_cell">納入場所</th>
             <th class="10byte_cell">出荷元</th>
             <th class="12byte_cell">出荷元工区</th>
             <th class="16byte_cell">開始日時</th>
@@ -269,9 +293,14 @@ function viewOutOfRangeItem(srhOutOfRangeItem) {
       </table>
     </th:block><!-- th:if=downloadList -->
   </th:block><!-- th:with=downloadList -->
-</th:block><!-- runSearch -->
+<!--</th:block> runSearch -->
 <!-- ## 納入指示送信状況 end   ## -->
-
+  <input type="hidden" th:field="*{isKanbanOrder}"/>
+  <input type="hidden" th:field="*{runSearch}"/>
+  <input type="hidden" th:field="*{ownTdbPartyCode}"/>
+  <input type="hidden" th:field="*{ownTdbPlaceCode}"/>
+  <input type="hidden" th:field="*{operationDate}"/>
+  <input type="hidden" th:field="*{tableNo}"/>
 </form>
 </div>
   <!-- コンテンツの表示 -->

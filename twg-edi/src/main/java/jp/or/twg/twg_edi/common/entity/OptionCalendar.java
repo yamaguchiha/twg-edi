@@ -1,6 +1,7 @@
 package jp.or.twg.twg_edi.common.entity;
 
 import java.util.Date;
+
 import javax.annotation.Generated;
 
 public class OptionCalendar {
@@ -125,4 +126,7 @@ public class OptionCalendar {
 	public void setTsLastModifiedUserPlaceId(Long tsLastModifiedUserPlaceId) {
 		this.tsLastModifiedUserPlaceId = tsLastModifiedUserPlaceId;
 	}
+
+    /** 標準カレンダーNo */
+    public static final Integer DEFAULT_CALENDAR_NO = 0;
 }

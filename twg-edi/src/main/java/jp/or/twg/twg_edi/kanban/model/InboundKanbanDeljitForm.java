@@ -1,9 +1,9 @@
 package jp.or.twg.twg_edi.kanban.model;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import jp.or.twg.twg_edi.kanban.service.InboundKanbanDeljitBean;
 import jp.or.twg.twg_edi.kanban.service.OptionThreadManagerBean;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,6 +21,9 @@ public class InboundKanbanDeljitForm {
 	// テーブルNo
 	private Integer inputTableNo;
 
+	// テーブルNo(検索時の処理日を保持)
+	private Integer tableNo;
+
 	// 処理日
 	private String inputOperationDate;
 
@@ -30,8 +33,9 @@ public class InboundKanbanDeljitForm {
 	// 未発注分のみ("Y" or "N")
 	private Boolean notOrder;
 
-	// 処理日
-	private Date operationDate;
+	// 処理日(検索時の処理日を保持)
+	private String operationDate;
+	//private Date operationDate;
 
 	// ログインユーザーの出荷元
     private String ownTdbPartyCode;
@@ -51,7 +55,7 @@ public class InboundKanbanDeljitForm {
 	private List<OptionThreadManagerBean> unissuedDownloadList;
 
 	// 納入指示送信実行状況の取得(isRunKanbanOrder)
-	private boolean isKanbanOrder;
+	private Boolean isKanbanOrder;
 
 	// テーブルNoList
 	private Map<String, String> itemTypeHtmlList;
@@ -62,4 +66,7 @@ public class InboundKanbanDeljitForm {
 
 	/** 1ページに表示する件数 */
 	private Long pageSize;
+
+	// 納入指示対象一覧
+	private List<InboundKanbanDeljitBean> beanList;
 }

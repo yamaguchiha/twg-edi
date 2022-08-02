@@ -45,19 +45,25 @@ public class PartyPlaceService {
     	this.myPlaceCode = tdbPlaceCode;
     }
 
-	/**
-	 * 企業のOIDからPartyを取得
-	 * @param partyOid
-	 * @return
-	 */
-	public Party getParty(Long partyOid) {
-		Optional<Party> obj = partyMapper.selectByPrimaryKey(partyOid);
-		if(obj.isEmpty()) {
-			return null;
-		} else {
-			return obj.get();
-		}
-	}
+    /**
+     * Placeの企業情報OidからPartyを取得する
+     *
+     * @param partyOid
+     * @return
+     */
+    public Party getParty(Long partyOid) {
+        SelectStatementProvider selectStatement = SqlBuilder.select(PartyMapper.selectList)
+                  .from(PartyDynamicSqlSupport.party)
+                  .where(PartyDynamicSqlSupport.oid, SqlBuilder.isEqualTo(partyOid))
+                  .build()
+                  .render(RenderingStrategies.MYBATIS3);
+        Optional<Party> partyList = partyMapper.selectOne(selectStatement);
+        if(partyList.isEmpty()) {
+            return null;
+        } else {
+            return partyList.get();
+        }
+    }
 
     /**
      * TDBコードからPartyを取得する

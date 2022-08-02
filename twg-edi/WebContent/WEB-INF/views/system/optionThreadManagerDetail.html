@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+  <!-- <header th:replace="fragments/header::common_header"></header> -->
+  <!-- コンテンツの表示 -->
+  <div layout:fragment="content"class="container-fluid">
+
+<script type="text/javascript">
+</script>
+
+<form id="optionThreadManagerDetailForm" name="optionThreadManagerDetailForm" th:object="${optionThreadManagerDetailDto}">
+  <div class="subtitle category_IB">
+    <div class="subtitle_text">処理内容</div>
+  </div>
+
+    <table class="list">
+      <colgroup align="center"/>
+      <colgroup />
+      <colgroup />
+      <colgroup />
+      <colgroup align="center"/>
+      <thead>
+        <tr>
+          <th class="14byte_cell">処理番号</th>
+          <th class="15byte_cell">状態</th>
+          <th class="12byte_cell">事業所工区</th>
+          <th class="16byte_cell">処理担当者</th>
+          <th>処理種別</th>
+          <th class="25byte_cell">開始日時</th>
+          <th class="25byte_cell">終了日時</th>
+          <th>所要時間</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td th:text="*{id}"></td>
+          <td th:text="*{threadStatus}"></td>
+          <td>
+            <span th:text="*{userPlaceCode}"></span>
+            <br>
+            <span th:text="*{userPlaceName}"></span>
+          </td>
+          <td th:text="*{usersOidName}"></td>
+          <td th:text="*{threadCategory}"></td>
+          <td th:text="*{startUpTime}"></td>
+          <td th:text="*{closeOutTime}"></td>
+          <td th:text="|*{intervalTime} 秒|"></td>
+         </tr>
+      </tbody>
+    </table>
+  <div class="subtitle category_IB">
+    <div class="subtitle_text">処理内容詳細</div>
+  </div>
+    <table class="list">
+      <colgroup align="center"/>
+      <colgroup />
+      <colgroup />
+      <colgroup />
+      <colgroup align="center"/>
+      <thead>
+        <tr>
+          <th th:text="*{errorMessage}"></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+</form>
+
+</BODY>
+</HTML>

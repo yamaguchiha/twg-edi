@@ -7,6 +7,203 @@
   <!-- コンテンツの表示 -->
   <div layout:fragment="content"class="container-fluid">
 
+<script type="text/javascript">
+  // 企業事業所選択Ajax使用時に画面に合わせて入力項目IDを指定する ここから
+  function setPartyPlaceCode(partyCode, placeCode) {
+    $("#srhPartyAbbrCode").val(partyCode);
+    $("#srhPlaceCode").val(placeCode);
+    $("#placeSelectList").dialog("close");
+  }
+
+  $(function(){
+    setupDialog("placeSelectList", "placeDialog", "出荷元選択");
+    $("#srhSelectPartyAbbrCode").val("");
+    $("#srhSelectPartyName").val("");
+    $("#srhSelectPartyKanaName").val("");
+    $("#partyPlaceInputBtn").click(function(){
+        getSearchPlaceList();
+        $("#placeSelectList").dialog("open");
+        $(".placeDialog").css("top", $(this).offset().top + 20);
+        $(".placeDialog").css("left", $(this).offset().left - 130);
+    });
+  });
+  // 企業事業所選択Ajax使用時に画面に合わせて入力項目IDを指定する ここまで
+
+</script>
+
+<div class="subtitle category_MA">
+  <div class="subtitle_text">検索条件</div>
+  <div class="subtitle_right">
+    <input type="button" id="srhCondToggleBtn" class="btn" value="" >
+  </div>
+</div>
+<form name="InboundExchangeReservePrintForm" th:action="@{/inboundExchangeReservePrint/list?page=0}" th:object="${form}" method ="POST" novalidate>
+<table class="caption" id="srhCondTable">
+  <tbody>
+    <tr>
+      <th>背番号</th>
+      <td>
+        <input type="text" th:field="*{condition.srhItemE04}" id="srhItemE04" value="" >
+        <input type="radio" th:field="*{condition.srhItemE04Type}" id="srhItemE04Type00" value="0">
+        <label for="srhItemcodeType00">前方</label>
+        <input type="radio" th:field="*{condition.srhItemE04Type}" id="srhItemE04Type01" value="1">
+        <label for="srhItemcodeType01">部分</label>
+      </td>
+      <th>納入場所</th>
+      <td>
+        <input type="text" th:field="*{condition.srhPlaceOfDischargeId}" id="srhPlaceOfDischargeId" value="" >
+      </td>
+      <td align="center" rowspan="5">
+        <input type="submit" class="btn" value="　　検索　　" ><br>
+        <input type="button" class="btn" value="　並べ替え　" onClick="clearInboundExchangeReservePrintForm();">
+      </td>
+     </tr>
+    <tr>
+      <th>品番</th>
+      <td>
+        <input type="text" th:field="*{condition.srhItemIdIn}" id="srhItemIdIn" value="" >
+        <input type="radio" th:field="*{condition.srhItemIdInType}" id="srhItemIdInType00" value="0">
+        <label for="srhItemcodeType00">前方</label>
+        <input type="radio" th:field="*{condition.srhItemIdInType}" id="srhItemIdInType01" value="1">
+        <label for="srhItemcodeType01">部分</label>
+      </td>
+      <th>出荷元</th>
+      <td>
+        <input type="text" th:field="*{condition.srhPartyAbbrCode}" class="field_mainPartyAbbrCode_css">
+        -
+        <input type="text" th:field="*{condition.srhPlaceCode}" class="field_mainPlaceCode_css">
+        <!-- 企業事業所選択のidは固定で -->
+        <input id="partyPlaceInputBtn" type="button" value="  " class="img_search" >
+      </td>
+    </tr>
+    <tr>
+      <th>部品取扱識別</th>
+      <td>
+        <input type="text" th:field="*{condition.srhItemE18}" id="srhItemE18" value="" >
+      </td>
+      <th>出荷場所</th>
+      <td>
+        <input type="text" th:field="*{condition.srhPlaceOfLoadingId}" id="srhPlaceOfLoadingId" value="" >
+      </td>
+    </tr>
+
+   </tbody>
+</table>
+</form>
+<br>
+
+<!-- #if($authorized) -->
+<strong>
+<font color="red">
+※発行枚数入力後、再検索やページ切替を行う場合、[データ作成]ボタンをクリックしてから実行してください。
+</font>
+</strong>
+<br>
+<br>
+<!-- #end -->
+
+<!--
+--------------------------------------------------------------------
+ 選択タブ
+--------------------------------------------------------------------
+-->
+<div id="tabsDetail">
+  <ul>
+<!--
+    <li><a href="javascript:execSubmitWithOption('executeRefresh', {viewTabType: '1'});"><span #if($currentForm.viewTabType=="1") class="#categoryToCssClass($category)" #else class="#categoryOffToCssClass($category)" #end>差換かんばん発行</span></a></li>
+    <li><a href="javascript:execSubmitWithOption('executeRefresh', {viewTabType: '2'});"><span #if($currentForm.viewTabType=="2") class="#categoryToCssClass($category)" #else class="#categoryOffToCssClass($category)" #end>予備かんばん発行</span></a></li>
+-->
+    <li><span class="#categoryToCssClass($category)">差換かんばん発行</span></li>
+    <li><span class="#categoryOffToCssClass($category)">予備かんばん発行</span></li>
+  </ul>
+</div>
+<input type="hidden" name="viewTabType" id="viewTabType" value="$!currentForm.viewTabType" >
+
+
+<DIV class="subtitle category_MA">
+  <DIV class="subtitle_text">品番情報一覧</DIV>
+  <DIV class="subtitle_right">
+    <input class="btn_size4" type="button" value="データ作成" th:attr="onClick='location.href=\'' + @{/iboundExchangeReservePrint/add} + '\''">
+  </DIV>
+</DIV>
+<th:block th:with="pagerInfo=${form.pageList}">
+  <div th:if="${pagerInfo.content.size() == 0}">
+  <table class="list">
+    <tbody>
+      <tr>
+        <td>検索条件に該当する品番情報はありません</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div th:if="${pagerInfo.content.size() != 0}">
+  <table class="list">
+    <colgroup align="center"/>
+    <colgroup />
+    <colgroup />
+    <colgroup />
+    <colgroup align="center"/>
+    <thead>
+      <tr>
+        <th class="40byte_cell">納入場所</th>
+        <th class="50byte_cell">出荷元</th>
+        <th class="50byte_cell">出荷元工区</th>
+        <th class="50byte_cell">出荷場所</th>
+        <th class="40byte_cell">背番号</th>
+        <th class="50byte_cell">品番<br>表示用品番</th>
+        <th class="50byte_cell">部品取扱種別</th>
+        <th class="30byte_cell">収容数</th>
+        <th class="30byte_cell">回転枚数</th>
+        <th class="30byte_cell">読取枚数</th>
+        <th class="30byte_cell">増減予定</th>
+        <th class="30byte_cell">予備枚数</th>
+        <th class="30byte_cell">発行枚数</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="item : ${pagerInfo.content}" th:object="${item}" >
+        <td th:text="*{placeOfDischargeId}"></td>
+        <td>
+          <span th:text="*{partySfCode}"></span>
+          <br>
+          <span th:text="*{partySfName}"></span>
+        </td>
+        <td>
+          <span th:text="*{placeSfCode}"></span>
+          <br>
+          <span th:text="*{placeSfName}"></span>
+        </td>
+        <td th:text="*{placeOfLoadingId}"></td>
+        <td th:text="*{itemE04}"></td>
+          <td>
+            <span th:text="*{itemIdIn}"></span>
+            <br>
+            <span th:text="*{itemIdPd}"></span>
+          </td>
+        <td th:text="*{itemE18}"></td>
+        <td th:text="*{perPackageQuantity}"></td>
+        <td th:text="*{rollQuantity}"></td>
+        <td th:text="*{readQuantity}"></td>
+        <td th:text="*{adjustQuantity}"></td>
+        <td th:text="*{reserveQuantity}"></td>
+      </tr>
+    </tbody>
+  </table>
+<!--
+  <table class="pager">
+    <tr>
+      <td><div id="pager" th:replace="fragments/pager">pager</div></td>
+    </tr>
+  </table>
+  </div>
+</th:block>
+-->
+
+
+<!-- 企業事業所選択のHTMLを読み込む -->
+<div id="selectPlace" th:replace="fragments/ajaxSelectPlaceList"></div>
+
+
 
 
   </div>

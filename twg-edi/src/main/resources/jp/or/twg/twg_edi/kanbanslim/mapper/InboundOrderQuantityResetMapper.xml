@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.or.twg.twg_edi.kanbanslim.mapper.InboundOrderQuantityResetMapper">
+
+  <!-- resultMap -->
+  <resultMap id="resultInboundOrderQuantityReset" type="jp.or.twg.twg_edi.kanbanslim.model.InboundOrderQuantityResetDto">
+    <result column="oid"                               property="oid"/>
+    <result column="place_of_discharge_id"             property="placeOfDischargeId"/>
+    <result column="place_sf_oid"                      property="placeSfOid"/>
+    <result column="place_of_loading_id"               property="placeOfLoadingId"/>
+    <result column="place_of_loading_name"             property="placeOfLoadingName"/>
+    <result column="item_e04"                          property="itemE04"/>
+    <result column="item_id_in"                        property="itemIdIn"/>
+    <result column="item_id_pd"                        property="itemIdPd"/>
+    <result column="item_e18"                          property="itemE18"/>
+    <result column="per_package_quantity"              property="perPackageQuantity"/>
+    <result column="oroqm_oid"                         property="oroqmOid"/>
+    <result column="place_st_oid"                      property="placeStOid"/>
+    <result column="item_part_oid"                     property="itemPartOid"/>
+    <result column="order_quantity"                    property="orderQuantity"/>
+  </resultMap>
+
+  <!-- 発注枚数リセットのSQL -->
+  <select id="selectOrderQuantityResetList" resultMap="resultInboundOrderQuantityReset">
+    select distinct ITEM.OID                                    as oid                                 <!-- 品番マスタ.OID -->
+         , ITEM.PLACE_OF_DISCHARGE_ID                           as place_of_discharge_id               <!-- 品番マスタ.納入場所 -->
+         , ITEM.PLACE_SF_OID                                    as place_sf_oid                        <!-- 品番マスタ.出荷元事業所工区OID -->
+         , ITEM.PLACE_OF_LOADING_ID                             as place_of_loading_id                 <!-- 品番マスタ.出荷場所 -->
+         , ITEM.PLACE_OF_LOADING_NAME                           as place_of_loading_name               <!-- 品番マスタ.出荷場所名称 -->
+         , ITEM.ITEM_E04                                        as item_e04                            <!-- 品番マスタ.背番号 -->
+         , ITEM.ITEM_ID_IN                                      as item_id_in                          <!-- 品番マスタ.品番 -->
+         , ITEM.ITEM_ID_PD                                      as item_id_pd                          <!-- 品番マスタ.表示用品番 -->
+         , ITEM.ITEM_E18                                        as item_e18                            <!-- 品番マスタ.部品取扱識別 -->
+         , ITEM.PER_PACKAGE_QUANTITY                            as per_package_quantity                <!-- 品番マスタ.収容数 -->
+         , OPTION_READ_ORDER_QUANTITY_MANAGER.OID               as oroqm_oid                           <!-- 読取・発注枚数管理テーブル.OID -->
+         , OPTION_READ_ORDER_QUANTITY_MANAGER.PLACE_ST_OID      as place_st_oid                        <!-- 読取・発注枚数管理テーブル.納入先事業所情報OID -->
+         , OPTION_READ_ORDER_QUANTITY_MANAGER.ITEM_PART_OID     as item_part_oid                       <!-- 読取・発注枚数管理テーブル.受入品番マスタOID -->
+         , OPTION_READ_ORDER_QUANTITY_MANAGER.ORDER_QUANTITY    as order_quantity                      <!-- 読取・発注枚数管理テーブル.発注枚数 -->
+    <include refid="selectWhere" />
+    order by ITEM.PLACE_OF_DISCHARGE_ID asc
+    <!--     , ITEM.PLACE_SF_OID||'.'||PLACE.PARTY_OID||'.'||PARTY.TDB_PARTY_CODE asc    ペンディング　SELECTにもいれるの？ -->
+    <!--     , ITEM.PLACE_SF_OID||'.'||PLACE.TDB_PLACE_CODE asc                          ペンディング　SELECTにもいれるの？ -->
+         , ITEM.PLACE_OF_LOADING_ID asc
+         , ITEM.ITEM_E04 asc
+         , ITEM.ITEM_ID_IN asc
+         , ITEM.ITEM_E18 asc
+    limit  #{srhLimit}
+    offset #{srhOffset}
+  </select>
+
+  <!-- 発注枚数リセット一覧のcount SQL -->
+  <select id="selectOrderQuantityResetListCount" resultType="java.lang.Long">
+    select count(*)
+    <include refid="selectWhere" />
+  </select>
+
+  <sql id="selectWhere">
+    from  ITEM
+    inner join OPTION_READ_ORDER_QUANTITY_MANAGER
+    on    ITEM.OID = OPTION_READ_ORDER_QUANTITY_MANAGER.ITEM_PART_OID
+    where ITEM.PLACE_BY_OID = #{srhPlaceByOid}
+    <if test="srhItemE04 != null">
+    and   ITEM.ITEM_E04 like #{srhItemE04}
+    </if>
+    <if test="srhItemIdIn != null">
+    and   ITEM.ITEM_ID_IN like #{srhItemIdIn}
+    </if>
+    <if test="srhItemE18 != null">
+    and   ITEM.ITEM_E18 = #{srhItemE18}
+    </if>
+    <if test="srhPlaceOfDischargeId != null">
+    and   ITEM.PLACE_OF_DISCHARGE_ID = #{srhPlaceOfDischargeId}
+    </if>
+    <if test="srhPartyAbbrCode != null or srhPlaceCode != null">
+    and   ITEM.PLACE_SF_OID = #{srhPlaceSfOid}
+    </if>
+    <if test="srhPlaceOfLoadingId != null">
+    and   ITEM.PLACE_OF_LOADING_ID = #{srhPlaceOfLoadingId}
+    </if>
+    and   ITEM.MATERIALS_TYPE = '0'
+  </sql>
+
+  <!-- 発注枚数リセット情報取得SQL -->
+  <select id="selectOrderQuantityResetOne" resultType="jp.or.twg.twg_edi.common.entity.OptionReadOrderQuantityManager">
+    select *
+    from  OPTION_READ_ORDER_QUANTITY_MANAGER
+    where OPTION_READ_ORDER_QUANTITY_MANAGER.ITEM_PART_OID = #{itemPartOid}
+    limit 1
+  </select>
+
+<!-- 更新SQL -->
+  <update id="update" parameterType="jp.or.twg.twg_edi.kanbanslim.model.InboundOrderQuantityResetDto">
+    update OPTION_READ_ORDER_QUANTITY_MANAGER
+    set    ORDER_QUANTITY = #{orderQuantity}    <!-- 読取・発注枚数管理テーブル.発注枚数 -->
+    ,      TS_LAST_MODIFIED_DATE = CURRENT_TIMESTAMP         <!-- 読取・発注枚数管理テーブル.更新日時情報 最終更新日 -->
+    ,      TS_LAST_MODIFIED_USER_ID = #{userOid}             <!-- 読取・発注枚数管理テーブル.更新日時情報 最終ユーザーOID -->
+    ,      TS_LAST_MODIFIED_USER_PLACE_ID = #{userPlaceOid}  <!-- 読取・発注枚数管理テーブル.更新日時情報 最終ユーザー選択事業所OID -->
+    where  OID = #{oroqmOid}
+  </update>
+
+</mapper>

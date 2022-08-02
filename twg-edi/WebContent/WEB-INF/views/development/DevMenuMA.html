@@ -30,29 +30,29 @@
           </ul>
         </div>
 
-		<div th:if="${loginInfo.kanbanDeljitContracted}">
-		<div class="menu_title category_MA">
-		  <a href="ここにSCMの発注管理TOPのリンクを入れる" id="menu_link" title="マスタ管理(かんばん)">
-		    <span id="MA_icon"></span>
-		    <span id="menu_title">マスタ管理(かんばん)</span>
-		  </a>
-		</div>
-		<div class="menu_box">
+    <div th:if="${loginInfo.kanbanDeljitContracted}">
+    <div class="menu_title category_MA">
+      <a href="ここにSCMの発注管理TOPのリンクを入れる" id="menu_link" title="マスタ管理(かんばん)">
+        <span id="MA_icon"></span>
+        <span id="menu_title">マスタ管理(かんばん)</span>
+      </a>
+    </div>
+    <div class="menu_box">
 
-		  <ul class="menu_ul">
-		    <li><span class="img_list_mark" id="menu_list"></span><a href="./optionSystemConfig/">基本情報設定</a></li>
-		    <li><span class="img_list_mark" id="menu_list"></span><a href="./calendar/">カレンダマスタ</a></li>
+      <ul class="menu_ul">
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./optionSystemConfig/">基本情報設定</a></li>
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./calendar/">カレンダマスタ</a></li>
             <li><span class="img_list_mark" id="menu_list"></span><a href="./kanbancycle/">かんばんサイクル情報</a></li>
             <li><span class="img_list_mark" id="menu_list"></span><a href="./deliveryorder/">かんばん納入指示テーブル</a></li>
-		  </ul>
-		  <hr class="menu_hr">
-		  <ul class="menu_ul">
-		    <li><span class="img_list_mark" id="menu_list"></span><a href="./kanbanadjust/">かんばん増減情報</a></li>
-		    <li><span class="img_list_mark" id="menu_list"></span><a href="./kanbanroll/">かんばん回転・枝番情報</a></li>
+      </ul>
+      <hr class="menu_hr">
+      <ul class="menu_ul">
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./kanbanAdjust/list?refresh='初期表示'">かんばん増減情報</a></li>
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./kanbanroll/">かんばん回転・枝番情報</a></li>
             <li><span class="img_list_mark" id="menu_list"></span><a href="./orderstop/">打切情報</a></li>
-		  </ul>
-		</div>
-		</div>
+      </ul>
+    </div>
+    </div>
         </td>
         <td></td>
       </tr>

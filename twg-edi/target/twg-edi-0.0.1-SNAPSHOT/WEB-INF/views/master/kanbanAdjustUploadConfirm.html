@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+  <!-- <header th:replace="fragments/header::common_header"></header> -->
+  <!-- コンテンツの表示 -->
+  <div layout:fragment="content"class="container-fluid">
+
+<DIV class="subtitle category_MA">
+  <DIV class="subtitle_text">アップロード内容確認</DIV>
+  <DIV class="subtitle_right">
+  </DIV>
+</DIV>
+
+<form id="kanbanAdjustUploadForm" name="kanbanAdjustUploadForm" th:action="@{/kanbanAdjust/upload/list?page=0}" th:object="${kanbanAdjustUploadForm}" method ="POST" novalidate>
+  <table class="list">
+    <colgroup align="center"/>
+    <colgroup />
+    <colgroup />
+    <colgroup />
+    <colgroup align="center"/>
+    <thead>
+    </thead>
+    <tbody>
+    <th:block th:with="pagerInfo=${pageList}">
+      <div th:if="${pagerInfo.content.size() == 0}">
+      <table class="list">
+        <tbody>
+          <tr>
+            <td>かんばん増減情報はありません</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      <div th:if="${pagerInfo.content.size() != 0}">
+      <table class="list">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>発注者</th>
+            <th>発注者事業所</th>
+            <th>受注者</th>
+            <th>受注者事業所</th>
+            <th>品番</th>
+            <th>部品取扱識別</th>
+            <th>発注元</th>
+            <th>発注元工区</th>
+            <th>出荷元</th>
+            <th>出荷元工区</th>
+            <th>納入先</th>
+            <th>納入先工区</th>
+            <th>計画日</th>
+            <th>増減開始納入指示日</th>
+            <th>増減開始便</th>
+            <th>増減区分</th>
+            <th>増減枚数</th>
+            <th>便当増減枚数</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="item : ${pagerInfo.content}" th:object="${item}" >
+            <td th:text="*{no}"></td>
+            <td th:text="*{partyIdBy}"></td>
+            <td th:text="*{placeIdBy}"></td>
+            <td th:text="*{partyIdSe}"></td>
+            <td th:text="*{placeIdSe}"></td>
+            <td th:text="*{itemIdIn}"></td>
+            <td th:text="*{itemE18}"></td>
+            <td th:text="*{partyIdOb}"></td>
+            <td th:text="*{placeIdOb}"></td>
+            <td th:text="*{partyIdSf}"></td>
+            <td th:text="*{placeIdSf}"></td>
+            <td th:text="*{partyIdSt}"></td>
+            <td th:text="*{placeIdSt}"></td>
+            <td th:text="*{planDate}"></td>
+            <td th:text="*{startDeliveryDate}"></td>
+            <td th:text="*{startShipmentNo}"></td>
+            <td th:text="*{adjustType}"></td>
+            <td th:text="*{quantity}"></td>
+            <td th:text="*{parQuantity}"></td>
+          </tr>
+        </tbody>
+      </table>
+      <div th:if="${pagerInfo.content.size() != 0}">
+        <table class="pager">
+          <tr>
+            <td><div id="pager" th:replace="fragments/pagerForm">pager</div></td>
+          </tr>
+        </table>
+        <input type="hidden" th:field="*{pageNumber}"/>
+      </div>
+      <table>
+        <tr>
+          <td align="left">
+            <div th:if="${pagerInfo.content.size() != 0}">
+              <input class="btn_size4" type="button" value="登録実行" th:attr="onClick='location.href=\'' + @{/kanbanAdjust/upload/file/add} + '\''">
+            </div>
+            <input class="btn_size7" type="button" value="前の画面へ戻る" th:attr="onClick='location.href=\'' + @{/kanbanAdjust/upload} + '\''">
+          </td>
+       </tr>
+      </table>
+      </div>
+    </th:block>
+    </tbody>
+  </table>
+</form>
+
+  </div>
+
+</BODY>
+</HTML>

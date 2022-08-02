@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+  <!-- <header th:replace="fragments/header::common_header"></header> -->
+  <!-- コンテンツの表示 -->
+  <div layout:fragment="content"class="container-fluid">
+
+  <table>
+    <tbody>
+      <tr>
+        <td class="menu_area">
+		<div th:if="${loginInfo.kanbanDeljitContracted}">
+		<div class="menu_title category_IB">
+		  <a href="ここにSCMの発注管理TOPのリンクを入れる" id="menu_link" title="かんばん納入指示">
+		    <span id="KB_icon"></span>
+		    <span id="menu_title">かんばん納入指示</span>
+		  </a>
+		</div>
+		<div class="menu_box">
+
+		  <ul class="menu_ul">
+		    <li><span class="img_list_mark" id="menu_list"></span><a href="./inboundKanbanDeljit/list?refresh">かんばん納入指示</a></li>
+		    <li><span class="img_list_mark" id="menu_list"></span><a href="./inboundAddDeljit/list">追加納入指示</a></li>
+      </ul>
+      <hr class="menu_hr">
+      <ul class="menu_ul">
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./inboundOffKanbanKeyInput/list?refresh='初期表示'">外れかんばんキー入力</a></li>
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./inboundExchangeReservePrint/list?refresh='初期表示'">差換・予備かんばん発行</a></li>
+      </ul>
+          <hr class="menu_hr">
+      <ul class="menu_ul">
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./inboundKanbanReadHistoryList/list/">かんばん読取履歴</a></li>
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./deliveryHistory/list/">納入指示履歴</a></li>
+      </ul>
+    </div>
+    </div>
+
+		<div th:if="${loginInfo.kanbanDeljitSlimContracted}">
+		<div class="menu_title category_IB">
+		  <a href="ここにSCMの発注管理TOPのリンクを入れる" id="menu_link" title="かんばん納入指示Slim">
+		    <span id="KB_icon"></span>
+		    <span id="menu_title">かんばん納入指示Slim</span>
+		  </a>
+		</div>
+		<div class="menu_box">
+		  <ul class="menu_ul">
+		    <li><span class="img_list_mark" id="menu_list"></span><a href="./inboundSimpleKanbanDeljit/list?refresh='初期表示'">かんばん納入指示</a></li>
+		  </ul>
+          <hr class="menu_hr">
+      <ul class="menu_ul">
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./inboundReadQuantityAdjust/list?refresh='初期表示'">かんばん読取枚数調整</a></li>
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./inboundOrderQuantityReset/list?refresh='初期表示'">発注枚数リセット</a></li>
+      </ul>
+          <hr class="menu_hr">
+      <ul class="menu_ul">
+        <li><span class="img_list_mark" id="menu_list"></span><a href="./inboundOrderTargetRegistration/list?refresh='初期表示'">発注対象登録処理</a></li>
+      </ul>
+    </div>
+    </div>
+        </td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</BODY>
+</HTML>

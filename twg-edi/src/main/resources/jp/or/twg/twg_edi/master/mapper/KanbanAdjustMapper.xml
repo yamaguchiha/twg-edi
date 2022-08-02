@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.or.twg.twg_edi.master.mapper.KanbanAdjustMapper">
+
+  <!-- resultMap -->
+  <resultMap id="resultKanbanAdjust" type="jp.or.twg.twg_edi.master.model.KanbanAdjustDto">
+    <result column="oid"                               property="oid"/>
+    <result column="place_of_discharge_id"             property="placeOfDischargeId"/>
+    <result column="place_sf_oid"                      property="placeSfOid"/>
+    <result column="place_of_loading_id"               property="placeOfLoadingId"/>
+    <result column="place_of_loading_name"             property="placeOfLoadingName"/>
+    <result column="item_e04"                          property="itemE04"/>
+    <result column="item_id_in"                        property="itemIdIn"/>
+    <result column="item_id_pd"                        property="itemIdPd"/>
+    <result column="item_e18"                          property="itemE18"/>
+    <result column="oka_oid"                           property="okaOid"/>
+    <result column="item_part_oid"                     property="itemPartOid"/>
+    <result column="start_delivery_date_string_date"   property="startDeliveryDateStringDate"/>
+    <result column="start_shipment_no"                 property="startShipmentNo"/>
+    <result column="adjust_type"                       property="adjustType"/>
+    <result column="quantity"                          property="quantity"/>
+    <result column="total_quantity"                    property="totalQuantity"/>
+    <result column="adjust_status"                     property="adjustStatus"/>
+  </resultMap>
+
+  <!-- 品番選択のSQL -->
+  <select id="selectKanbanAdjustList" resultMap="resultKanbanAdjust">
+    select distinct ITEM.OID                                    as oid                                 <!-- 品番マスタ.OID -->
+         , ITEM.PLACE_OF_DISCHARGE_ID                           as place_of_discharge_id               <!-- 品番マスタ.納入場所 -->
+         , ITEM.PLACE_SF_OID                                    as place_sf_oid                        <!-- 品番マスタ.出荷元事業所工区OID -->
+         , ITEM.PLACE_OF_LOADING_ID                             as place_of_loading_id                 <!-- 品番マスタ.出荷場所 -->
+         , ITEM.PLACE_OF_LOADING_NAME                           as place_of_loading_name               <!-- 品番マスタ.出荷場所名称 -->
+         , ITEM.ITEM_E04                                        as item_e04                            <!-- 品番マスタ.背番号 -->
+         , ITEM.ITEM_ID_IN                                      as item_id_in                          <!-- 品番マスタ.品番 -->
+         , ITEM.ITEM_ID_PD                                      as item_id_pd                          <!-- 品番マスタ.表示用品番 -->
+         , ITEM.ITEM_E18                                        as item_e18                            <!-- 品番マスタ.部品取扱識別 -->
+         , OPTION_KANBAN_ADJUST.OID                             as oka_oid                             <!-- かんばん増減情報.OID -->
+         , OPTION_KANBAN_ADJUST.ITEM_PART_OID                   as item_part_oid                       <!-- かんばん増減情報.受入品番マスタOID -->
+         , OPTION_KANBAN_ADJUST.START_DELIVERY_DATE_STRING_DATE as start_delivery_date_string_date     <!-- かんばん増減情報.増減開始納入指示日 -->
+         , OPTION_KANBAN_ADJUST.START_SHIPMENT_NO               as start_shipment_no                   <!-- かんばん増減情報.増減開始納入指示便 -->
+         , OPTION_KANBAN_ADJUST.ADJUST_TYPE                     as adjust_type                         <!-- かんばん増減情報.増減区分 -->
+         , OPTION_KANBAN_ADJUST.QUANTITY                        as quantity                            <!-- かんばん増減情報.増減枚数 -->
+         , OPTION_KANBAN_ADJUST.TOTAL_QUANTITY                  as total_quantity                      <!-- かんばん増減情報.増減累計枚数 -->
+         , OPTION_KANBAN_ADJUST.ADJUST_STATUS                   as adjust_status                       <!-- かんばん増減情報.増減状況 -->
+    <include refid="selectWhere" />
+   order by ITEM.PLACE_OF_DISCHARGE_ID asc
+         , ITEM.PLACE_OF_LOADING_ID asc
+         , ITEM.ITEM_E04 asc
+         , ITEM.ITEM_ID_IN asc
+         , ITEM.ITEM_E18 asc
+         , OPTION_KANBAN_ADJUST.START_DELIVERY_DATE_STRING_DATE asc
+         , OPTION_KANBAN_ADJUST.START_SHIPMENT_NO asc
+         , OPTION_KANBAN_ADJUST.ADJUST_TYPE asc
+         , OPTION_KANBAN_ADJUST.TOTAL_QUANTITY asc
+         , OPTION_KANBAN_ADJUST.QUANTITY asc
+         , OPTION_KANBAN_ADJUST.ADJUST_STATUS asc
+   limit  #{srhLimit}
+   offset #{srhOffset}
+  </select>
+
+  <!-- かんばん増減情報一覧のcount SQL -->
+  <select id="selectKanbanAdjustListCount" resultType="java.lang.Long">
+    select count(*)
+    <include refid="selectWhere" />
+  </select>
+
+  <sql id="selectWhere">
+    from  ITEM
+    inner join OPTION_KANBAN_ADJUST
+    on    ITEM.OID = OPTION_KANBAN_ADJUST.ITEM_PART_OID
+    where ITEM.PLACE_BY_OID = #{srhPlaceByOid}
+    <if test="srhItemE04 != null">
+    and   ITEM.ITEM_E04 like #{srhItemE04}
+    </if>
+    <if test="srhItemIdIn != null">
+    and   ITEM.ITEM_ID_IN like #{srhItemIdIn}
+    </if>
+    <if test="srhItemE18 != null">
+    and   ITEM.ITEM_E18 = #{srhItemE18}
+    </if>
+    <if test="srhPlaceOfDischargeId != null">
+    and   ITEM.PLACE_OF_DISCHARGE_ID = #{srhPlaceOfDischargeId}
+    </if>
+    <if test="srhPlaceSfOid != null">
+    and   ITEM.PLACE_SF_OID = #{srhPlaceSfOid}
+    </if>
+    <if test="srhPlaceOfLoadingId != null">
+    and   ITEM.PLACE_OF_LOADING_ID = #{srhPlaceOfLoadingId}
+    </if>
+    <if test="srhStartDate != null">
+    and   OPTION_KANBAN_ADJUST.START_DELIVERY_DATE_STRING_DATE >= #{srhStartDate}
+    </if>
+    <if test="srhEndDate != null">
+    and   OPTION_KANBAN_ADJUST.START_DELIVERY_DATE_STRING_DATE <![CDATA[<=]]> #{srhEndDate}
+    </if>
+    <!-- 増減区分：増(0)、減(1) -->
+    <if test="srhAdjustTypes != null">
+    <foreach item="item" index="index" collection="srhAdjustTypes"
+      open=" and   OPTION_KANBAN_ADJUST.ADJUST_TYPE in (" separator="," close=")">
+      #{item}
+    </foreach>
+    </if>
+    <!-- 増減状況：無効(0)、予約(1)、増減中(2)、増減済(3) -->
+    <if test="srhAdjustStatus != null">
+    <foreach item="item" index="index" collection="srhAdjustStatus"
+      open=" and   OPTION_KANBAN_ADJUST.ADJUST_STATUS in (" separator="," close=")">
+      #{item}
+    </foreach>
+    </if>
+  </sql>
+
+  <resultMap id="resultKanbanAdjustDetail" type="jp.or.twg.twg_edi.master.model.KanbanAdjustDetailDto">
+    <result column="oid"                              property="oid"/>
+    <result column="place_of_discharge_id"            property="placeOfDischargeId"/>
+    <result column="place_sf_oid"                     property="placeSfOid"/>
+    <result column="place_of_loading_id"              property="placeOfLoadingId"/>
+    <result column="place_of_loading_name"            property="placeOfloadingName"/>
+    <result column="place_ob_oid"                     property="placeObOid"/>
+    <result column="item_e04"                         property="itemE04"/>
+    <result column="item_id_in"                       property="itemIdIn"/>
+    <result column="item_id_pd"                       property="itemIdPd"/>
+    <result column="item_e18"                         property="itemE18"/>
+    <result column="per_package_quantity"             property="perPackageQuantity"/>
+    <result column="manufacturing_department_id"      property="manufacturingDepartmentId"/>
+    <result column="oka_oid"                          property="okaOid"/>
+    <result column="item_part_oid"                    property="itemPartOid"/>
+    <result column="adjust_status"                    property="adjustStatus"/>
+    <result column="plan_date_string_date"            property="planDateStringDate"/>
+    <result column="start_delivery_date_string_date"  property="startDeliveryDateStringDate"/>
+    <result column="start_shipment_no"                property="startShipmentNo"/>
+    <result column="adjust_type"                      property="adjustType"/>
+    <result column="quantity"                         property="quantity"/>
+    <result column="par_quantity"                     property="parQuantity"/>
+    <result column="total_quantity"                   property="totalQuantity"/>
+    <result column="carry_forward_fraction_quantity"  property="carryForwardFractionQuantity"/>
+  </resultMap>
+
+  <!-- 編集用のSQL -->
+  <select id="selectKanbanAdjustDetail" resultMap="resultKanbanAdjustDetail">
+    select distinct ITEM.OID                                     as oid                                <!-- 品番マスタ.OID -->
+         , ITEM.PLACE_OF_DISCHARGE_ID                            as place_of_discharge_id              <!-- 品番マスタ.納入場所 -->
+         , ITEM.PLACE_SF_OID                                     as place_sf_oid                       <!-- 品番マスタ.出荷元事業所工区OID -->
+         , ITEM.PLACE_OF_LOADING_ID                              as place_of_loading_id                <!-- 品番マスタ.出荷場所 -->
+         , ITEM.PLACE_OF_LOADING_NAME                            as place_of_loading_name              <!-- 品番マスタ.出荷場所名称 -->
+         , ITEM.PLACE_OB_OID                                     as place_ob_oid                       <!-- 品番マスタ.発注元事業所工区OID -->
+         , ITEM.ITEM_E04                                         as item_e04                           <!-- 品番マスタ.背番号 -->
+         , ITEM.ITEM_ID_IN                                       as item_id_in                         <!-- 品番マスタ.品番 -->
+         , ITEM.ITEM_ID_PD                                       as item_id_pd                         <!-- 品番マスタ.表示用品番 -->
+         , ITEM.ITEM_E18                                         as item_e18                           <!-- 品番マスタ.部品取扱識別 -->
+         , ITEM.PER_PACKAGE_QUANTITY                             as per_package_quantity               <!-- 品番マスタ.収容数 -->
+         , ITEM.MANUFACTURING_DEPARTMENT_ID                      as manufacturing_department_id        <!-- 品番マスタ.所番地 -->
+         , OPTION_KANBAN_ADJUST.OID                              as oka_oid                            <!-- かんばん増減情報.OID -->
+         , OPTION_KANBAN_ADJUST.ITEM_PART_OID                    as item_part_oid                      <!-- かんばん増減情報.受入品番マスタOID -->
+         , OPTION_KANBAN_ADJUST.ADJUST_STATUS                    as adjust_status                      <!-- かんばん増減情報.増減状況 -->
+         , OPTION_KANBAN_ADJUST.PLAN_DATE_STRING_DATE            as plan_date_string_date              <!-- かんばん増減情報.計画日 -->
+         , OPTION_KANBAN_ADJUST.START_DELIVERY_DATE_STRING_DATE  as start_delivery_date_string_date    <!-- かんばん増減情報.増減開始納入指示日 -->
+         , OPTION_KANBAN_ADJUST.START_SHIPMENT_NO                as start_shipment_no                  <!-- かんばん増減情報.増減開始納入指示便 -->
+         , OPTION_KANBAN_ADJUST.ADJUST_TYPE                      as adjust_type                        <!-- かんばん増減情報.増減区分 -->
+         , OPTION_KANBAN_ADJUST.QUANTITY                         as quantity                           <!-- かんばん増減情報.増減枚数 -->
+         , OPTION_KANBAN_ADJUST.PAR_QUANTITY                     as par_quantity                       <!-- かんばん増減情報.便当増減枚数 -->
+         , OPTION_KANBAN_ADJUST.TOTAL_QUANTITY                   as total_quantity                     <!-- かんばん増減情報.増減累計枚数 -->
+         , OPTION_KANBAN_ADJUST.CARRY_FORWARD_FRACTION_QUANTITY  as carry_forward_fraction_quantity    <!-- かんばん増減情報.増減繰越端数 -->
+    from  ITEM
+    inner join OPTION_KANBAN_ADJUST
+    on    ITEM.OID = OPTION_KANBAN_ADJUST.ITEM_PART_OID
+    where OPTION_KANBAN_ADJUST.OID = #{srhOid}
+    limit 1
+  </select>
+
+  <!-- かんばん増減情報取得SQL -->
+  <select id="selectKanbanAdjustOne" resultType="jp.or.twg.twg_edi.common.entity.OptionKanbanAdjust">
+    select *
+    from  OPTION_KANBAN_ADJUST
+    where OPTION_KANBAN_ADJUST.ITEM_PART_OID = #{itemPartOid}
+    limit 1
+  </select>
+
+  <!-- 品番検索用取得SQL -->
+  <resultMap id="resultItemDetail" type="jp.or.twg.twg_edi.master.model.KanbanAdjustDetailDto">
+    <result column="oid"                              property="oid"/>
+    <result column="place_of_discharge_id"            property="placeOfDischargeId"/>
+    <result column="place_sf_oid"                     property="placeSfOid"/>
+    <result column="place_of_loading_id"              property="placeOfLoadingId"/>
+    <result column="place_of_loading_name"            property="placeOfloadingName"/>
+    <result column="place_ob_oid"                     property="placeObOid"/>
+    <result column="item_e04"                         property="itemE04"/>
+    <result column="item_id_in"                       property="itemIdIn"/>
+    <result column="item_id_pd"                       property="itemIdPd"/>
+    <result column="item_e18"                         property="itemE18"/>
+    <result column="per_package_quantity"             property="perPackageQuantity"/>
+    <result column="manufacturing_department_id"      property="manufacturingDepartmentId"/>
+  </resultMap>
+
+  <!-- 編集用のSQL -->
+  <select id="selectItemDetail" resultMap="resultItemDetail">
+    select distinct ITEM.OID                                     as oid                                <!-- 品番マスタ.OID -->
+         , ITEM.PLACE_OF_DISCHARGE_ID                            as place_of_discharge_id              <!-- 品番マスタ.納入場所 -->
+         , ITEM.PLACE_SF_OID                                     as place_sf_oid                       <!-- 品番マスタ.出荷元事業所工区OID -->
+         , ITEM.PLACE_OF_LOADING_ID                              as place_of_loading_id                <!-- 品番マスタ.出荷場所 -->
+         , ITEM.PLACE_OF_LOADING_NAME                            as place_of_loading_name              <!-- 品番マスタ.出荷場所名称 -->
+         , ITEM.PLACE_OB_OID                                     as place_ob_oid                       <!-- 品番マスタ.発注元事業所工区OID -->
+         , ITEM.ITEM_E04                                         as item_e04                           <!-- 品番マスタ.背番号 -->
+         , ITEM.ITEM_ID_IN                                       as item_id_in                         <!-- 品番マスタ.品番 -->
+         , ITEM.ITEM_ID_PD                                       as item_id_pd                         <!-- 品番マスタ.表示用品番 -->
+         , ITEM.ITEM_E18                                         as item_e18                           <!-- 品番マスタ.部品取扱識別 -->
+         , ITEM.PER_PACKAGE_QUANTITY                             as per_package_quantity               <!-- 品番マスタ.収容数 -->
+         , ITEM.MANUFACTURING_DEPARTMENT_ID                      as manufacturing_department_id        <!-- 品番マスタ.所番地 -->
+    from  ITEM
+    where ITEM.ITEM_ID_IN = #{itemIdIn}
+    and   ITEM.ITEM_E18   = #{itemE18}
+    limit 1
+  </select>
+
+  <insert id="insert" parameterType="jp.or.twg.twg_edi.master.model.KanbanAdjustDetailForm">
+    insert into OPTION_KANBAN_ADJUST (
+     OID                                <!-- かんばん増減情報.OID -->
+    ,ITEM_PART_OID                      <!-- かんばん増減情報.受入品番マスタOID -->
+    ,PLAN_DATE_STRING_DATE              <!-- かんばん増減情報.計画日 -->
+    ,START_DELIVERY_DATE_STRING_DATE    <!-- かんばん増減情報.増減開始納入指示日 -->
+    ,START_SHIPMENT_NO                  <!-- かんばん増減情報.増減開始納入指示便 -->
+    ,ADJUST_STATUS                      <!-- かんばん増減情報.増減状況 -->
+    ,ADJUST_TYPE                        <!-- かんばん増減情報.増減区分 -->
+    ,QUANTITY                           <!-- かんばん増減情報.増減枚数 -->
+    ,PAR_QUANTITY                       <!-- かんばん増減情報.便当増減枚数 -->
+    ,TOTAL_QUANTITY                     <!-- かんばん増減情報.増減累計枚数 -->
+    ,CARRY_FORWARD_FRACTION_QUANTITY    <!-- かんばん増減情報.増減繰越端数 -->
+    ,TS_REGISTERER_DATE                 <!-- かんばん増減情報.更新日時情報 登録日時 -->
+    ,TS_REGISTERER_USER_ID              <!-- かんばん増減情報.更新日時情報 登録ユーザーOID -->
+    ,TS_REGISTERER_USER_PLACE_ID        <!-- かんばん増減情報.更新日時情報 登録ユーザー選択事業所OID -->
+    ,TS_LAST_MODIFIED_DATE              <!-- かんばん増減情報.更新日時情報 最終更新日 -->
+    ,TS_LAST_MODIFIED_USER_ID           <!-- かんばん増減情報.更新日時情報 最終ユーザーOID -->
+    ,TS_LAST_MODIFIED_USER_PLACE_ID     <!-- かんばん増減情報.更新日時情報 最終ユーザー選択事業所OID -->
+    )
+    values (
+     #{okaOid}
+    ,#{itemPartOid}
+    ,#{planDateStringDate}
+    ,#{startDeliveryDateStringDate}
+    ,#{startShipmentNo}
+    ,#{adjustStatus}
+    ,#{adjustType}
+    ,#{quantity}
+    ,#{parQuantity}
+    ,#{totalQuantity}
+    ,#{carryForwardFractionQuantity}
+    ,CURRENT_TIMESTAMP
+    ,#{userOid}
+    ,#{userPlaceOid}
+    ,CURRENT_TIMESTAMP
+    ,#{userOid}
+    ,#{userPlaceOid}
+    )
+  </insert>
+
+  <update id="update" parameterType="jp.or.twg.twg_edi.master.model.KanbanAdjustDetailForm">
+    update OPTION_KANBAN_ADJUST
+    set PLAN_DATE_STRING_DATE           = #{planDateStringDate}           <!-- かんばん増減情報.計画日 -->
+    ,   START_DELIVERY_DATE_STRING_DATE = #{startDeliveryDateStringDate}  <!-- かんばん増減情報.増減開始納入指示日 -->
+    ,   START_SHIPMENT_NO               = #{startShipmentNo}              <!-- かんばん増減情報.増減開始納入指示便 -->
+    ,   ADJUST_STATUS                   = #{adjustStatus}                 <!-- かんばん増減情報.増減状況 -->
+    ,   ADJUST_TYPE                     = #{adjustType}                   <!-- かんばん増減情報.増減区分 -->
+    ,   QUANTITY                        = #{quantity}                     <!-- かんばん増減情報.増減枚数 -->
+    ,   PAR_QUANTITY                    = #{parQuantity}                  <!-- かんばん増減情報.便当増減枚数 -->
+    ,   TOTAL_QUANTITY                  = #{totalQuantity}                <!-- かんばん増減情報.増減累計枚数 -->
+    ,   CARRY_FORWARD_FRACTION_QUANTITY = #{carryForwardFractionQuantity} <!-- かんばん増減情報.増減繰越端数 -->
+    ,   TS_LAST_MODIFIED_DATE           = CURRENT_TIMESTAMP               <!-- かんばん増減情報.更新日時情報 最終更新日 -->
+    ,   TS_LAST_MODIFIED_USER_ID        = #{userOid}                      <!-- かんばん増減情報.更新日時情報 最終ユーザーOID -->
+    ,   TS_LAST_MODIFIED_USER_PLACE_ID  = #{userPlaceOid}                 <!-- かんばん増減情報.更新日時情報 最終ユーザー選択事業所OID -->
+    where OID = #{okaOid}
+  </update>
+
+  <delete id="delete" parameterType="java.lang.Long">
+    delete from OPTION_KANBAN_ADJUST where OID = #{srhOid}
+  </delete>
+
+</mapper>

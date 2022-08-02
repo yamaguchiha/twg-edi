@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.or.twg.twg_edi.kanbanslim.mapper.OrderTargetRegMapper">
+
+  <!-- resultMap -->
+  <resultMap id="resultOrderTargetReg" type="jp.or.twg.twg_edi.kanbanslim.model.OrderTargetRegDto">
+    <result column="oid"                               property="oid"/>
+    <result column="place_of_discharge_id"             property="placeOfDischargeId"/>
+    <result column="place_sf_oid"                      property="placeSfOid"/>
+    <result column="place_of_loading_id"               property="placeOfLoadingId"/>
+    <result column="place_of_loading_name"             property="placeOfLoadingName"/>
+    <result column="item_e04"                          property="itemE04"/>
+    <result column="item_id_in"                        property="itemIdIn"/>
+    <result column="item_id_pd"                        property="itemIdPd"/>
+    <result column="item_e18"                          property="itemE18"/>
+    <result column="ootm_oid"                          property="ootmOid"/>
+    <result column="place_st_oid"                      property="placeStOid"/>
+    <result column="item_part_oid"                     property="itemPartOid"/>
+    <result column="last_processing_date"              property="lastProcessingDate"/>
+    <result column="last_delivery_date"                property="lastDeliveryDate"/>
+    <result column="last_shipment_no"                  property="lastShipmentNo"/>
+    <result column="order_target_type"                 property="orderTargetType"/>
+  </resultMap>
+
+  <!-- 発注対象登録処理一覧のSQL -->
+  <select id="selectOrderTargetRegList" resultMap="resultOrderTargetReg">
+    select distinct ITEM.OID                                    as oid                                 <!-- 品番マスタ.OID -->
+         , ITEM.PLACE_OF_DISCHARGE_ID                           as place_of_discharge_id               <!-- 品番マスタ.納入場所 -->
+         , ITEM.PLACE_SF_OID                                    as place_sf_oid                        <!-- 品番マスタ.出荷元事業所工区OID -->
+         , ITEM.PLACE_OF_LOADING_ID                             as place_of_loading_id                 <!-- 品番マスタ.出荷場所 -->
+         , ITEM.PLACE_OF_LOADING_NAME                           as place_of_loading_name               <!-- 品番マスタ.出荷場所名称 -->
+         , ITEM.ITEM_E04                                        as item_e04                            <!-- 品番マスタ.背番号 -->
+         , ITEM.ITEM_ID_IN                                      as item_id_in                          <!-- 品番マスタ.品番 -->
+         , ITEM.ITEM_ID_PD                                      as item_id_pd                          <!-- 品番マスタ.表示用品番 -->
+         , ITEM.ITEM_E18                                        as item_e18                            <!-- 品番マスタ.部品取扱識別 -->
+         , OPTION_ORDER_TARGET_MANAGER.OID                      as ootm_oid                            <!-- 発注対象管理テーブル.OID -->
+         , OPTION_ORDER_TARGET_MANAGER.PLACE_ST_OID             as place_st_oid                        <!-- 発注対象管理テーブル.納入先事業所情報OID -->
+         , OPTION_ORDER_TARGET_MANAGER.ITEM_PART_OID            as item_part_oid                       <!-- 発注対象管理テーブル.受入品番マスタOID -->
+         , OPTION_ORDER_TARGET_MANAGER.LAST_PROCESSING_DATE     as last_processing_date                <!-- 発注対象管理テーブル.最終処理日 -->
+         , OPTION_ORDER_TARGET_MANAGER.LAST_DELIVERY_DATE       as last_delivery_date                  <!-- 発注対象管理テーブル.最終納入指示日 -->
+         , OPTION_ORDER_TARGET_MANAGER.LAST_SHIPMENT_NO         as last_shipment_no                    <!-- 発注対象管理テーブル.最終納入指示便 -->
+         , OPTION_ORDER_TARGET_MANAGER.ORDER_TARGET_TYPE        as order_target_type                   <!-- 発注対象管理テーブル.発注対象区分 -->
+    <include refid="selectWhere" />
+    order by ITEM.PLACE_OF_DISCHARGE_ID asc
+    <!--     , ITEM.PLACE_SF_OID||'.'||PLACE.PARTY_OID||'.'||PARTY.TDB_PARTY_CODE asc  ペンディング　SELECTにもいれるの？ -->
+    <!--     , ITEM.PLACE_SF_OID||'.'||PLACE.TDB_PLACE_CODE asc                        ペンディング　SELECTにもいれるの？ -->
+         , ITEM.PLACE_OF_LOADING_ID asc
+         , ITEM.ITEM_E04 asc
+         , ITEM.ITEM_ID_IN asc
+         , ITEM.ITEM_E18 asc
+    limit  #{srhLimit}
+    offset #{srhOffset}
+    </select>
+
+  <!-- 発注対象登録処理一覧のcount SQL -->
+  <select id="selectOrderTargetRegListCount" resultType="java.lang.Long">
+    select count(*)
+    <include refid="selectWhere" />
+  </select>
+
+  <sql id="selectWhere">
+    from  ITEM
+    left outer join OPTION_ORDER_TARGET_MANAGER
+    on    ITEM.OID = OPTION_ORDER_TARGET_MANAGER.ITEM_PART_OID
+    where 1=1
+    <if test="srhItemE04 != null">
+    and   ITEM.ITEM_E04 like #{srhItemE04}
+    </if>
+    <if test="srhItemIdIn != null">
+    and   ITEM.ITEM_ID_IN like #{srhItemIdIn}
+    </if>
+    <if test="srhItemE18 != null">
+    and   ITEM.ITEM_E18 = #{srhItemE18}
+    </if>
+    <if test="srhPlaceOfDischargeId != null">
+    and   ITEM.PLACE_OF_DISCHARGE_ID = #{srhPlaceOfDischargeId}
+    </if>
+    <if test="srhPartyAbbrCode != null or srhPlaceCode != null">
+    and   ITEM.PLACE_SF_OID = #{srhPlaceSfOid}
+    </if>
+    <if test="srhPlaceOfLoadingId != null">
+    and   ITEM.PLACE_OF_LOADING_ID = #{srhPlaceOfLoadingId}
+    </if>
+    and   ITEM.PLACE_BY_OID = #{srhPlaceStOid}
+    and   ITEM.PLACE_ST_OID = #{srhPlaceStOid}
+    and   ITEM.BUYABLE = 'Y'
+    and   ITEM.ITEM_TYPE in ('1', '4', '5', '7', '8')              <!-- マスタ区分: （購入(1),受給(4),直送支給(5),受給品(7), 別送支給(8)） -->
+    and   ITEM.VALID_START_STRING_DATE <![CDATA[<=]]> VALID_END_STRING_DATE
+    and   ITEM.MATERIALS_TYPE = '0'
+  </sql>
+
+
+  <!-- 発注対象情報取得SQL -->
+  <select id="selectOrderTargetRegOne" resultType="jp.or.twg.twg_edi.common.entity.OptionOrderTargetManager">
+    select *
+    from  OPTION_ORDER_TARGET_MANAGER
+    where OPTION_ORDER_TARGET_MANAGER.ITEM_PART_OID = #{itemPartOid}
+    limit 1
+  </select>
+
+  <!-- 登録SQL -->
+  <insert id="insert" parameterType="jp.or.twg.twg_edi.kanbanslim.model.OrderTargetRegSaveDto">
+    insert into OPTION_ORDER_TARGET_MANAGER (
+           OID                             <!-- 発注対象管理テーブル.OID -->
+         , PLACE_ST_OID                    <!-- 発注対象管理テーブル.納入先事業所情報OID -->
+         , ITEM_PART_OID                   <!-- 発注対象管理テーブル.受入品番マスタOID -->
+         , ORDER_TARGET_TYPE               <!-- 発注対象管理テーブル.発注対象区分 -->
+         , TS_REGISTERER_DATE              <!-- 発注対象管理テーブル.更新日時情報 登録日時 -->
+         , TS_REGISTERER_USER_ID           <!-- 発注対象管理テーブル.更新日時情報 登録ユーザーOID -->
+         , TS_REGISTERER_USER_PLACE_ID     <!-- 発注対象管理テーブル.更新日時情報 登録ユーザー選択事業所OID -->
+         , TS_LAST_MODIFIED_DATE           <!-- 発注対象管理テーブル.更新日時情報 最終更新日 -->
+         , TS_LAST_MODIFIED_USER_ID        <!-- 発注対象管理テーブル.更新日時情報 最終ユーザーOID -->
+         , TS_LAST_MODIFIED_USER_PLACE_ID  <!-- 発注対象管理テーブル.更新日時情報 最終ユーザー選択事業所OID -->
+         )
+    values (
+         #{ootmOid}
+         , #{placeStOid}
+         , #{itemPartOid}
+         , #{iptOrderTargetType}
+         , CURRENT_TIMESTAMP
+         , #{userOid}
+         , #{userPlaceOid}
+         , CURRENT_TIMESTAMP
+         , #{userOid}
+         , #{userPlaceOid}
+         )
+  </insert>
+
+<!-- 更新SQL -->
+  <update id="update" parameterType="jp.or.twg.twg_edi.kanbanslim.model.OrderTargetRegSaveDto">
+    update OPTION_ORDER_TARGET_MANAGER
+    set    ORDER_TARGET_TYPE = #{iptOrderTargetType}         <!-- 発注対象管理テーブル.発注対象区分 -->
+    ,      TS_LAST_MODIFIED_DATE = CURRENT_TIMESTAMP         <!-- 発注対象管理テーブル.更新日時情報 最終更新日 -->
+    ,      TS_LAST_MODIFIED_USER_ID = #{userOid}             <!-- 発注対象管理テーブル.更新日時情報 最終ユーザーOID -->
+    ,      TS_LAST_MODIFIED_USER_PLACE_ID = #{userPlaceOid}  <!-- 発注対象管理テーブル.更新日時情報 最終ユーザー選択事業所OID -->
+    where  OID = #{ootmOid}
+  </update>
+
+</mapper>

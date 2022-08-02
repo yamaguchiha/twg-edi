@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+<!-- <header th:replace="fragments/header::common_header"></header> -->
+<!-- コンテンツの表示 -->
+<div layout:fragment="content"class="container-fluid">
+
+<script type="text/javascript">
+  // 企業事業所選択Ajax使用時に画面に合わせて入力項目IDを指定する ここから
+  function setPartyPlaceCode(partyCode, placeCode) {
+    $("#srhPartyAbbrCode").val(partyCode);
+    $("#srhPlaceCode").val(placeCode);
+    $("#placeSelectList").dialog("close");
+  }
+
+  $(function(){
+    setupDialog("placeSelectList", "placeDialog", "出荷元選択");
+    $("#srhSelectPartyAbbrCode").val("");
+    $("#srhSelectPartyName").val("");
+    $("#srhSelectPartyKanaName").val("");
+    $("#partyPlaceInputBtn").click(function(){
+        getSearchPlaceList();
+        $("#placeSelectList").dialog("open");
+        $(".placeDialog").css("top", $(this).offset().top + 20);
+        $(".placeDialog").css("left", $(this).offset().left - 130);
+    });
+  });
+  // 企業事業所選択Ajax使用時に画面に合わせて入力項目IDを指定する ここまで
+
+  // 品番選択Ajax（document.formの名前は変更すること） ここから
+  /**
+   * 部品検索の結果を設定
+   */
+  function setitem(itemCode, itemE18) {
+    $("#itemSelectList").dialog("close");
+
+    $("#iptItemIdIn").val(itemCode);
+    $("#iptItemE18").val(itemE18);
+    // 品番を設定した後で検索を実行する場合などはここで必要な処理を記述
+    //execSubmitWithOption('executeChange', {iptItemPartOid: itemId, addSrh: '$FALSE'});
+  }
+
+  /**
+   * 部品検索の実行（ポップアップのような画面を表示）
+   */
+  function execSearchitemList() {
+      //$("#srhSelectitemAbbrName").val($("#srhAbbrName").val());
+      //$("#srhSelectitemCode").val($("#srhItemCode").val());
+      getSearchitemList();
+      $("#itemSelectList").dialog("open");
+  }
+
+  /**
+   * 初期設定
+   */
+  $(function(){
+    setupDialog("itemSelectList", "itemDialog", "部品選択");
+
+    $("#srhSelectitemAbbrName").val("");
+    $("#srhSelectitemCode").val("");
+    $("#srhSelectitemStoreAddress").val("");
+    $("#srhSelectPartyCodeSf").val("");
+    $("#srhSelectPlaceCodeSf").val("");
+    $("#srhSelectitemE18").val("");
+    $("#itemInputBtn").click(function(){
+      execSearchitemList();
+    });
+  });
+
+  // 品番選択Ajax ここまで
+
+</script>
+
+<div class="subtitle category_MA">
+  <div class="subtitle_text">検索条件</div>
+  <div class="subtitle_right">
+    <input type="button" id="srhCondToggleBtn" class="btn" value="" >
+  </div>
+</div>
+<form id="kanbanAdjustSearchForm" name="kanbanAdjustSearchForm" th:action="@{/kanbanAdjust/list?page=0}" th:object="${kanbanAdjustForm}" method ="POST" novalidate>
+<table class="caption" id="srhCondTable">
+  <tbody>
+    <tr>
+      <th>背番号</th>
+      <td>
+        <input type="text" th:field="*{condition.srhItemE04}" id="srhItemE04" value="" >
+        <input type="radio" th:field="*{condition.srhItemE04Type}" id="srhItemE04Type00" value="0">
+        <label for="srhItemcodeType00">前方</label>
+        <input type="radio" th:field="*{condition.srhItemE04Type}" id="srhItemE04Type01" value="1">
+        <label for="srhItemcodeType01">部分</label>
+      </td>
+      <th>納入場所</th>
+      <td>
+        <input type="text" th:field="*{condition.srhPlaceOfDischargeId}" id="srhPlaceOfDischargeId" value="" >
+      </td>
+      <td align="center" rowspan="5">
+        <input type="submit" class="btn" value="　　検索　　" name="search"><br>
+        <input type="submit" class="btn" value="　並び替え　" name="cancel">
+      </td>
+     </tr>
+    <tr>
+      <th>品番</th>
+      <td>
+        <input type="text" th:field="*{condition.srhItemIdIn}" id="srhItemIdIn" value="" >
+        <input type="radio" th:field="*{condition.srhItemIdInType}" id="srhItemIdInType00" value="0">
+        <label for="srhItemcodeType00">前方</label>
+        <input type="radio" th:field="*{condition.srhItemIdInType}" id="srhItemIdInType01" value="1">
+        <label for="srhItemcodeType01">部分</label>
+      </td>
+      <th>出荷元</th>
+      <td>
+        <input type="text" th:field="*{condition.srhPartyAbbrCode}" id="srhPartyAbbrCode" value="" class="field_mainPartyAbbrCode_css">
+        -
+        <input type="text" th:field="*{condition.srhPlaceCode}" id="srhPlaceCode" value="" class="field_mainPlaceCode_css">
+        <!-- 企業事業所選択のidは固定で -->
+        <input id="partyPlaceInputBtn" type="button" value="  " class="img_search" >
+      </td>
+    </tr>
+    <tr>
+      <th>部品取扱識別</th>
+      <td>
+        <input type="text" th:field="*{condition.srhItemE18}" id="srhItemE18" value="" >
+      </td>
+      <th>出荷場所</th>
+      <td>
+        <input type="text" th:field="*{condition.srhPlaceOfLoadingId}" id="srhPlaceOfLoadingId" value="" >
+      </td>
+    </tr>
+    <tr>
+      <th>増減開始日</th>
+      <td colspan="3">
+        <input type="text" th:field="*{condition.srhStartDate}" id="srhStartDate" class="field_ymd_css" >
+        <input name="calendar1" type="button" value="  " class="calendarbtn" onClick="wrtCalendarLay(this.form.srhStartDate, event)" >
+        ～
+        <input type="text" th:field="*{condition.srhEndDate}" id="srhEndDate" class="field_ymd_css" >
+        <input name="calendar2" type="button" value="  " class="calendarbtn" onClick="wrtCalendarLay(this.form.srhEndDate, event)" >
+      </td>
+    </tr>
+    <tr>
+      <th>区分</th>
+      <td>
+        <div th:each="item:${adjustTypeCheckBox}" style="display:inline-flex">
+          <input type="checkbox" th:value="${item.value}" th:field="*{condition.srhAdjustTypes}" />
+          <label th:for="${#ids.prev('condition.srhAdjustTypes')}" th:text="${item.key}" style="margin: 3px 0;"></label>
+        </div>
+      </td>
+      <th>増減状況</th>
+      <td>
+        <div th:each="item:${adjustStatusCheckBox}"  style="display:inline-flex">
+          <input type="checkbox" th:value="${item.value}" th:field="*{condition.srhAdjustStatus}" />
+          <label th:for="${#ids.prev('condition.srhAdjustStatus')}" th:text="${item.key}" style="margin: 3px 0;"></label>
+        </div>
+      </td>
+    </tr>
+
+   </tbody>
+</table>
+<br>
+<th:block th:with="pagerInfo=${pageList}">
+  <DIV class="subtitle category_MA">
+    <DIV class="subtitle_text">増減情報一覧</DIV>
+    <DIV class="subtitle_right">
+      <input class="btn_size6" type="button" value="増減情報取込" th:attr="onClick='location.href=\'' + @{/kanbanAdjust/upload} + '\''">
+      <input class="btn_size4" type="button" value="新規登録" th:attr="onClick='location.href=\'' + @{/kanbanAdjust/add} + '\''">
+    </DIV>
+  </DIV>
+  <div th:if="${pagerInfo.content.size() == 0}">
+  <table class="list">
+    <tbody>
+      <tr>
+        <td>検索条件に該当する増減情報はありません</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div th:if="${pagerInfo.content.size() != 0}">
+  <table class="list">
+    <colgroup align="center"/>
+    <colgroup />
+    <colgroup />
+    <colgroup />
+    <colgroup align="center"/>
+    <thead>
+      <tr>
+        <th class="edit_link_cell">編<br>集</th>
+        <th class="40byte_cell">納入場所</th>
+        <th class="50byte_cell">出荷元</th>
+        <th class="50byte_cell">出荷元工区</th>
+        <th class="50byte_cell">出荷場所</th>
+        <th class="40byte_cell">背番号</th>
+        <th class="50byte_cell">品番<br>表示用品番</th>
+        <th class="50byte_cell">部品取扱種別</th>
+        <th class="40byte_cell">増減開始<br>納入指示日</th>
+        <th class="16byte_cell">便</th>
+        <th class="30byte_cell">増減<br>区分</th>
+        <th class="40byte_cell">累計/<br>総枚数</th>
+        <th class="30byte_cell">増減<br>状況</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="item : ${pagerInfo.content}" th:object="${item}" >
+        <td align="center"><a th:href="@{/kanbanAdjust/edit/{oid}(oid=*{okaOid})}" class="img_edit"></a></td>
+        <td th:text="*{placeOfDischargeId}"></td>
+        <td>
+          <span th:text="*{partySfCode}"></span>
+          <br>
+          <span th:text="*{partySfName}"></span>
+        </td>
+        <td>
+          <span th:text="*{placeSfCode}"></span>
+          <br>
+          <span th:text="*{placeSfName}"></span>
+        </td>
+        <td>
+          <span th:text="*{placeOfLoadingId}"></span>
+          <br>
+          <span th:text="*{placeOfLoadingName}"></span>
+        </td>
+        <td th:text="*{itemE04}"></td>
+          <td>
+            <span th:text="*{itemIdIn}"></span>
+            <br>
+            <span th:text="*{itemIdPd}"></span>
+          </td>
+        <td th:text="*{itemE18}"></td>
+        <td th:text="*{startDeliveryDateStringDate}"></td>
+        <td th:text="*{startShipmentNo}"></td>
+        <td th:text="*{adjustTypeName}"></td>
+        <td>
+          <span th:text="*{totalQuantity}"></span>/<span th:text="*{quantity}"></span>
+        </td>
+        <td th:text="*{adjustStatusName}"></td>
+      </tr>
+    </tbody>
+  </table>
+    <div th:if="${pagerInfo.content.size() != 0}">
+      <table class="pager">
+        <tr>
+          <td><div id="pager" th:replace="fragments/pagerForm">pager</div></td>
+        </tr>
+      </table>
+      <input type="hidden" th:field="*{pageNumber}"/>
+    </div>
+  </div>
+</th:block>
+</form>
+
+<!-- 企業事業所選択のHTMLを読み込む -->
+<div id="selectPlace" th:replace="fragments/ajaxSelectPlaceList"></div>
+
+
+</div>
+</BODY>
+</HTML>

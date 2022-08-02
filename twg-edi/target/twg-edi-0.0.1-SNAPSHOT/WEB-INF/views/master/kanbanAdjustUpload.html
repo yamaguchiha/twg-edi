@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+  <!-- <header th:replace="fragments/header::common_header"></header> -->
+  <!-- コンテンツの表示 -->
+  <div layout:fragment="content"class="container-fluid">
+
+<form id="KanbanAdjustUploadForm" name="KanbanAdjustUploadForm" th:action="@{/kanbanAdjust/upload/list}" th:method="POST" enctype="multipart/form-data" class="needs-validation" novalidate>
+  <table>
+    <tr>
+      <td>アップロードするファイルを指定してください</td>
+    </tr>
+  </table>
+
+  <table class="caption">
+    <TBODY>
+      <tr>
+        <th>アップロードファイル<span class="must_input">*</span>
+        </th>
+        <td>
+          <input type="file" name="uploadFile" >
+        </td>
+        <td align="center">
+         <button type="submit">アップロード</button>
+        </td>
+      </tr>
+    </TBODY>
+  </table>
+</form>
+
+  </div>
+
+</BODY>
+</HTML>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="jp.or.twg.twg_edi.system.mapper.OptionThreadManagerDataMapper">
+
+  <!-- resultMap -->
+  <resultMap id="resultOptionThreadManager" type="jp.or.twg.twg_edi.system.model.OptionThreadManagerDto">
+    <result column="id"                                property="id"/>
+    <result column="thread_status"                     property="threadStatus"/>
+    <result column="thread_category"                   property="threadCategory"/>
+    <result column="users_oid"                         property="usersOid"/>
+    <result column="user_place_oid"                    property="userPlaceOid"/>
+    <result column="start_up_time"                     property="startUpTime"/>
+    <result column="close_out_time"                    property="closeOutTime"/>
+    <result column="interval_time"                     property="intervalTime"/>
+  </resultMap>
+
+  <!-- 処理一覧のSQL -->
+  <select id="selectOptionThreadManagerList" resultMap="resultOptionThreadManager">
+    select distinct OPTION_THREAD_MANAGER.ID                                           as id                     <!-- スレッドID -->
+         , OPTION_THREAD_MANAGER.THREAD_STATUS                                         as thread_status          <!-- スレッドステータス -->
+         , OPTION_THREAD_MANAGER.THREAD_CATEGORY                                       as thread_category        <!-- スレッドカテゴリー(ロック管理のID) -->
+         , OPTION_THREAD_MANAGER.USERS_OID                                             as users_oid              <!-- 実行ユーザーOID -->
+         , OPTION_THREAD_MANAGER.USER_PLACE_OID                                        as user_place_oid         <!-- 実行事業所OID -->
+         , to_char(OPTION_THREAD_MANAGER.START_UP_TIME, 'YYYY/MM/DD HH24:MI:SS')       as start_up_time          <!-- 開始日時 -->
+         , to_char(OPTION_THREAD_MANAGER.CLOSE_OUT_TIME,'YYYY/MM/DD HH24:MI:SS')       as close_out_time         <!-- 終了日時 -->
+         , round(
+             extract( epoch from timestamptz(OPTION_THREAD_MANAGER.CLOSE_OUT_TIME)
+             )
+           - extract( epoch from timestamptz(OPTION_THREAD_MANAGER.START_UP_TIME)
+             )
+           )                                                                           as interval_time          <!-- 所要時間（秒） -->
+    <include refid="selectWhere" />
+    order by start_up_time asc
+         , OPTION_THREAD_MANAGER.ID desc
+    limit  #{srhLimit}
+    offset #{srhOffset}
+  </select>
+
+  <!-- 処理一覧のcount SQL -->
+  <select id="selectOptionThreadManagerListCount" resultType="java.lang.Long">
+    select count(*)
+    <include refid="selectWhere" />
+  </select>
+
+  <sql id="selectWhere">
+    from  OPTION_THREAD_MANAGER
+    where 1=1
+    <if test="srhId != null">
+    and   OPTION_THREAD_MANAGER.ID = #{srhId}
+    </if>
+    <if test="srhThreadCategory != null">
+    and   OPTION_THREAD_MANAGER.THREAD_CATEGORY = #{srhThreadCategory}
+    </if>
+    <if test="srhStartUpTime != null">
+    and   OPTION_THREAD_MANAGER.START_UP_TIME >= TO_TIMESTAMP(#{srhStartUpTime}, 'YYYYMMDD')
+    </if>
+    <if test="srhCloseOutTime != null">
+    and   OPTION_THREAD_MANAGER.CLOSE_OUT_TIME <![CDATA[<=]]> TO_TIMESTAMP(#{srhCloseOutTime}, 'YYYYMMDD')
+    </if>
+    <!-- スレッドステータス状態：実行中(1)、正常終了(2)、正常終了（警告あり）(3)、異常終了(4)、例外発生(5)、EDIエラー(6)、データ入力中(7)、データ入力済(8) -->
+    <if test="srhThreadStatus != null">
+    <foreach item="item" index="index" collection="srhThreadStatus"
+      open=" and   OPTION_THREAD_MANAGER.THREAD_STATUS in (" separator="," close=")">
+      #{item}
+    </foreach>
+    </if>
+ </sql>
+
+  <resultMap id="resultOptionThreadManagerDetail" type="jp.or.twg.twg_edi.system.model.OptionThreadManagerDetailDto">
+    <result column="id"                                property="id"/>
+    <result column="thread_status"                     property="threadStatus"/>
+    <result column="thread_category"                   property="threadCategory"/>
+    <result column="users_oid"                         property="usersOid"/>
+    <result column="user_place_oid"                    property="userPlaceOid"/>
+    <result column="start_up_time"                     property="startUpTime"/>
+    <result column="close_out_time"                    property="closeOutTime"/>
+    <result column="interval_time"                     property="intervalTime"/>
+    <result column="error_message"                     property="errorMessage"/>
+  </resultMap>
+
+  <!-- 処理内容詳細一覧のSQL -->
+  <select id="selectOptionThreadManagerDetail" resultMap="resultOptionThreadManagerDetail">
+    select distinct OPTION_THREAD_MANAGER.ID                                           as id                     <!-- スレッドID -->
+         , OPTION_THREAD_MANAGER.THREAD_STATUS                                         as thread_status          <!-- スレッドステータス -->
+         , OPTION_THREAD_MANAGER.THREAD_CATEGORY                                       as thread_category        <!-- スレッドカテゴリー(ロック管理のID) -->
+         , OPTION_THREAD_MANAGER.USERS_OID                                             as users_oid              <!-- 実行ユーザーOID -->
+         , OPTION_THREAD_MANAGER.USER_PLACE_OID                                        as user_place_oid         <!-- 実行事業所OID -->
+         , to_char(OPTION_THREAD_MANAGER.START_UP_TIME, 'YYYY/MM/DD HH24:MI:SS')       as start_up_time          <!-- 開始日時 -->
+         , to_char(OPTION_THREAD_MANAGER.CLOSE_OUT_TIME,'YYYY/MM/DD HH24:MI:SS')       as close_out_time         <!-- 終了日時 -->
+         , round(
+             extract( epoch from timestamptz(OPTION_THREAD_MANAGER.CLOSE_OUT_TIME)
+             )
+           - extract( epoch from timestamptz(OPTION_THREAD_MANAGER.START_UP_TIME)
+             )
+           )                                                                           as interval_time          <!-- 所要時間（秒） -->
+         , OPTION_THREAD_MANAGER.ERROR_MESSAGE                                         as error_message          <!-- メッセージ -->
+    from  OPTION_THREAD_MANAGER
+    where OPTION_THREAD_MANAGER.ID = #{srhId}
+  </select>
+
+</mapper>

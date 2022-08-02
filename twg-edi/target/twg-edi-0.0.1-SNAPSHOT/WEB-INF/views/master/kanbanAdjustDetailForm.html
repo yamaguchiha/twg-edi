@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<HTML xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<BODY>
+  <!-- <header th:replace="fragments/header::common_header"></header> -->
+  <!-- コンテンツの表示 -->
+  <div layout:fragment="content"class="container-fluid">
+
+<script type="text/javascript">
+  // 品番選択Ajax（document.formの名前は変更すること） ここから
+  /**
+   * 部品検索の結果を設定
+   */
+  function setitem(itemCode, itemE18) {
+    $("#itemSelectList").dialog("close");
+
+    $("#itemIdIn").val(itemCode);
+    $("#itemE18").val(itemE18);
+    // 品番を設定した後で検索を実行する場合などはここで必要な処理を記述
+    //execSubmitWithOption('executeChange', {iptItemPartOid: itemId, addSrh: '$FALSE'});
+    var target = document.getElementById("kanbanAdjustDetailForm");
+    target.method = "POST";
+    target.action = "/twg-edi/kanbanAdjust/add";
+    target.submit();
+  }
+
+  /**
+   * 部品検索の実行（ポップアップのような画面を表示）
+   */
+  function execSearchitemList() {
+      $("#srhSelectitemAbbrName").val($("#itemE04").val());
+      $("#srhSelectitemCode").val($("#itemIdIn").val());
+      getSearchitemList();
+      $("#itemSelectList").dialog("open");
+  }
+
+  /**
+   * 初期設定
+   */
+  $(function(){
+    setupDialog("itemSelectList", "itemDialog", "部品選択");
+
+    $("#srhSelectitemAbbrName").val("");
+    $("#srhSelectitemCode").val("");
+    $("#srhSelectitemStoreAddress").val("");
+    $("#srhSelectPartyCodeSf").val("");
+    $("#srhSelectPlaceCodeSf").val("");
+    $("#srhSelectitemE18").val("");
+    $("#itemInputBtn1").click(function(){
+      execSearchitemList();
+    });
+    $("#itemInputBtn2").click(function(){
+        execSearchitemList();
+      });
+  });
+
+  // 品番選択Ajax ここまで
+</script>
+
+
+<DIV class="subtitle category_MA">
+  <DIV class="subtitle_text">かんばん増減情報 編集</DIV>
+  <DIV class="subtitle_right">
+  </DIV>
+</DIV>
+
+<form id="kanbanAdjustDetailForm" name="kanbanAdjustDetailForm" th:method="POST" th:action="@{/kanbanAdjust/formPost}" th:object="${kanbanAdjustDetailForm}" class="needs-validation" novalidate>
+<table class="list">
+  <colgroup align="center"/>
+  <colgroup />
+  <colgroup />
+  <colgroup />
+  <colgroup align="center"/>
+  <th:block th:unless="*{mode=='NEW' && subMode=='NEW'}">
+  <thead>
+    <tr>
+      <th class="40byte_cell">背番号</th>
+      <th class="40byte_cell">品番</th>
+      <th class="50byte_cell">部品取扱種別</th>
+      <th class="50byte_cell">収容数</th>
+      <th class="50byte_cell">所番地</th>
+      <th class="50byte_cell">納入場所</th>
+      <th class="50byte_cell">出荷元</th>
+      <th class="50byte_cell">出荷元工区</th>
+      <th class="50byte_cell">出荷場所</th>
+      <th class="50byte_cell">発注元</th>
+      <th class="50byte_cell">発注元工区</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td th:text="*{itemE04}"></td>
+      <td>
+        <span th:text="*{itemIdIn}"></span>
+        <br>
+        <span th:text="*{itemIdPd}"></span>
+      </td>
+      <td th:text="*{itemE18}"></td>
+      <td th:text="*{perPackageQuantity}"></td>
+      <td th:text="*{manufacturingDepartmentId}"></td>
+      <td th:text="*{placeOfDischargeId}"></td>
+      <td>
+        <span th:text="*{partySfCode}"></span>
+        <br>
+        <span th:text="*{partySfName}"></span>
+      </td>
+      <td>
+        <span th:text="*{placeSfCode}"></span>
+        <br>
+        <span th:text="*{placeSfName}"></span>
+      </td>
+      <td>
+        <span th:text="*{placeOfLoadingId}"></span>
+        <br>
+        <span th:text="*{placeOfLoadingName}"></span>
+      </td>
+      <td>
+        <span th:text="*{partyObCode}"></span>
+        <br>
+        <span th:text="*{partyObName}"></span>
+      </td>
+      <td>
+        <span th:text="*{placeObCode}"></span>
+        <br>
+        <span th:text="*{placeObName}"></span>
+        <input type="hidden" th:field="*{itemE04}">
+        <input type="hidden" th:field="*{itemIdIn}">
+        <input type="hidden" th:field="*{itemIdPd}">
+        <input type="hidden" th:field="*{itemE18}">
+        <input type="hidden" th:field="*{perPackageQuantity}">
+        <input type="hidden" th:field="*{manufacturingDepartmentId}">
+        <input type="hidden" th:field="*{placeOfDischargeId}">
+        <input type="hidden" th:field="*{partySfCode}">
+        <input type="hidden" th:field="*{partySfName}">
+        <input type="hidden" th:field="*{placeSfCode}">
+        <input type="hidden" th:field="*{placeSfName}">
+        <input type="hidden" th:field="*{placeOfLoadingId}">
+        <input type="hidden" th:field="*{placeOfLoadingName}">
+        <input type="hidden" th:field="*{partyObCode}">
+        <input type="hidden" th:field="*{partyObName}">
+        <input type="hidden" th:field="*{placeObCode}">
+        <input type="hidden" th:field="*{placeObName}">
+      </td>
+    </tr>
+  </tbody>
+  </th:block>
+  <th:block th:if="*{mode=='NEW' && subMode=='NEW'}">
+  <thead>
+    <tr>
+      <th class="40byte_cell">背番号</th>
+      <th class="40byte_cell">品番</th>
+      <th class="50byte_cell">部品取扱種別</th>
+      <th class="50byte_cell">収容数</th>
+      <th class="50byte_cell">所番地</th>
+      <th class="50byte_cell">納入場所</th>
+      <th class="50byte_cell">出荷元</th>
+      <th class="50byte_cell">出荷元工区</th>
+      <th class="50byte_cell">出荷場所</th>
+      <th class="50byte_cell">発注元</th>
+      <th class="50byte_cell">発注元工区</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input type="text" th:field="*{itemE04}"  size="5" onChange="ListChange(this.form)">
+        <input id="itemInputBtn1" type="button" value="  " class="img_search" >
+      </td>
+      <td>
+        <input type="text" th:field="*{itemIdIn}" size="15" onChange="ListChange(this.form)">
+        <input id="itemInputBtn2" type="button" value="  " class="img_search" >
+      </td>
+      <td>
+      <input type="hidden" th:field="*{itemE18}">
+      </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+  </th:block>
+</table>
+
+<DIV class="subtitle category_MA">
+  <DIV class="subtitle_text">増減情報</DIV>
+</DIV>
+<table class="caption">
+  <colgroup width="100">
+  <colgroup valign="top">
+  <tbody>
+    <tr>
+      <th width="25%">増減状況<span class="must_input">*</span></th>
+      <th:block th:if="*{mode!='CONFIRM'}">
+      <td>
+        <select th:field="*{adjustStatus}">
+          <option th:each="adjustStatus : ${adjustStatusList}"
+                  th:value="${adjustStatus.key}"
+                  th:text="${adjustStatus.value}"
+                  th:selected="${adjustStatus.key} == *{adjustStatus}">
+          </option>
+        </select>
+      </td>
+      </th:block>
+      <th:block th:if="*{mode=='CONFIRM'}">
+        <td th:text="*{adjustStatusName}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>計画日<span class="must_input">*</span></th>
+      <th:block th:if="*{mode!='CONFIRM'}">
+      <td>
+        <input type="text" th:field="*{planDateStringDate}">
+        <input name="calendar1" type="button" value="  " class="calendarbtn" onClick="wrtCalendarLay(this.form.planDateStringDate, event)" >
+      </td>
+      </th:block>
+      <th:block th:if="*{mode=='CONFIRM'}">
+        <td th:text="*{planDateStringDate}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>増減開始納入指示日<span class="must_input">*</span></th>
+      <th:block th:if="*{mode!='CONFIRM'}">
+      <td>
+        <input type="text" th:field="*{startDeliveryDateStringDate}">
+        <input name="calendar1" type="button" value="  " class="calendarbtn" onClick="wrtCalendarLay(this.form.startDeliveryDateStringDate, event)" >
+      </td>
+      </th:block>
+      <th:block th:if="*{mode=='CONFIRM'}">
+        <td th:text="*{startDeliveryDateStringDate}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>増減開始便<span class="must_input">*</span></th>
+      <th:block th:if="*{mode!='CONFIRM'}">
+        <td><input type="text" th:field="*{startShipmentNo}"></td>
+      </th:block>
+      <th:block th:if="*{mode=='CONFIRM'}">
+        <td th:text="*{startShipmentNo}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>増減区分</th>
+      <th:block th:if="*{mode!='CONFIRM'}">
+      <td>
+        <select th:field="*{adjustType}">
+          <option value="">-- 選択してください</option>
+          <option th:each="adjustType : ${adjustTypeList}"
+                  th:value="${adjustType.key}"
+                  th:text="${adjustType.value}"
+                  th:selected="${adjustType.key} == *{adjustType}">
+          </option>
+        </select>
+      </td>
+      </th:block>
+      <th:block th:if="*{mode=='CONFIRM'}">
+        <td th:text="*{adjustTypeName}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>増減枚数<span class="must_input">*</span></th>
+      <th:block th:if="*{mode!='CONFIRM'}">
+        <td><input type="text" th:field="*{quantity}"></td>
+      </th:block>
+      <th:block th:if="*{mode=='CONFIRM'}">
+        <td th:text="*{quantity}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>便当増減枚数<span class="must_input">*</span></th>
+      <th:block th:if="*{mode!='CONFIRM'}">
+        <td><input type="text" th:field="*{parQuantity}"></td>
+      </th:block>
+      <th:block th:if="*{mode=='CONFIRM'}">
+        <td th:text="*{parQuantity}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>増減累計枚数</th>
+      <th:block th:if="*{mode!='CONFIRM'}">
+        <td><input type="text" th:field="*{totalQuantity}"></td>
+      </th:block>
+      <th:block th:if="*{mode=='CONFIRM'}">
+        <td th:text="*{totalQuantity}"></td>
+      </th:block>
+    </tr>
+    <tr>
+      <th>増減繰越端数</th>
+      <th:block th:if="*{mode!='CONFIRM'}">
+        <td><input type="text" th:field="*{carryForwardFractionQuantity}"></td>
+      </th:block>
+      <th:block th:if="*{mode=='CONFIRM'}">
+        <td th:text="*{carryForwardFractionQuantity}"></td>
+      </th:block>
+    </tr>
+    </th:block>
+  </tbody>
+</table>
+<table>
+  <tr>
+    <td align="left" width="15%">
+    </td>
+    <td align="center">
+      <th:block th:if="*{mode=='NEW'}">
+        <th:block th:if="*{subMode=='NEW'}">
+          <input type="submit" value="登録" disabled>
+        </th:block>
+        <th:block th:unless="*{subMode=='NEW'}">
+          <input type="submit" value="登録" >
+        </th:block>
+        <input type="button" value="キャンセル"  onclick="location.href='./list?refresh=\'初期表示\''">
+      </th:block>
+      <th:block th:if="*{mode=='EDIT'}">
+        <input type="submit" value="更新" >
+        <input type="submit" value="削除" >
+        <input type="hidden" name="okaOid" th:value="*{okaOid}" >
+      </th:block>
+      <input type="hidden" name="mode" th:value="*{mode}">
+      <input type="hidden" name="subMode" th:value="*{subMode}">
+      <input type="hidden" name="oid" th:value="*{oid}" >
+    </td>
+    <td align="right" width="15%">
+    </td>
+  </tr>
+</table>
+</form>
+
+<!-- 品番選択のHTMLを読み込む -->
+<div id="selectItem" th:replace="fragments/ajaxSelectItemList"></div>
+
+  </div>
+
+</BODY>
+</HTML>
